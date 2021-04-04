@@ -25,6 +25,14 @@ namespace Top_Down_shooter
             timerGameLoop.Interval = 60;
             timerGameLoop.Tick += new EventHandler(UpdateGameLoop);
             timerGameLoop.Start();
+
+            var timerChangeAnimationFrame = new Timer();
+            timerChangeAnimationFrame.Interval = 300;
+            timerChangeAnimationFrame.Tick += new EventHandler((sender, args) =>
+            {
+                currentFrame = ++currentFrame % 2;
+            });
+            timerChangeAnimationFrame.Start();
             
         }
 
@@ -63,7 +71,6 @@ namespace Top_Down_shooter
 
         public void UpdateGameLoop(object sender, EventArgs args)
         {
-           // currentFrame = ++currentFrame % 2;
             Invalidate();
         }
 
