@@ -10,11 +10,24 @@ using System.Windows.Forms;
 
 namespace Top_Down_shooter
 {
-    public partial class Form1 : Form
+    public class Form1 : Form
     {
+        
+
         public Form1()
         {
-            InitializeComponent();
+            
+            
+            
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            var image = new Bitmap(@"Sprites\player.png");
+
+            g.DrawImage(image, 0, 0);
         }
     }
 }

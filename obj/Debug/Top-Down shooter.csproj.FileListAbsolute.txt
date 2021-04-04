@@ -1,0 +1,9 @@
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top-Down shooter.csprojAssemblyReference.cache
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top_Down_shooter.Properties.Resources.resources
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top-Down shooter.csproj.GenerateResource.cache
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top-Down shooter.csproj.CoreCompileInputs.cache
+C:\ProjectsC#\Top-Down shooter\bin\Debug\Top-Down shooter.exe.config
+C:\ProjectsC#\Top-Down shooter\bin\Debug\Top-Down shooter.exe
+C:\ProjectsC#\Top-Down shooter\bin\Debug\Top-Down shooter.pdb
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top-Down shooter.exe
+C:\ProjectsC#\Top-Down shooter\obj\Debug\Top-Down shooter.pdb
