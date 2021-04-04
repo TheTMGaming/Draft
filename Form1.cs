@@ -22,7 +22,7 @@ namespace Top_Down_shooter
             gameModel = new GameModel();
 
             var timerGameLoop = new Timer();
-            timerGameLoop.Interval = 200;
+            timerGameLoop.Interval = 60;
             timerGameLoop.Tick += new EventHandler(UpdateGameLoop);
             timerGameLoop.Start();
             
@@ -34,7 +34,7 @@ namespace Top_Down_shooter
 
             g.DrawImage(
                 gameModel.AtlasAnimationsPlayer, 
-                gameModel.PositionPlayer.X, gameModel.PositionPlayer.Y, 
+                gameModel.PlayerX, gameModel.PlayerY, 
                 new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrame, 
                                         gameModel.ScalePlayer.Height * (int)gameModel.DirectionPlayer), 
                                         gameModel.ScalePlayer),
@@ -42,9 +42,28 @@ namespace Top_Down_shooter
 
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.D:
+                    gameModel.MovePlayerTo(MoveTo.Right);
+                    break;
+                case Keys.A:
+                    gameModel.MovePlayerTo(MoveTo.Left);
+                    break;
+                case Keys.W:
+                    gameModel.MovePlayerTo(MoveTo.Up);
+                    break;
+                case Keys.S:
+                    gameModel.MovePlayerTo(MoveTo.Down);
+                    break;
+            }
+        }
+
         public void UpdateGameLoop(object sender, EventArgs args)
         {
-            currentFrame = ++currentFrame % 2;
+           // currentFrame = ++currentFrame % 2;
             Invalidate();
         }
 
