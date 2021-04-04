@@ -4,7 +4,9 @@ namespace Top_Down_shooter
 {
     enum Direction
     {
-        Idle, MoveLeft, MoveRight
+        Left = -1,
+        Idle = 0,
+        Right = 1
     }
 
     class Player
@@ -18,7 +20,9 @@ namespace Top_Down_shooter
 
         public Player()
         {
-            var image = new Bitmap(@"Sprites\player.png");
+            AtlasAnimations = new Bitmap(@"Sprites\player.png");
+            Direction = Direction.Idle;
+            Scale = new Size(102, 128);
         }
     }
 }

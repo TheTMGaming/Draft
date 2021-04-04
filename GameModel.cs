@@ -12,6 +12,7 @@ namespace Top_Down_shooter
         private Player player;
 
         public Point PositionPlayer => player.Position;
+        public Direction DirectionPlayer => player.Direction;
         public Size ScalePlayer => player.Scale;
         public Bitmap AtlasAnimationsPlayer => player.AtlasAnimations;
 

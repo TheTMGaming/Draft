@@ -12,12 +12,19 @@ namespace Top_Down_shooter
 {
     public class Form1 : Form
     {
-        
+        private GameModel gameModel;
+        private int currentFrame;
 
         public Form1()
         {
-            
-            
+            DoubleBuffered = true;
+
+            gameModel = new GameModel();
+
+            var timerGameLoop = new Timer();
+            timerGameLoop.Interval = 200;
+            timerGameLoop.Tick += new EventHandler(UpdateGameLoop);
+            timerGameLoop.Start();
             
         }
 
@@ -25,9 +32,22 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            var image = new Bitmap(@"Sprites\player.png");
+            g.DrawImage(
+                gameModel.AtlasAnimationsPlayer, 
+                gameModel.PositionPlayer.X, gameModel.PositionPlayer.Y, 
+                new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrame, 
+                                        gameModel.ScalePlayer.Height * (int)gameModel.DirectionPlayer), 
+                                        gameModel.ScalePlayer),
+                GraphicsUnit.Pixel);
 
-            g.DrawImage(image, 0, 0);
         }
+
+        public void UpdateGameLoop(object sender, EventArgs args)
+        {
+            currentFrame = ++currentFrame % 2;
+            Invalidate();
+        }
+
+
     }
 }
