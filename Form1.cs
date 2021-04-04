@@ -13,7 +13,7 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private GameModel gameModel;
-        private int currentFrame;
+        private int currentFrameAnimation;
 
         public Form1()
         {
@@ -30,7 +30,7 @@ namespace Top_Down_shooter
             timerChangeAnimationFrame.Interval = 300;
             timerChangeAnimationFrame.Tick += new EventHandler((sender, args) =>
             {
-                currentFrame = ++currentFrame % 2;
+                currentFrameAnimation = ++currentFrameAnimation % 2;
             });
             timerChangeAnimationFrame.Start();
             
@@ -43,9 +43,9 @@ namespace Top_Down_shooter
             g.DrawImage(
                 gameModel.AtlasAnimationsPlayer, 
                 gameModel.PlayerX, gameModel.PlayerY, 
-                new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrame, 
+                new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrameAnimation, 
                                         gameModel.ScalePlayer.Height * (int)gameModel.DirectionPlayer), 
-                                        gameModel.ScalePlayer),
+                              gameModel.ScalePlayer),
                 GraphicsUnit.Pixel);
 
         }
@@ -65,6 +65,19 @@ namespace Top_Down_shooter
                     break;
                 case Keys.S:
                     gameModel.MovePlayerTo(MoveTo.Down);
+                    break;
+            }
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.D:
+                case Keys.A:
+                case Keys.W:
+                case Keys.S:
+                    gameModel.MovePlayerTo(MoveTo.Idle);
                     break;
             }
         }

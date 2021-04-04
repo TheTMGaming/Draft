@@ -9,7 +9,7 @@ namespace Top_Down_shooter
 {
     enum MoveTo
     {
-        Left, Right, Up, Down
+        Left, Right, Up, Down, Idle
     }
 
     class GameModel
@@ -29,6 +29,23 @@ namespace Top_Down_shooter
 
         public void MovePlayerTo(MoveTo move)
         {
+            if (move == MoveTo.Idle)
+            {
+                if (player.Direction == Direction.Right)
+                    player.Direction = Direction.IdleRight;
+                else if (player.Direction == Direction.Left)
+                    player.Direction = Direction.IdleLeft;
+
+                return;
+            }
+            else if (move == MoveTo.Up || move == MoveTo.Down)
+            {
+                if(player.Direction == Direction.IdleRight)
+                    player.Direction = Direction.Right;
+                else if (player.Direction == Direction.IdleLeft)
+                    player.Direction = Direction.Left;
+            }
+
             switch (move)
             {
                 case MoveTo.Up:
@@ -47,6 +64,5 @@ namespace Top_Down_shooter
                     break;
             }
         }
-         
     }
 }
