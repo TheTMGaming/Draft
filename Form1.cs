@@ -12,10 +12,10 @@ namespace Top_Down_shooter
 {
     enum AnimationTypes
     {
-        IdleRight = 1,
-        IdleLeft = 2,
-        RunRight = 3,
-        RunLeft = 4
+        IdleRight,
+        IdleLeft,
+        RunRight,
+        RunLeft
     }
 
     public class Form1 : Form
@@ -30,7 +30,7 @@ namespace Top_Down_shooter
             gameModel = new GameModel();
 
             var timerGameLoop = new Timer();
-            timerGameLoop.Interval = 60;
+            timerGameLoop.Interval = 30;
             timerGameLoop.Tick += new EventHandler(UpdateGameLoop);
             timerGameLoop.Start();
 
@@ -52,7 +52,7 @@ namespace Top_Down_shooter
                 gameModel.AtlasAnimationsPlayer, 
                 gameModel.PlayerX, gameModel.PlayerY, 
                 new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrameAnimation, 
-                                        gameModel.ScalePlayer.Height * (int)GetAnimationType(gameModel.DirectionXPlayer, gameModel.DirectionYPlayer)), 
+                                        gameModel.ScalePlayer.Height * (int)GetAnimationType(gameModel.DirectionXPlayer, gameModel.DirectionYPlayer, gameModel.SightPlayer)), 
                               gameModel.ScalePlayer),
                 GraphicsUnit.Pixel);
 
@@ -98,9 +98,12 @@ namespace Top_Down_shooter
             Invalidate();
         }
 
-        private AnimationTypes GetAnimationType(DirectionX directionXSrite, DirectionY directionYSprite)
+        private AnimationTypes GetAnimationType(DirectionX directionX, DirectionY directionY, Sight sight)
         {
+            if (directionX == DirectionX.Idle && directionY == DirectionY.Idle)
+                return sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
 
+            return sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
         }
     }
 }

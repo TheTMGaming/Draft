@@ -17,6 +17,7 @@ namespace Top_Down_shooter
         public Size ScalePlayer => player.Scale;
         public DirectionX DirectionXPlayer => player.DirectionX;
         public DirectionY DirectionYPlayer => player.DirectionY;
+        public Sight SightPlayer => player.Sight;
 
         public GameModel()
         {
@@ -30,7 +31,12 @@ namespace Top_Down_shooter
             player.Y += player.Speed * (int)player.DirectionY;
         }
 
-        public void ChangeDirectionPlayer(DirectionX directionX) => player.DirectionX = directionX;
+        public void ChangeDirectionPlayer(DirectionX directionX)
+        {
+            player.DirectionX = directionX;
+            if (player.DirectionX != DirectionX.Idle)
+                player.Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
+        }
         
         public void ChangeDirectionPlayer(DirectionY directionY) => player.DirectionY = directionY;
 
