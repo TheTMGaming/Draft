@@ -10,6 +10,14 @@ using System.Windows.Forms;
 
 namespace Top_Down_shooter
 {
+    enum AnimationTypes
+    {
+        IdleRight = 1,
+        IdleLeft = 2,
+        RunRight = 3,
+        RunLeft = 4
+    }
+
     public class Form1 : Form
     {
         private GameModel gameModel;
@@ -44,7 +52,7 @@ namespace Top_Down_shooter
                 gameModel.AtlasAnimationsPlayer, 
                 gameModel.PlayerX, gameModel.PlayerY, 
                 new Rectangle(new Point(gameModel.ScalePlayer.Width * currentFrameAnimation, 
-                                        gameModel.ScalePlayer.Height * (int)gameModel.DirectionPlayer), 
+                                        gameModel.ScalePlayer.Height * (int)GetAnimationType(gameModel.DirectionXPlayer, gameModel.DirectionYPlayer)), 
                               gameModel.ScalePlayer),
                 GraphicsUnit.Pixel);
 
@@ -54,17 +62,17 @@ namespace Top_Down_shooter
         {
             switch (e.KeyCode)
             {
-                case Keys.D:
-                    gameModel.MovePlayerTo(MoveTo.Right);
+                case Keys.W:
+                    gameModel.ChangeDirectionPlayer(DirectionY.Up);
                     break;
                 case Keys.A:
-                    gameModel.MovePlayerTo(MoveTo.Left);
-                    break;
-                case Keys.W:
-                    gameModel.MovePlayerTo(MoveTo.Up);
+                    gameModel.ChangeDirectionPlayer(DirectionX.Left);
                     break;
                 case Keys.S:
-                    gameModel.MovePlayerTo(MoveTo.Down);
+                    gameModel.ChangeDirectionPlayer(DirectionY.Down);
+                    break;
+                case Keys.D:
+                    gameModel.ChangeDirectionPlayer(DirectionX.Right);
                     break;
             }
         }
@@ -73,20 +81,26 @@ namespace Top_Down_shooter
         {
             switch (e.KeyCode)
             {
-                case Keys.D:
-                case Keys.A:
                 case Keys.W:
                 case Keys.S:
-                    gameModel.MovePlayerTo(MoveTo.Idle);
+                    gameModel.ChangeDirectionPlayer(DirectionY.Idle);
+                    break;
+                case Keys.A:
+                case Keys.D:
+                    gameModel.ChangeDirectionPlayer(DirectionX.Idle);
                     break;
             }
         }
 
         public void UpdateGameLoop(object sender, EventArgs args)
         {
+            gameModel.MovePlayer();
             Invalidate();
         }
 
+        private AnimationTypes GetAnimationType(DirectionX directionXSrite, DirectionY directionYSprite)
+        {
 
+        }
     }
 }

@@ -7,62 +7,32 @@ using System.Threading.Tasks;
 
 namespace Top_Down_shooter
 {
-    enum MoveTo
-    {
-        Left, Right, Up, Down, Idle
-    }
-
     class GameModel
     {
         private Player player;
 
+        public Bitmap AtlasAnimationsPlayer => player.AtlasAnimations;
         public int PlayerX => player.X;
         public int PlayerY => player.Y;
-        public Direction DirectionPlayer => player.Direction;
         public Size ScalePlayer => player.Scale;
-        public Bitmap AtlasAnimationsPlayer => player.AtlasAnimations;
+        public DirectionX DirectionXPlayer => player.DirectionX;
+        public DirectionY DirectionYPlayer => player.DirectionY;
 
         public GameModel()
         {
             player = new Player();
         }
 
-        public void MovePlayerTo(MoveTo move)
+        public void MovePlayer()
         {
-            if (move == MoveTo.Idle)
-            {
-                if (player.Direction == Direction.Right)
-                    player.Direction = Direction.IdleRight;
-                else if (player.Direction == Direction.Left)
-                    player.Direction = Direction.IdleLeft;
+            player.X += player.Speed * (int)player.DirectionX;
 
-                return;
-            }
-            else if (move == MoveTo.Up || move == MoveTo.Down)
-            {
-                if(player.Direction == Direction.IdleRight)
-                    player.Direction = Direction.Right;
-                else if (player.Direction == Direction.IdleLeft)
-                    player.Direction = Direction.Left;
-            }
-
-            switch (move)
-            {
-                case MoveTo.Up:
-                    player.Y -= player.Speed;
-                    break;
-                case MoveTo.Down:
-                    player.Y += player.Speed;
-                    break;
-                case MoveTo.Right:
-                    player.Direction = Direction.Right;
-                    player.X += player.Speed;
-                    break;
-                case MoveTo.Left:
-                    player.Direction = Direction.Left;
-                    player.X -= player.Speed;
-                    break;
-            }
+            player.Y += player.Speed * (int)player.DirectionY;
         }
+
+        public void ChangeDirectionPlayer(DirectionX directionX) => player.DirectionX = directionX;
+        
+        public void ChangeDirectionPlayer(DirectionY directionY) => player.DirectionY = directionY;
+
     }
 }

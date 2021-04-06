@@ -2,12 +2,14 @@
 
 namespace Top_Down_shooter
 {
-    enum Direction
+    enum DirectionX
     {
-        IdleRight = 0,
-        IdleLeft = 1,
-        Right = 2,
-        Left = 3      
+        Left = -1, Idle = 0, Right = 1 
+    }
+
+    enum DirectionY
+    {
+        Up = -1, Idle = 0, Down = 1;
     }
 
     class Player
@@ -16,14 +18,16 @@ namespace Top_Down_shooter
         public int Y { get; set; }
         public int Speed { get; set; }
         public int Health { get; set; }
-        public Direction Direction { get; set; }
+        public DirectionX DirectionX { get; set; }
+        public DirectionY DirectionY { get; set; }
         public Bitmap AtlasAnimations { get; private set; }
         public Size Scale { get; set; }
 
         public Player()
         {
             AtlasAnimations = new Bitmap(@"Sprites\player.png");
-            Direction = Direction.IdleRight;
+            DirectionX = DirectionX.Idle;
+            DirectionY = DirectionY.Idle;
             Scale = new Size(102, 128);
             Speed = 3;
         }
