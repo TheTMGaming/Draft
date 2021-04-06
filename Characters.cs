@@ -17,7 +17,7 @@ namespace Top_Down_shooter
         Left, Right
     }
 
-    class Player
+    abstract class Character
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -29,14 +29,19 @@ namespace Top_Down_shooter
         public Bitmap AtlasAnimations { get; private set; }
         public Size Scale { get; set; }
 
-        public Player()
+        public virtual void Move()
         {
-            AtlasAnimations = new Bitmap(@"Sprites\player.png");
-            DirectionX = DirectionX.Idle;
-            DirectionY = DirectionY.Idle;
-            Sight = Sight.Right;
-            Scale = new Size(102, 128);
-            Speed = 3;
+            X += Speed * (int)DirectionX;
+            Y += Speed * (int)DirectionY;
         }
+
+        public virtual void ChangeDirection(DirectionX directionX)
+        {
+            DirectionX = directionX;
+            if (DirectionX != DirectionX.Idle)
+                Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
+        }
+
+        public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;
     }
 }
