@@ -9,11 +9,11 @@ namespace Top_Down_shooter
 {
     class GameModel
     {
-        
+        public Gun gun;
 
         public GameModel()
         {
-           
+            gun = new Gun();
         }
     }
 }

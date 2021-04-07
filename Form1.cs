@@ -48,8 +48,19 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            
+            var gun = gameModel.gun;
 
+            
+            var angle = Math.Atan2(-gun.Y + MousePosition.Y, -gun.X + MousePosition.X) * 180 / Math.PI;
+            g.TranslateTransform(gun.X, gun.Y);
+            g.RotateTransform((float)angle);
+            g.TranslateTransform(-gun.X, -gun.Y);
+            g.DrawImage(
+                gun.AtlasAnimations,
+                gun.X - gun.Scale.Width / 2, gun.Y - gun.Scale.Width / 2,
+                new Rectangle(new Point(0, 0), gun.Scale),
+                GraphicsUnit.Pixel);
+           
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
