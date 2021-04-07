@@ -18,8 +18,8 @@ namespace Top_Down_shooter
         {
             AtlasAnimations = new Bitmap(@"Sprites\gun.png");
             Scale = new Size(96, 96);
-            X = 240;
-            Y = 240;
+            X = 140;
+            Y = 140;
         }
     }
 }
