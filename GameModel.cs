@@ -10,10 +10,17 @@ namespace Top_Down_shooter
     class GameModel
     {
         public Gun gun;
+        public readonly List<Bullet> BulletsOnCanvas = new List<Bullet>();
 
         public GameModel()
         {
             gun = new Gun();
+            
+        }
+
+        public void CreateBullet()
+        {
+            BulletsOnCanvas.Add(new Bullet(gun.TrunkX, gun.TrunkY, 45));
         }
     }
 }
