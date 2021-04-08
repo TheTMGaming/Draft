@@ -20,7 +20,7 @@ namespace Top_Down_shooter
 
         public void CreateBullet()
         {
-            BulletsOnCanvas.Add(new Bullet(gun.TrunkX, gun.TrunkY, 45));
+            BulletsOnCanvas.Add(new Bullet(gun.X, gun.Y, (float)(gun.Angle * Math.PI / 180)));
         }
     }
 }

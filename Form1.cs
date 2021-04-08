@@ -51,10 +51,9 @@ namespace Top_Down_shooter
 
             var gun = gameModel.gun;
 
-            var mousePos = PointToClient(MousePosition);
-            var angle = Math.Atan2(-gun.Y + mousePos.Y, -gun.X + mousePos.X) * 180 / Math.PI;
+            
             g.TranslateTransform(gun.X, gun.Y);
-            g.RotateTransform((float)angle);
+            g.RotateTransform(gun.Angle);
             g.TranslateTransform(-gun.X, -gun.Y);
             g.DrawImage(
                 gun.AtlasAnimations,
@@ -66,7 +65,7 @@ namespace Top_Down_shooter
             foreach (var bullet in gameModel.BulletsOnCanvas)
             {
                 g.TranslateTransform(bullet.X, bullet.Y);
-                g.RotateTransform(bullet.Angle);
+                g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
                 g.TranslateTransform(-bullet.X, -bullet.Y);
                 g.DrawImage(Bullet.Image,
                     bullet.X, bullet.Y,
@@ -94,6 +93,8 @@ namespace Top_Down_shooter
 
         public void UpdateGameLoop(object sender, EventArgs args)
         {
+            var mousePos = PointToClient(MousePosition);
+            gameModel.gun.Angle = (float)(Math.Atan2(-gameModel.gun.Y + mousePos.Y, -gameModel.gun.X + mousePos.X) * 180 / Math.PI);
             foreach (var bullet in gameModel.BulletsOnCanvas)
                 bullet.Move();
             Invalidate();

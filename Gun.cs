@@ -11,6 +11,7 @@ namespace Top_Down_shooter
     {
         public float X { get; set; }
         public float Y { get; set; }
+        public float Angle { get; set; }
         public float TrunkX { get; set; }
         public float TrunkY { get; set; }
         public Bitmap AtlasAnimations { get; private set; }
@@ -41,7 +42,7 @@ namespace Top_Down_shooter
 
         public Bullet(float x, float y, float angle)
         {
-            Speed = 1;
+            Speed = 20;
             X = x;
             Y = y;
             Angle = angle;
