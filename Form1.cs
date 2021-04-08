@@ -95,6 +95,8 @@ namespace Top_Down_shooter
         {
             var mousePos = PointToClient(MousePosition);
             gameModel.gun.Angle = (float)(Math.Atan2(-gameModel.gun.Y + mousePos.Y, -gameModel.gun.X + mousePos.X) * 180 / Math.PI);
+
+
             foreach (var bullet in gameModel.BulletsOnCanvas)
                 bullet.Move();
             Invalidate();

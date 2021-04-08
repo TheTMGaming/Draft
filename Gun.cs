@@ -12,17 +12,19 @@ namespace Top_Down_shooter
         public float X { get; set; }
         public float Y { get; set; }
         public float Angle { get; set; }
-        public float TrunkX { get; set; }
-        public float TrunkY { get; set; }
+
         public Bitmap AtlasAnimations { get; private set; }
         public Size Scale { get; set; }
 
+
         public Gun()
         {
-            AtlasAnimations = new Bitmap(@"Sprites\gun.png");
-            Scale = new Size(96, 96);
             X = 140;
             Y = 140;
+           
+            AtlasAnimations = new Bitmap(@"Sprites\gun.png");
+            Scale = new Size(96, 96);
+            
         }
     }
 
