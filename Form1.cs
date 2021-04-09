@@ -62,9 +62,9 @@ namespace Top_Down_shooter
             g.RotateTransform((float)(gameModel.Player.Gun.Angle * 180 / Math.PI));
             g.TranslateTransform(-gameModel.Player.Gun.X, -gameModel.Player.Gun.Y);
             g.DrawImage(
-                Gun.Image,
-                gameModel.Player.Gun.X - Gun.Image.Width / 2, gameModel.Player.Gun.Y - Gun.Image.Width / 2,
-                new Rectangle(new Point(0, 0), new Size(Gun.Image.Size.Width, Gun.Image.Size.Height)),
+                gameModel.Player.Gun.Image,
+                gameModel.Player.Gun.X - gameModel.Player.Gun.Image.Width / 2, gameModel.Player.Gun.Y - gameModel.Player.Gun.Image.Width / 2,
+                new Rectangle(new Point(0, 0), new Size(gameModel.Player.Gun.Image.Size.Width, gameModel.Player.Gun.Image.Size.Height)),
                 GraphicsUnit.Pixel);
             g.ResetTransform();
 
@@ -73,14 +73,12 @@ namespace Top_Down_shooter
                 g.TranslateTransform(bullet.X, bullet.Y);
                 g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
                 g.TranslateTransform(-bullet.X, -bullet.Y);
-                g.DrawImage(Bullet.Image,
+                g.DrawImage(bullet.Image,
                     bullet.X, bullet.Y,
-                    new Rectangle(new Point(0, 0), Bullet.Image.Size),
+                    new Rectangle(new Point(0, 0), bullet.Image.Size),
                     GraphicsUnit.Pixel);
                 g.ResetTransform();
             }
-
-
         }
 
         protected override void OnMouseClick(MouseEventArgs e)

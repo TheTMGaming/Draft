@@ -7,27 +7,16 @@ using System.Threading.Tasks;
 
 namespace Top_Down_shooter
 {
-    class Gun
+    class Gun : Sprite
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Angle { get; set; }
+        public readonly float SpawnBulletX = 5;
+        public readonly float SpawnBulletY = -25;
 
-        public static Bitmap Image;
-        public static float SpawnBulletX;
-        public static float SpawnBulletY;
-
-        static Gun()
-        {
-            Image = new Bitmap(@"Sprites\Gun.png");
-            SpawnBulletX = 5;
-            SpawnBulletY = -25;
-        }
-
-        public Gun(float x, float y)
+        public Gun(float x, float y, Bitmap image)
         {
             X = x;
             Y = y;
+            Image = image;
         }
 
         public void Move(float x, float y)
@@ -37,26 +26,17 @@ namespace Top_Down_shooter
         }
     }
 
-    class Bullet
+    class Bullet : Sprite
     {
-        public float X { get; set; }
-        public float Y { get; set; }
         public float Speed { get; set; }
-        public float Angle { get; set; }
 
-        public static Bitmap Image;
-
-        static Bullet()
-        {
-            Image = new Bitmap(@"Sprites/Bullet.png");
-        }
-
-        public Bullet(float x, float y, float speed, float angle)
+        public Bullet(float x, float y, float speed, float angle, Bitmap image)
         {
             Speed = speed;
             X = x;
             Y = y;
-            Angle = angle;         
+            Angle = angle;
+            Image = image;
         }
 
         public void Move()

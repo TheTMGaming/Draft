@@ -2,6 +2,7 @@
 
 namespace Top_Down_shooter
 {
+    #region
     enum DirectionX
     {
         Left = -1, Idle = 0, Right = 1 
@@ -16,17 +17,15 @@ namespace Top_Down_shooter
     {
         Left, Right
     }
-    
-    abstract class Character
+    #endregion
+
+    abstract class Character : Sprite
     {
-        public int X { get; set; }
-        public int Y { get; set; }
         public int Speed { get; set; }
         public int Health { get; set; }
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
-        public Bitmap Image { get; set; }
         public Size Scale { get; set; }
 
         public virtual void Move()
@@ -58,7 +57,7 @@ namespace Top_Down_shooter
         {
             trunkX = x + OffsetTrunkX;
             trunkY = y + OffsetTrunkY;
-            Gun = new Gun(trunkX, trunkY);
+            Gun = new Gun(trunkX, trunkY, new Bitmap(@"Sprites/Gun.png"));
             Image = image;
             Speed = speed;
             X = x;
