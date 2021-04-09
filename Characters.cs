@@ -21,6 +21,8 @@ namespace Top_Down_shooter
     {
         public float X { get; set; }
         public float Y { get; set; }
+        public float TrunkX { get; set; }
+        public float TrunkY { get; set; }
         public float Speed { get; set; }
         public float Health { get; set; }
         public DirectionX DirectionX { get; set; }
@@ -28,9 +30,16 @@ namespace Top_Down_shooter
         public Sight Sight { get; set; }
         public Bitmap Image { get; private set; }
         public Size Scale { get; set; }
+        public Gun Gun { get; set; }
+
+        public static float OffsetTrunkX = 23f;
+        public static float OffsetTrunkY = 33f;
 
         public Character(float x, float y, float speed)
         {
+            TrunkX = x + OffsetTrunkX;
+            TrunkY = y + OffsetTrunkY;
+            Gun = new Gun(TrunkX, TrunkY);
             Image = new Bitmap(@"Sprites/player.png");
             Speed = speed;
             X = x;
@@ -41,6 +50,10 @@ namespace Top_Down_shooter
         {
             X += Speed * (int)DirectionX;
             Y += Speed * (int)DirectionY;
+            Gun.Move(
+                TrunkX += Speed * (int)DirectionX,
+                TrunkY += Speed * (int)DirectionY
+                );
         }
 
         public virtual void ChangeDirection(DirectionX directionX)

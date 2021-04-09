@@ -9,21 +9,19 @@ namespace Top_Down_shooter
 {
     class GameModel
     {
-        public readonly Gun Gun;
         public readonly Character Player;
         public readonly LinkedList<Bullet> MovedBullets = new LinkedList<Bullet>();
 
         public GameModel()
         {
-            Player = new Character(100, 100, 5);
-            Gun = new Gun(140, 140);           
+            Player = new Character(100, 100, 5);        
         }
 
         public void Shoot()
         {
-            var newX = Gun.X + (float)(Gun.SpawnBulletX * Math.Cos(Gun.Angle) - Gun.SpawnBulletY * Math.Sin(Gun.Angle));
-            var newY = Gun.Y + (float)(Gun.SpawnBulletY * Math.Cos(Gun.Angle) + Gun.SpawnBulletX * Math.Sin(Gun.Angle));
-            MovedBullets.AddLast(new Bullet(newX, newY, 20, Gun.Angle));
+            var newX = Player.Gun.X + (float)(Gun.SpawnBulletX * Math.Cos(Player.Gun.Angle) - Gun.SpawnBulletY * Math.Sin(Player.Gun.Angle));
+            var newY = Player.Gun.Y + (float)(Gun.SpawnBulletY * Math.Cos(Player.Gun.Angle) + Gun.SpawnBulletX * Math.Sin(Player.Gun.Angle));
+            MovedBullets.AddLast(new Bullet(newX, newY, 20, Player.Gun.Angle));
         }
     }
 }

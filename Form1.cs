@@ -56,12 +56,12 @@ namespace Top_Down_shooter
                               new Size(gameModel.Player.Image.Width / 2, gameModel.Player.Image.Height / 4)),
                 GraphicsUnit.Pixel);
 
-            g.TranslateTransform(gameModel.Gun.X, gameModel.Gun.Y);
-            g.RotateTransform((float)(gameModel.Gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(-gameModel.Gun.X, -gameModel.Gun.Y);
+            g.TranslateTransform(gameModel.Player.Gun.X, gameModel.Player.Gun.Y);
+            g.RotateTransform((float)(gameModel.Player.Gun.Angle * 180 / Math.PI));
+            g.TranslateTransform(-gameModel.Player.Gun.X, -gameModel.Player.Gun.Y);
             g.DrawImage(
                 Gun.Image,
-                gameModel.Gun.X - Gun.Image.Width / 2, gameModel.Gun.Y - Gun.Image.Width / 2,
+                gameModel.Player.Gun.X - Gun.Image.Width / 2, gameModel.Player.Gun.Y - Gun.Image.Width / 2,
                 new Rectangle(new Point(0, 0), new Size(Gun.Image.Size.Width, Gun.Image.Size.Height)),
                 GraphicsUnit.Pixel);
             g.ResetTransform();
@@ -124,7 +124,7 @@ namespace Top_Down_shooter
         public void UpdateGameLoop(object sender, EventArgs args)
         {
             var mousePos = PointToClient(MousePosition);
-            gameModel.Gun.Angle = (float)Math.Atan2(-gameModel.Gun.Y + mousePos.Y, -gameModel.Gun.X + mousePos.X);
+            gameModel.Player.Gun.Angle = (float)Math.Atan2(-gameModel.Player.Gun.Y + mousePos.Y, -gameModel.Player.Gun.X + mousePos.X);
             gameModel.Player.Move();
 
 

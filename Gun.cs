@@ -24,7 +24,13 @@ namespace Top_Down_shooter
             SpawnBulletY = -25;
         }
 
-        public Gun(int x, int y)
+        public Gun(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public void Move(float x, float y)
         {
             X = x;
             Y = y;
