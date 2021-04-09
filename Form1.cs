@@ -22,7 +22,6 @@ namespace Top_Down_shooter
     {
         private GameModel gameModel;
         private int currentFrameAnimation;
-        private int a;
 
         public Form1()
         {
@@ -53,7 +52,7 @@ namespace Top_Down_shooter
 
             
             g.TranslateTransform(gun.X, gun.Y);
-            g.RotateTransform(gun.Angle);
+            g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
             g.TranslateTransform(-gun.X, -gun.Y);
             g.DrawImage(
                 Gun.Image,
@@ -94,7 +93,7 @@ namespace Top_Down_shooter
         public void UpdateGameLoop(object sender, EventArgs args)
         {
             var mousePos = PointToClient(MousePosition);
-            gameModel.Gun.Angle = (float)(Math.Atan2(-gameModel.Gun.Y + mousePos.Y, -gameModel.Gun.X + mousePos.X) * 180 / Math.PI);
+            gameModel.Gun.Angle = (float)Math.Atan2(-gameModel.Gun.Y + mousePos.Y, -gameModel.Gun.X + mousePos.X);
 
 
             for (var node = gameModel.MovedBullets.First; !(node is null); node = node.Next)
