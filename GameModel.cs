@@ -10,12 +10,12 @@ namespace Top_Down_shooter
 {
     class GameModel
     {
-        public readonly Character Player;
+        public readonly Player Player;
         public readonly LinkedList<Bullet> MovedBullets = new LinkedList<Bullet>();
 
         public GameModel()
         {
-            Player = new Character(100, 100, 5);
+            Player = new Player(100, 100, 5, new Bitmap(@"Sprites\Player.png"));
         }
 
         public void Shoot()

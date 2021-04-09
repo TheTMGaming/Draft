@@ -16,44 +16,23 @@ namespace Top_Down_shooter
     {
         Left, Right
     }
-
-    class Character
+    
+    abstract class Character
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float TrunkX { get; set; }
-        public float TrunkY { get; set; }
-        public float Speed { get; set; }
-        public float Health { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Speed { get; set; }
+        public int Health { get; set; }
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
-        public Bitmap Image { get; private set; }
+        public Bitmap Image { get; set; }
         public Size Scale { get; set; }
-        public Gun Gun { get; set; }
-
-        public static float OffsetTrunkX = 23f;
-        public static float OffsetTrunkY = 33f;
-
-        public Character(float x, float y, float speed)
-        {
-            TrunkX = x + OffsetTrunkX;
-            TrunkY = y + OffsetTrunkY;
-            Gun = new Gun(TrunkX, TrunkY);
-            Image = new Bitmap(@"Sprites/Player.png");
-            Speed = speed;
-            X = x;
-            Y = y;
-        }
 
         public virtual void Move()
         {
             X += Speed * (int)DirectionX;
             Y += Speed * (int)DirectionY;
-            Gun.Move(
-                TrunkX += Speed * (int)DirectionX,
-                TrunkY += Speed * (int)DirectionY
-                );
         }
 
         public virtual void ChangeDirection(DirectionX directionX)
@@ -66,4 +45,33 @@ namespace Top_Down_shooter
         public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;
     }
 
+    class Player : Character
+    {
+        public Gun Gun { get; set; }
+
+        private int trunkX, trunkY;
+
+        private const int OffsetTrunkX = 23;
+        private const int OffsetTrunkY = 33;
+
+        public Player(int x, int y, int speed, Bitmap image)
+        {
+            trunkX = x + OffsetTrunkX;
+            trunkY = y + OffsetTrunkY;
+            Gun = new Gun(trunkX, trunkY);
+            Image = image;
+            Speed = speed;
+            X = x;
+            Y = y;
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            Gun.Move(
+                trunkX += Speed * (int)DirectionX,
+                trunkY += Speed * (int)DirectionY
+                );
+        }
+    }
 }
