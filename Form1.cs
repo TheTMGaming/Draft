@@ -47,7 +47,15 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
+
+            g.DrawImage(
+                gameModel.Player.Image,
+                gameModel.Player.X - gameModel.Player.Image.Width / 4, gameModel.Player.Y - gameModel.Player.Image.Height / 8,
+                new Rectangle(new Point(gameModel.Player.Image.Width / 2 * currentFrameAnimation,
+                                        gameModel.Player.Image.Height / 4 * (int)GetAnimationType(gameModel.Player.DirectionX, gameModel.Player.DirectionY, gameModel.Player.Sight)),
+                              new Size(gameModel.Player.Image.Width / 2, gameModel.Player.Image.Height / 4)),
+                GraphicsUnit.Pixel);
+
             g.TranslateTransform(gameModel.Gun.X, gameModel.Gun.Y);
             g.RotateTransform((float)(gameModel.Gun.Angle * 180 / Math.PI));
             g.TranslateTransform(-gameModel.Gun.X, -gameModel.Gun.Y);
@@ -69,6 +77,8 @@ namespace Top_Down_shooter
                     GraphicsUnit.Pixel);
                 g.ResetTransform();
             }
+
+
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
@@ -79,18 +89,43 @@ namespace Top_Down_shooter
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    gameModel.Player.ChangeDirection(DirectionY.Up);
+                    break;
+                case Keys.A:
+                    gameModel.Player.ChangeDirection(DirectionX.Left);
+                    break;
+                case Keys.S:
+                    gameModel.Player.ChangeDirection(DirectionY.Down);
+                    break;
+                case Keys.D:
+                    gameModel.Player.ChangeDirection(DirectionX.Right);
+                    break;
+            }
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                case Keys.S:
+                    gameModel.Player.ChangeDirection(DirectionY.Idle);
+                    break;
+                case Keys.A:
+                case Keys.D:
+                    gameModel.Player.ChangeDirection(DirectionX.Idle);
+                    break;
+            }
         }
 
         public void UpdateGameLoop(object sender, EventArgs args)
         {
             var mousePos = PointToClient(MousePosition);
             gameModel.Gun.Angle = (float)Math.Atan2(-gameModel.Gun.Y + mousePos.Y, -gameModel.Gun.X + mousePos.X);
+            gameModel.Player.Move();
 
 
             for (var node = gameModel.MovedBullets.First; !(node is null); node = node.Next)
