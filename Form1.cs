@@ -77,7 +77,7 @@ namespace Top_Down_shooter
         protected override void OnMouseClick(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                gameModel.CreateBullet();
+                gameModel.Shoot();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

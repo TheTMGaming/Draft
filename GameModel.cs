@@ -17,13 +17,10 @@ namespace Top_Down_shooter
             Gun = new Gun(140, 140);           
         }
 
-        public void CreateBullet()
+        public void Shoot()
         {
-            var x = 20;
-            var y = -12;
-
-            var newX = Gun.X + (float)(x * Math.Cos(Gun.Angle) - y * Math.Sin(Gun.Angle));
-            var newY = Gun.Y + (float)(y * Math.Cos(Gun.Angle) + x * Math.Sin(Gun.Angle));
+            var newX = Gun.X + (float)(Gun.SpawnBulletX * Math.Cos(Gun.Angle) - Gun.SpawnBulletY * Math.Sin(Gun.Angle));
+            var newY = Gun.Y + (float)(Gun.SpawnBulletY * Math.Cos(Gun.Angle) + Gun.SpawnBulletX * Math.Sin(Gun.Angle));
             MovedBullets.AddLast(new Bullet(newX, newY, 20, Gun.Angle));
         }
     }

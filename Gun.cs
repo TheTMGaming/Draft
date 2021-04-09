@@ -14,10 +14,14 @@ namespace Top_Down_shooter
         public float Angle { get; set; }
 
         public static Bitmap Image;
+        public static float SpawnBulletX;
+        public static float SpawnBulletY;
 
         static Gun()
         {
             Image = new Bitmap(@"Sprites\gun.png");
+            SpawnBulletX = 20;
+            SpawnBulletY = -15;
         }
 
         public Gun(int x, int y)
