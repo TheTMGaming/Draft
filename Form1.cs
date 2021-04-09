@@ -49,20 +49,20 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            var gun = gameModel.gun;
+            var gun = gameModel.Gun;
 
             
             g.TranslateTransform(gun.X, gun.Y);
             g.RotateTransform(gun.Angle);
             g.TranslateTransform(-gun.X, -gun.Y);
             g.DrawImage(
-                gun.AtlasAnimations,
-                gun.X - gun.Scale.Width / 2, gun.Y - gun.Scale.Width / 2,
-                new Rectangle(new Point(0, 0), gun.Scale),
+                Gun.Image,
+                gun.X - Gun.Image.Width / 4, gun.Y - Gun.Image.Width / 4,
+                new Rectangle(new Point(0, 0), new Size(Gun.Image.Size.Width / 2, Gun.Image.Size.Height / 2)),
                 GraphicsUnit.Pixel);
             g.ResetTransform();
 
-            foreach (var bullet in gameModel.BulletsOnCanvas)
+            foreach (var bullet in gameModel.MovedBullets)
             {
                 g.TranslateTransform(bullet.X, bullet.Y);
                 g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
@@ -94,11 +94,20 @@ namespace Top_Down_shooter
         public void UpdateGameLoop(object sender, EventArgs args)
         {
             var mousePos = PointToClient(MousePosition);
-            gameModel.gun.Angle = (float)(Math.Atan2(-gameModel.gun.Y + mousePos.Y, -gameModel.gun.X + mousePos.X) * 180 / Math.PI);
+            gameModel.Gun.Angle = (float)(Math.Atan2(-gameModel.Gun.Y + mousePos.Y, -gameModel.Gun.X + mousePos.X) * 180 / Math.PI);
 
 
-            foreach (var bullet in gameModel.BulletsOnCanvas)
-                bullet.Move();
+            for (var node = gameModel.MovedBullets.First; !(node is null); node = node.Next)
+            {
+                if (node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height)
+                {
+                    gameModel.MovedBullets.Remove(node);
+                    continue;
+                }
+
+                node.Value.Move();
+            }
+
             Invalidate();
         }
 

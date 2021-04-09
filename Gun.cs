@@ -13,18 +13,17 @@ namespace Top_Down_shooter
         public float Y { get; set; }
         public float Angle { get; set; }
 
-        public Bitmap AtlasAnimations { get; private set; }
-        public Size Scale { get; set; }
+        public static Bitmap Image;
 
-
-        public Gun()
+        static Gun()
         {
-            X = 140;
-            Y = 140;
-           
-            AtlasAnimations = new Bitmap(@"Sprites\gun.png");
-            Scale = new Size(96, 96);
-            
+            Image = new Bitmap(@"Sprites\gun.png");
+        }
+
+        public Gun(int x, int y)
+        {
+            X = x;
+            Y = y;
         }
     }
 
@@ -42,13 +41,12 @@ namespace Top_Down_shooter
             Image = new Bitmap(@"Sprites/Bullet.png");
         }
 
-        public Bullet(float x, float y, float angle)
+        public Bullet(float x, float y, float speed, float angle)
         {
-            Speed = 20;
+            Speed = speed;
             X = x;
             Y = y;
-            Angle = angle;
-           
+            Angle = angle;         
         }
 
         public void Move()
