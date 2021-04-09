@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Top_Down_shooter
 {
@@ -14,7 +15,7 @@ namespace Top_Down_shooter
 
         public GameModel()
         {
-            Player = new Character(100, 100, 5);        
+            Player = new Character(100, 100, 5);
         }
 
         public void Shoot()

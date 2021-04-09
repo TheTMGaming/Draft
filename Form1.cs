@@ -26,6 +26,8 @@ namespace Top_Down_shooter
         public Form1()
         {
             DoubleBuffered = true;
+            Size = new Size(1280, 768);
+            CenterToScreen();
 
             gameModel = new GameModel();
 

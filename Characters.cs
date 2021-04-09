@@ -40,7 +40,7 @@ namespace Top_Down_shooter
             TrunkX = x + OffsetTrunkX;
             TrunkY = y + OffsetTrunkY;
             Gun = new Gun(TrunkX, TrunkY);
-            Image = new Bitmap(@"Sprites/player.png");
+            Image = new Bitmap(@"Sprites/Player.png");
             Speed = speed;
             X = x;
             Y = y;
