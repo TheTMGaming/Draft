@@ -47,21 +47,18 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-
-            var gun = gameModel.Gun;
-
             
-            g.TranslateTransform(gun.X, gun.Y);
-            g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(-gun.X, -gun.Y);
+            g.TranslateTransform(gameModel.Gun.X, gameModel.Gun.Y);
+            g.RotateTransform((float)(gameModel.Gun.Angle * 180 / Math.PI));
+            g.TranslateTransform(-gameModel.Gun.X, -gameModel.Gun.Y);
             g.DrawImage(
                 Gun.Image,
-                gun.X - Gun.Image.Width / 4, gun.Y - Gun.Image.Width / 4,
-                new Rectangle(new Point(0, 0), new Size(Gun.Image.Size.Width / 2, Gun.Image.Size.Height / 2)),
+                gameModel.Gun.X - Gun.Image.Width / 2, gameModel.Gun.Y - Gun.Image.Width / 2,
+                new Rectangle(new Point(0, 0), new Size(Gun.Image.Size.Width, Gun.Image.Size.Height)),
                 GraphicsUnit.Pixel);
             g.ResetTransform();
 
-            foreach (var bullet in gameModel.MovedBullets)
+            foreach (var bullet in this.gameModel.MovedBullets)
             {
                 g.TranslateTransform(bullet.X, bullet.Y);
                 g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));

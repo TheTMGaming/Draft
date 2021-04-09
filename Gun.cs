@@ -19,9 +19,9 @@ namespace Top_Down_shooter
 
         static Gun()
         {
-            Image = new Bitmap(@"Sprites\gun.png");
-            SpawnBulletX = 20;
-            SpawnBulletY = -15;
+            Image = new Bitmap(@"Sprites\Gun.png");
+            SpawnBulletX = 5;
+            SpawnBulletY = -25;
         }
 
         public Gun(int x, int y)
