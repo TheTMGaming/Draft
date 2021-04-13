@@ -49,7 +49,6 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-
             
             g.DrawImage(
                 gameModel.Player.Image,
