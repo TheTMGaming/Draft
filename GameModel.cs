@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+
 
 namespace Top_Down_shooter
 {
     class GameModel
     {
-        private readonly Player Player;
-        private readonly HealthBar HealthBar;
-
         public readonly LinkedList<Sprite> GameSprites = new LinkedList<Sprite>();
         public readonly LinkedList<IUserInterface> UI = new LinkedList<IUserInterface>();
+
+        private readonly Player Player;
+        private readonly HealthBar HealthBar;
 
         public GameModel()
         {
             Player = new Player(100, 100, 5, new Bitmap(@"Sprites\Player.png"), 4, 2);
             HealthBar = new HealthBar(140, 140, 100);
-
+           
             GameSprites.AddLast(Player);
+            GameSprites.AddLast(Player.Gun);
             UI.AddLast(HealthBar);
         }
 
@@ -32,8 +30,17 @@ namespace Top_Down_shooter
             GameSprites.AddLast(new Bullet(newX, newY, 20, Player.Gun.Angle, new Bitmap(@"Sprites/Bullet.png")));
         }
 
-        public void ChangeDirection(DirectionX directionX) => Player.ChangeDirection(directionX);
+        public void ChangeDirectionPlayer(DirectionX directionX) => Player.ChangeDirection(directionX);
 
-        public void ChangeDirectionPlayer(DirectionY directionY) => Player.ChangeDirection(DirectionY);
+        public void ChangeDirectionPlayer(DirectionY directionY) => Player.ChangeDirection(directionY);
+        
+        public void PlayAnimations()
+        {
+            foreach (var sprite in GameSprites)
+            {
+                if (sprite is AnimationSprite animationSprite)
+                    animationSprite.PlayAnimation();
+            }
+        }
     }
 }

@@ -26,5 +26,15 @@ namespace Top_Down_shooter
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }
+
+        public virtual void Move()
+        {
+
+        }
+
+        public virtual void Move(int x, int y)
+        {
+
+        }
     }
 }

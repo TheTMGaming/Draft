@@ -32,7 +32,7 @@ namespace Top_Down_shooter
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
 
-        public virtual void Move()
+        public override void Move()
         {
             X += Speed * (int)DirectionX;
             Y += Speed * (int)DirectionY;

@@ -18,7 +18,7 @@ namespace Top_Down_shooter
             Image = image;
         }
 
-        public void Move(int x, int y)
+        public override void Move(int x, int y)
         {
             X = x;
             Y = y;
@@ -38,7 +38,7 @@ namespace Top_Down_shooter
             Image = image;
         }
 
-        public void Move()
+        public override void Move()
         {
             X += (int)(Speed * Math.Cos(Angle));
             Y += (int)(Speed * Math.Sin(Angle));
