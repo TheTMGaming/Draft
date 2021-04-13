@@ -1,29 +1,19 @@
-﻿using System.Drawing;
-using System;
+﻿using System;
+using System.Drawing;
 
 namespace Top_Down_shooter
 {
     class AnimationSprite : Sprite
     {
-        public readonly int StateCount;
-        public readonly int FrameCount;
+        public int StateCount { get; protected set; }
+        public int FrameCount { get; protected set; }
 
         private int frame;
         private int state;
 
-        public AnimationSprite(int xLeft, int yTop, int stateCount, int frameCount, Bitmap atlas)
-        {
-            X = xLeft;
-            Y = yTop;
-            StateCount = stateCount;
-            FrameCount = frameCount;
-            Image = atlas;
-        }
-
         public virtual void PlayAnimation(Graphics g)
         {
-            Draw(g, 
-                new Point(Image.Width / FrameCount * frame, Image.Height / StateCount * state), 
+            Draw(g, new Point(Image.Width / FrameCount * frame, Image.Height / StateCount * state), 
                 new Size(Image.Width / FrameCount, Image.Height / StateCount));
         }
         

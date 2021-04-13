@@ -10,18 +10,9 @@ using System.Windows.Forms;
 
 namespace Top_Down_shooter
 {
-    enum AnimationTypes
-    {
-        IdleRight,
-        IdleLeft,
-        RunRight,
-        RunLeft
-    }
-
     public class Form1 : Form
     {
         private GameModel gameModel;
-        private int currentFrameAnimation;
 
         public Form1()
         {
@@ -40,7 +31,7 @@ namespace Top_Down_shooter
             timerChangeAnimationFrame.Interval = 300;
             timerChangeAnimationFrame.Tick += new EventHandler((sender, args) =>
             {
-                currentFrameAnimation = ++currentFrameAnimation % 2;
+                gameModel.Player.NextFrame();
             });
             timerChangeAnimationFrame.Start();
             
@@ -49,14 +40,16 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
-            g.DrawImage(
-                gameModel.Player.Image,
-                gameModel.Player.X - gameModel.Player.Image.Width / 4, gameModel.Player.Y - gameModel.Player.Image.Height / 8,
-                new Rectangle(new Point(gameModel.Player.Image.Width / 2 * currentFrameAnimation,
-                                        gameModel.Player.Image.Height / 4 * (int)GetAnimationType(gameModel.Player.DirectionX, gameModel.Player.DirectionY, gameModel.Player.Sight)),
-                              new Size(gameModel.Player.Image.Width / 2, gameModel.Player.Image.Height / 4)),
-                GraphicsUnit.Pixel);
+
+            //g.DrawImage(
+            //    gameModel.Player.Image,
+            //    gameModel.Player.X - gameModel.Player.Image.Width / 4, gameModel.Player.Y - gameModel.Player.Image.Height / 8,
+            //    new Rectangle(new Point(gameModel.Player.Image.Width / 2 * currentFrameAnimation,
+            //                            gameModel.Player.Image.Height / 4 * (int)GetAnimationType(gameModel.Player.DirectionX, gameModel.Player.DirectionY, gameModel.Player.Sight)),
+            //                  new Size(gameModel.Player.Image.Width / 2, gameModel.Player.Image.Height / 4)),
+            //    GraphicsUnit.Pixel);
+
+            gameModel.Player.PlayAnimation(g);
 
             g.TranslateTransform(gameModel.Player.Gun.X, gameModel.Player.Gun.Y);
             g.RotateTransform((float)(gameModel.Player.Gun.Angle * 180 / Math.PI));
@@ -66,6 +59,8 @@ namespace Top_Down_shooter
                 gameModel.Player.Gun.X - gameModel.Player.Gun.Image.Width / 2, gameModel.Player.Gun.Y - gameModel.Player.Gun.Image.Width / 2,
                 new Rectangle(new Point(0, 0), new Size(gameModel.Player.Gun.Image.Size.Width, gameModel.Player.Gun.Image.Size.Height)),
                 GraphicsUnit.Pixel);
+
+            //gameModel.Player.Gun.Draw(g);
             g.ResetTransform();
 
             foreach (var bullet in this.gameModel.MovedBullets)
@@ -142,14 +137,6 @@ namespace Top_Down_shooter
             }
 
             Invalidate();
-        }
-
-        private AnimationTypes GetAnimationType(DirectionX directionX, DirectionY directionY, Sight sight)
-        {
-            if (directionX == DirectionX.Idle && directionY == DirectionY.Idle)
-                return sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
-
-            return sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
         }
     }
 }

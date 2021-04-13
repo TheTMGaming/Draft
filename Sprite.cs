@@ -13,6 +13,7 @@ namespace Top_Down_shooter
         public float Y { get; set; }
         public float Angle { get; set; }
         public Bitmap Image { get; set; }
+        public Size Scale => Image.Size;
 
         public virtual void Draw(Graphics g)
         {

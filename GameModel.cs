@@ -16,7 +16,7 @@ namespace Top_Down_shooter
 
         public GameModel()
         {
-            Player = new Player(100, 100, 5, new Bitmap(@"Sprites\Player.png"));
+            Player = new Player(100, 100, 5, new Bitmap(@"Sprites\Player.png"), 4, 2);
             HealthBar = new HealthBar(140, 140, 100);
         }
 

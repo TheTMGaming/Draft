@@ -3,6 +3,11 @@
 namespace Top_Down_shooter
 {
     #region
+    enum AnimationTypes
+    {
+        IdleRight, IdleLeft, RunRight, RunLeft
+    }
+
     enum DirectionX
     {
         Left = -1, Idle = 0, Right = 1 
@@ -19,7 +24,7 @@ namespace Top_Down_shooter
     }
     #endregion
 
-    abstract class Character : Sprite
+    abstract class Character : AnimationSprite
     {
         public int Speed { get; set; }
         public int Health { get; set; }
@@ -38,9 +43,22 @@ namespace Top_Down_shooter
             DirectionX = directionX;
             if (DirectionX != DirectionX.Idle)
                 Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
+            ChangeState((int)GetAnimationType(this));
         }
 
-        public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;
+        public virtual void ChangeDirection(DirectionY directionY)
+        {
+            DirectionY = directionY;
+            ChangeState((int)GetAnimationType(this));
+        }
+
+        public static AnimationTypes GetAnimationType(Character character)
+        {
+            if (character.DirectionX == DirectionX.Idle && character.DirectionY == DirectionY.Idle)
+                return character.Sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
+
+            return character.Sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
+        }
     }
 
     class Player : Character
@@ -49,18 +67,23 @@ namespace Top_Down_shooter
 
         private int trunkX, trunkY;
 
-        private const int OffsetTrunkX = 23;
-        private const int OffsetTrunkY = 33;
+        private const int OffsetTrunkX = 72;
+        private const int OffsetTrunkY = 99;
 
-        public Player(int x, int y, int speed, Bitmap image)
+        public Player(int xLeft, int yTop, int speed, Bitmap atlas, int stateCountAnimation, int frameCountAnimation)
         {
-            trunkX = x + OffsetTrunkX;
-            trunkY = y + OffsetTrunkY;
-            Gun = new Gun(trunkX, trunkY, new Bitmap(@"Sprites/Gun.png"));
-            Image = image;
+            X = xLeft;
+            Y = yTop;
             Speed = speed;
-            X = x;
-            Y = y;
+
+            trunkX = xLeft + OffsetTrunkX;
+            trunkY = yTop + OffsetTrunkY;
+
+            Image = atlas;
+            StateCount = stateCountAnimation;
+            FrameCount = frameCountAnimation;
+
+            Gun = new Gun(trunkX, trunkY, new Bitmap(@"Sprites/Gun.png"));
         }
 
         public override void Move()
