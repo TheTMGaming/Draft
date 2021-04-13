@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Top_Down_shooter
 {
@@ -34,8 +35,8 @@ namespace Top_Down_shooter
 
         public override void Move()
         {
-            X += Speed * (int)DirectionX;
-            Y += Speed * (int)DirectionY;
+            X += (int)Math.Round(Speed * (int)DirectionX * (DirectionY != DirectionY.Idle ? Math.Sqrt(2) / 2 : 1));
+            Y += (int)Math.Round(Speed * (int)DirectionY * (DirectionX != DirectionX.Idle ? Math.Sqrt(2) / 2 : 1));
         }
 
         public virtual void ChangeDirection(DirectionX directionX)

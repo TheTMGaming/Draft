@@ -46,17 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationSprite.cs" />
-    <Compile Include="Characters.cs" />
+    <Compile Include="Scripts\AnimationSprite.cs" />
+    <Compile Include="Scripts\Characters.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameModel.cs" />
-    <Compile Include="Gun.cs" />
+    <Compile Include="Scripts\GameModel.cs" />
+    <Compile Include="Scripts\Gun.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sprite.cs" />
-    <Compile Include="UI.cs" />
+    <Compile Include="Scripts\Sprite.cs" />
+    <Compile Include="Scripts\UI.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
