@@ -16,9 +16,14 @@ namespace Top_Down_shooter
 
         public virtual void Draw(Graphics g)
         {
+            Draw(g, new Point(0, 0), new Size(Image.Width, Image.Height));
+        }
+
+        public virtual void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        {
             g.DrawImage(
                Image, X, Y,
-               new Rectangle(new Point(0, 0), new Size(Image.Width, Image.Height)),
+               new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }
     }

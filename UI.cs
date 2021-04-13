@@ -52,20 +52,11 @@ namespace Top_Down_shooter
 
         public void Draw(Graphics g)
         {
-            g.DrawImage(
-               background.Image, background.X, background.Y,
-               new Rectangle(new Point(0, 0), new Size(background.Image.Width, background.Image.Height)),
-               GraphicsUnit.Pixel);
+            background.Draw(g);
 
-            g.DrawImage(
-                bar.Image, bar.X, bar.Y,
-                new Rectangle(new Point(0, 0), new Size(bar.Image.Width * Percent / 100, bar.Image.Height)),
-                GraphicsUnit.Pixel);
+            bar.Draw(g, new Point(0, 0), new Size(bar.Image.Width * Percent / 100, bar.Image.Height));
 
-            g.DrawImage(
-                heart.Image, heart.X, heart.Y,
-                new Rectangle(new Point(0, 0), new Size(heart.Image.Width, heart.Image.Height)),
-                GraphicsUnit.Pixel);
+            heart.Draw(g);
         }
         
     }
