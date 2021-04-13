@@ -31,5 +31,9 @@ namespace Top_Down_shooter
             var newY = Player.Gun.Y + (int)(Player.Gun.SpawnBullets.Y * Math.Cos(Player.Gun.Angle) + Player.Gun.SpawnBullets.X * Math.Sin(Player.Gun.Angle));
             GameSprites.AddLast(new Bullet(newX, newY, 20, Player.Gun.Angle, new Bitmap(@"Sprites/Bullet.png")));
         }
+
+        public void ChangeDirection(DirectionX directionX) => Player.ChangeDirection(directionX);
+
+        public void ChangeDirectionPlayer(DirectionY directionY) => Player.ChangeDirection(DirectionY);
     }
 }

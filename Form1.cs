@@ -59,16 +59,16 @@ namespace Top_Down_shooter
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    gameModel.Player.ChangeDirection(DirectionY.Up);
+                    gameModel.ChangeDirectionPlayer(DirectionY.Up);
                     break;
                 case Keys.A:
-                    gameModel.Player.ChangeDirection(DirectionX.Left);
+                    gameModel.ChangeDirection(DirectionX.Left);
                     break;
                 case Keys.S:
-                    gameModel.Player.ChangeDirection(DirectionY.Down);
+                    gameModel.ChangeDirectionPlayer(DirectionY.Down);
                     break;
                 case Keys.D:
-                    gameModel.Player.ChangeDirection(DirectionX.Right);
+                    gameModel.ChangeDirection(DirectionX.Right);
                     break;
             }
         }
@@ -79,11 +79,11 @@ namespace Top_Down_shooter
             {
                 case Keys.W:
                 case Keys.S:
-                    gameModel.Player.ChangeDirection(DirectionY.Idle);
+                    gameModel.ChangeDirectionPlayer(DirectionY.Idle);
                     break;
                 case Keys.A:
                 case Keys.D:
-                    gameModel.Player.ChangeDirection(DirectionX.Idle);
+                    gameModel.ChangeDirection(DirectionX.Idle);
                     break;
             }
         }
