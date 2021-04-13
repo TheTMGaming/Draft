@@ -22,8 +22,8 @@ namespace Top_Down_shooter
 
         public void Shoot()
         {
-            var newX = Player.Gun.X + (float)(Player.Gun.SpawnBulletX * Math.Cos(Player.Gun.Angle) - Player.Gun.SpawnBulletY * Math.Sin(Player.Gun.Angle));
-            var newY = Player.Gun.Y + (float)(Player.Gun.SpawnBulletY * Math.Cos(Player.Gun.Angle) + Player.Gun.SpawnBulletX * Math.Sin(Player.Gun.Angle));
+            var newX = Player.Gun.X + (int)(Player.Gun.SpawnBullets.X * Math.Cos(Player.Gun.Angle) - Player.Gun.SpawnBullets.Y * Math.Sin(Player.Gun.Angle));
+            var newY = Player.Gun.Y + (int)(Player.Gun.SpawnBullets.Y * Math.Cos(Player.Gun.Angle) + Player.Gun.SpawnBullets.X * Math.Sin(Player.Gun.Angle));
             MovedBullets.AddLast(new Bullet(newX, newY, 20, Player.Gun.Angle, new Bitmap(@"Sprites/Bullet.png")));
         }
     }

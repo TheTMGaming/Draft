@@ -9,8 +9,7 @@ namespace Top_Down_shooter
 {
     class Gun : Sprite
     {
-        public readonly float SpawnBulletX = 5;
-        public readonly float SpawnBulletY = -25;
+        public readonly Point SpawnBullets = new Point(7, -20);
 
         public Gun(int x, int y, Bitmap image)
         {
@@ -28,9 +27,9 @@ namespace Top_Down_shooter
 
     class Bullet : Sprite
     {
-        public float Speed { get; set; }
+        public int Speed { get; set; }
 
-        public Bullet(float x, float y, float speed, float angle, Bitmap image)
+        public Bullet(int x, int y, int speed, float angle, Bitmap image)
         {
             Speed = speed;
             X = x;
@@ -41,8 +40,8 @@ namespace Top_Down_shooter
 
         public void Move()
         {
-            X += Speed * (float)Math.Cos(Angle);
-            Y += Speed * (float)Math.Sin(Angle);
+            X += (int)(Speed * Math.Cos(Angle));
+            Y += (int)(Speed * Math.Sin(Angle));
         }
     }
 }

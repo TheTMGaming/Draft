@@ -65,10 +65,7 @@ namespace Top_Down_shooter
     {
         public Gun Gun { get; set; }
 
-        private int trunkX, trunkY;
-
-        private const int OffsetTrunkX = 20;
-        private const int OffsetTrunkY = 38;
+        private readonly Point OffsetPositionGun = new Point(20, 38);
 
         public Player(int x, int y, int speed, Bitmap atlas, int stateCountAnimation, int frameCountAnimation)
         {
@@ -76,23 +73,17 @@ namespace Top_Down_shooter
             Y = y;
             Speed = speed;
 
-            trunkX = x + OffsetTrunkX;
-            trunkY = y + OffsetTrunkY;
-
             Image = atlas;
             StateCount = stateCountAnimation;
             FrameCount = frameCountAnimation;
 
-            Gun = new Gun(trunkX, trunkY, new Bitmap(@"Sprites/Gun.png"));
+            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y, new Bitmap(@"Sprites/Gun.png"));
         }
 
         public override void Move()
         {
             base.Move();
-            Gun.Move(
-                trunkX += Speed * (int)DirectionX,
-                trunkY += Speed * (int)DirectionY
-                );
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
         }
     }
 }
