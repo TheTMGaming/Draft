@@ -9,7 +9,7 @@ namespace Top_Down_shooter
 {
     class Gun : Sprite
     {
-        public readonly Point SpawnBullets = new Point(7, -20);
+        public readonly Point SpawnBullets = new Point(10, -10);
 
         public Gun(int x, int y, Bitmap image)
         {

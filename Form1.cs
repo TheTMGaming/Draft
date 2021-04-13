@@ -41,29 +41,16 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            gameModel.Player.Draw(g);
+            DrawSprite(g, gameModel.Player);
 
-            g.TranslateTransform(gameModel.Player.Gun.X, gameModel.Player.Gun.Y);
-            g.RotateTransform((float)(gameModel.Player.Gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(-gameModel.Player.Gun.X, -gameModel.Player.Gun.Y);
-            
+            DrawSprite(g, gameModel.Player.Gun);
 
-            gameModel.Player.Gun.Draw(g);
-            g.ResetTransform();
-
-            foreach (var bullet in this.gameModel.MovedBullets)
+            foreach (var bullet in gameModel.MovedBullets)
             {
-                g.TranslateTransform(bullet.X, bullet.Y);
-                g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
-                g.TranslateTransform(-bullet.X, -bullet.Y);
-                g.DrawImage(bullet.Image,
-                    bullet.X, bullet.Y,
-                    new Rectangle(new Point(0, 0), bullet.Image.Size),
-                    GraphicsUnit.Pixel);
-                g.ResetTransform();
+                DrawSprite(g, bullet);
             }
 
-            //gameModel.HealthBar.Draw(g);
+            DrawSprite(g, gameModel.HealthBar);
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
@@ -125,6 +112,17 @@ namespace Top_Down_shooter
             }
 
             Invalidate();
+        }
+
+        private void DrawSprite(Graphics g, Sprite sprite)
+        {
+            g.TranslateTransform(sprite.X, sprite.Y);
+            g.RotateTransform((float)(sprite.Angle * 180 / Math.PI));
+            g.TranslateTransform(-sprite.X, -sprite.Y);
+
+            sprite.Draw(g);
+
+            g.ResetTransform();
         }
     }
 }
