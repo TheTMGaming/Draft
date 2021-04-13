@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Top_Down_shooter
 {
-    abstract class Sprite
+    class Sprite
     {
         public float X { get; set; }
         public float Y { get; set; }
