@@ -41,16 +41,11 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            DrawSprite(g, gameModel.Player);
+            foreach (var sprite in gameModel.GameSprites)
+                DrawSprite(g, sprite);
 
-            DrawSprite(g, gameModel.Player.Gun);
-
-            foreach (var bullet in gameModel.MovedBullets)
-            {
-                DrawSprite(g, bullet);
-            }
-
-            DrawSprite(g, gameModel.HealthBar);
+            foreach (var ui in gameModel.UI)
+                ui.Draw(g);
         }
 
         protected override void OnMouseClick(MouseEventArgs e)

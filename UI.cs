@@ -2,7 +2,12 @@
 
 namespace Top_Down_shooter
 {
-    class HealthBar
+    interface IUserInterface
+    {
+        void Draw(Graphics g);
+    }
+
+    class HealthBar : IUserInterface
     {
         public int Percent
         {
@@ -24,28 +29,28 @@ namespace Top_Down_shooter
         private readonly Point offsetBackground = new Point(45, 45);
         private readonly Point offsetBarRelativeBack = new Point(2, 3);
 
-        public HealthBar(int xLeftPoint, int yTopPoint, int percent)
+        public HealthBar(int xLeft, int yTop, int percent)
         {
             Percent = percent;
             
             heart = new Sprite
             {
-                X = xLeftPoint,
-                Y = yTopPoint,
+                X = xLeft,
+                Y = yTop,
                 Image = new Bitmap(@"Sprites/Heart.png")
             };
 
             background = new Sprite
             {
-                X = xLeftPoint + offsetBackground.X,
-                Y = yTopPoint + offsetBackground.Y,
+                X = xLeft + offsetBackground.X,
+                Y = yTop + offsetBackground.Y,
                 Image = new Bitmap(@"Sprites/BackgroundHealthBar.png")
             };
 
             bar = new Sprite
             {
-                X = xLeftPoint + offsetBackground.X + offsetBarRelativeBack.X,
-                Y = yTopPoint + offsetBackground.Y + offsetBarRelativeBack.Y,
+                X = xLeft + offsetBackground.X + offsetBarRelativeBack.X,
+                Y = yTop + offsetBackground.Y + offsetBarRelativeBack.Y,
                 Image = new Bitmap(@"Sprites/HealthBar.png")
             };
         }
@@ -57,7 +62,6 @@ namespace Top_Down_shooter
             bar.Draw(g, new Point(0, 0), new Size(bar.Image.Width * Percent / 100, bar.Image.Height));
 
             heart.Draw(g);
-        }
-        
+        }       
     }
 }
