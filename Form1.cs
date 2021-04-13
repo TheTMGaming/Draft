@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Top_Down_shooter
@@ -20,8 +14,11 @@ namespace Top_Down_shooter
             Size = new Size(1280, 768);
             CenterToScreen();
 
-            gameModel = new GameModel(Size);
-            gameModel.UpdateGameLoop += (sender, args) => Invalidate();
+            gameModel = new GameModel();
+
+            var updateGameLoop = new Timer();
+            updateGameLoop.Interval = 30;
+            updateGameLoop.Tick += (sender, args) => UpdateGameLoop();
 
             var playAnimations = new Timer();
             playAnimations.Interval = 300;
@@ -30,8 +27,8 @@ namespace Top_Down_shooter
                 gameModel.PlayAnimations();
             });
 
-            gameModel.Start();
             playAnimations.Start();
+            updateGameLoop.Start();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -56,16 +53,16 @@ namespace Top_Down_shooter
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    gameModel.ChangeDirectionPlayer(DirectionY.Up);
+                    gameModel.Player.ChangeDirection(DirectionY.Up);
                     break;
                 case Keys.A:
-                    gameModel.ChangeDirectionPlayer(DirectionX.Left);
+                    gameModel.Player.ChangeDirection(DirectionX.Left);
                     break;
                 case Keys.S:
-                    gameModel.ChangeDirectionPlayer(DirectionY.Down);
+                    gameModel.Player.ChangeDirection(DirectionY.Down);
                     break;
                 case Keys.D:
-                    gameModel.ChangeDirectionPlayer(DirectionX.Right);
+                    gameModel.Player.ChangeDirection(DirectionX.Right);
                     break;
             }
         }
@@ -76,16 +73,14 @@ namespace Top_Down_shooter
             {
                 case Keys.W:
                 case Keys.S:
-                    gameModel.ChangeDirectionPlayer(DirectionY.Idle);
+                    gameModel.Player.ChangeDirection(DirectionY.Idle);
                     break;
                 case Keys.A:
                 case Keys.D:
-                    gameModel.ChangeDirectionPlayer(DirectionX.Idle);
+                    gameModel.Player.ChangeDirection(DirectionX.Idle);
                     break;
             }
         }
-
-        protected override void OnMouseMove(MouseEventArgs e) => gameModel.UpdateMousePosition(e.Location);    
 
         private void DrawSprite(Graphics g, Sprite sprite)
         {
@@ -100,18 +95,22 @@ namespace Top_Down_shooter
 
         private void UpdateGameLoop()
         {
-            Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y - Player.Gun.Y, mousePosition.X - Player.Gun.X);
+            var mousePosition = PointToClient(MousePosition);
 
-            for (var node = GameSprites.First; !(node is null); node = node.Next)
+            gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y - gameModel.Player.Gun.Y, mousePosition.X - gameModel.Player.Gun.X);
+
+            for (var node = gameModel.GameSprites.First; !(node is null); node = node.Next)
             {
-                if (node.Value.X < 0 || node.Value.X > sizeForm.Width || node.Value.Y < 0 || node.Value.Y > sizeForm.Height)
+                if (node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height)
                 {
-                    GameSprites.Remove(node);
+                    gameModel.GameSprites.Remove(node);
                     continue;
                 }
 
                 node.Value.Move();
             }
+
+            Invalidate();
         }
     }
 }

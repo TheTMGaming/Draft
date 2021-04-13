@@ -26,31 +26,31 @@ namespace Top_Down_shooter
         private readonly Sprite bar;
         private readonly Sprite heart;
 
-        private readonly Point offsetBackground = new Point(45, 45);
-        private readonly Point offsetBarRelativeBack = new Point(2, 3);
+        private readonly Point offsetBackground = new Point(140, 20);
+        private readonly Point offsetBar = new Point(140, 20);
 
-        public HealthBar(int xLeft, int yTop, int percent)
+        public HealthBar(int x, int y, int percent)
         {
             Percent = percent;
             
             heart = new Sprite
             {
-                X = xLeft,
-                Y = yTop,
+                X = x,
+                Y = y,
                 Image = new Bitmap(@"Sprites/Heart.png")
             };
 
             background = new Sprite
             {
-                X = xLeft + offsetBackground.X,
-                Y = yTop + offsetBackground.Y,
+                X = x + offsetBackground.X,
+                Y = y + offsetBackground.Y,
                 Image = new Bitmap(@"Sprites/BackgroundHealthBar.png")
             };
 
             bar = new Sprite
             {
-                X = xLeft + offsetBackground.X + offsetBarRelativeBack.X,
-                Y = yTop + offsetBackground.Y + offsetBarRelativeBack.Y,
+                X = x + offsetBar.X,
+                Y = y + offsetBar.Y,
                 Image = new Bitmap(@"Sprites/HealthBar.png")
             };
         }
