@@ -19,7 +19,7 @@ namespace Top_Down_shooter
             Image = image;
         }
 
-        public void Move(float x, float y)
+        public void Move(int x, int y)
         {
             X = x;
             Y = y;

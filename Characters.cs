@@ -67,17 +67,17 @@ namespace Top_Down_shooter
 
         private int trunkX, trunkY;
 
-        private const int OffsetTrunkX = 72;
-        private const int OffsetTrunkY = 99;
+        private const int OffsetTrunkX = 20;
+        private const int OffsetTrunkY = 38;
 
-        public Player(int xLeft, int yTop, int speed, Bitmap atlas, int stateCountAnimation, int frameCountAnimation)
+        public Player(int x, int y, int speed, Bitmap atlas, int stateCountAnimation, int frameCountAnimation)
         {
-            X = xLeft;
-            Y = yTop;
+            X = x;
+            Y = y;
             Speed = speed;
 
-            trunkX = xLeft + OffsetTrunkX;
-            trunkY = yTop + OffsetTrunkY;
+            trunkX = x + OffsetTrunkX;
+            trunkY = y + OffsetTrunkY;
 
             Image = atlas;
             StateCount = stateCountAnimation;

@@ -13,17 +13,16 @@ namespace Top_Down_shooter
         public float Y { get; set; }
         public float Angle { get; set; }
         public Bitmap Image { get; set; }
-        public Size Scale => Image.Size;
 
         public virtual void Draw(Graphics g)
         {
             Draw(g, new Point(0, 0), new Size(Image.Width, Image.Height));
         }
 
-        public virtual void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
             g.DrawImage(
-               Image, X, Y,
+               Image, X - Image.Width / 2, Y - Image.Height / 2,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }

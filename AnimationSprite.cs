@@ -7,17 +7,22 @@ namespace Top_Down_shooter
     {
         public int StateCount { get; protected set; }
         public int FrameCount { get; protected set; }
+        public Size FrameSize => new Size(Image.Width / FrameCount, Image.Height / StateCount);
 
         private int frame;
         private int state;
 
-        public virtual void PlayAnimation(Graphics g)
+        public override void Draw(Graphics g)
         {
-            Draw(g, new Point(Image.Width / FrameCount * frame, Image.Height / StateCount * state), 
-                new Size(Image.Width / FrameCount, Image.Height / StateCount));
+            g.DrawImage(
+               Image, X - FrameSize.Width / 2, Y - FrameSize.Height / 2,
+               new Rectangle(
+                   new Point(FrameSize.Width * frame, FrameSize.Height * state), 
+                   FrameSize),
+               GraphicsUnit.Pixel);
         }
         
-        public void NextFrame() => frame = (frame + 1) % FrameCount;
+        public void PlayAnimation() => frame = (frame + 1) % FrameCount;
 
         public void ChangeState(int rowInAtlas)
         {
