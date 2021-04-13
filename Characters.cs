@@ -26,7 +26,6 @@ namespace Top_Down_shooter
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
-        public Size Scale { get; set; }
 
         public virtual void Move()
         {

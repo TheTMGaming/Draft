@@ -12,7 +12,7 @@ namespace Top_Down_shooter
         public readonly float SpawnBulletX = 5;
         public readonly float SpawnBulletY = -25;
 
-        public Gun(float x, float y, Bitmap image)
+        public Gun(int x, int y, Bitmap image)
         {
             X = x;
             Y = y;

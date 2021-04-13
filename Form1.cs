@@ -50,6 +50,7 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
+            
             g.DrawImage(
                 gameModel.Player.Image,
                 gameModel.Player.X - gameModel.Player.Image.Width / 4, gameModel.Player.Y - gameModel.Player.Image.Height / 8,
@@ -79,6 +80,8 @@ namespace Top_Down_shooter
                     GraphicsUnit.Pixel);
                 g.ResetTransform();
             }
+
+            gameModel.HealthBar.Draw(g);
         }
 
         protected override void OnMouseClick(MouseEventArgs e)

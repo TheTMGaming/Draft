@@ -11,11 +11,13 @@ namespace Top_Down_shooter
     class GameModel
     {
         public readonly Player Player;
+        public readonly HealthBar HealthBar;
         public readonly LinkedList<Bullet> MovedBullets = new LinkedList<Bullet>();
 
         public GameModel()
         {
             Player = new Player(100, 100, 5, new Bitmap(@"Sprites\Player.png"));
+            HealthBar = new HealthBar(100, 100);
         }
 
         public void Shoot()

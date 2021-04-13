@@ -13,5 +13,6 @@ namespace Top_Down_shooter
         public float Y { get; set; }
         public float Angle { get; set; }
         public Bitmap Image { get; set; }
+
     }
 }
