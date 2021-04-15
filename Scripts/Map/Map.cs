@@ -12,8 +12,8 @@ namespace Top_Down_shooter
         public int Width { get; set; }
         public int Height { get; set; }
 
-        private readonly int maxLeafSize = 200;
-        private readonly int minLeafSize = 100;
+        private readonly int maxLeafSize = 150;
+        private readonly int minLeafSize = 80;
         private readonly float roomSplitChance = 0.75f;
 
         private List<Leaf> leaves = new List<Leaf>();
@@ -42,7 +42,7 @@ namespace Top_Down_shooter
                     var leaf = leaves[index];
                     if (leaf.LeftChild is null && leaf.RightChild is null)
                     {
-                        if (leaf.Width > maxLeafSize || leaf.Height > maxLeafSize || randGenerator.NextDouble() > roomSplitChance)
+                        if (leaf.Width > maxLeafSize || leaf.Height > maxLeafSize || randGenerator.NextDouble() >= roomSplitChance)
                         {
                             if (leaf.Split())
                             {

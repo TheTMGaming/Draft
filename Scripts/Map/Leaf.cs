@@ -44,7 +44,7 @@ namespace Top_Down_shooter
             var isHeightSplited = randGenerator.NextDouble() > 0.5;
             if (Width > Height && Width / Height >= 1 + aspectRation)
                 isHeightSplited = false;
-            else if (Height > Width && Height / Width > 1 + aspectRation)
+            else if (Height > Width && Height / Width >= 1 + aspectRation)
                 isHeightSplited = true;
 
             var maxLeafSize = (isHeightSplited ? Height : Width) - minLeafSize;
@@ -77,12 +77,12 @@ namespace Top_Down_shooter
             else
             {
                 var roomSize = new Size(
-                    randGenerator.Next(15, Width - indent - 1),
-                    randGenerator.Next(15, Height - indent - 1)
+                    randGenerator.Next(1, Width - 1),
+                    randGenerator.Next(1, Height - 1)
                     );
                 var roomPos = new Point(
-                    randGenerator.Next(indent, Width - roomSize.Width - 1),
-                    randGenerator.Next(indent, Height - roomSize.Height - 1)
+                    randGenerator.Next(1, Width - roomSize.Width - 1),
+                    randGenerator.Next(1, Height - roomSize.Height - 1)
                     );
 
                 Room = new Rectangle(X + roomPos.X, Y + roomPos.Y, roomSize.Width, roomSize.Height);
