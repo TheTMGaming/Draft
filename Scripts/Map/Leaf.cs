@@ -23,6 +23,8 @@ namespace Top_Down_shooter
 
         private readonly float aspectRation = 0.25f;
         private readonly int minLeafSize = 6;
+        private readonly int indent = 3;
+        private readonly Random randGenerator;
 
         public Leaf(int x, int y, int width, int height, int minLeafSize)
         {
@@ -31,12 +33,11 @@ namespace Top_Down_shooter
             Width = width;
             Height = height;
             this.minLeafSize = minLeafSize;
+            randGenerator = new Random();
         }
 
         public bool Split()
         {
-            var randGenerator = new Random();
-
             if (!(LeftChild is null) || !(RightChild is null))
                 return false;
 
@@ -64,6 +65,29 @@ namespace Top_Down_shooter
             }
 
             return true;
+        }
+
+        public void CreateRooms()
+        {
+            if (!(LeftChild is null) || !(RightChild is null))
+            {
+                if (!(LeftChild is null)) LeftChild.CreateRooms();
+                if (!(RightChild is null)) RightChild.CreateRooms();
+            }
+            else
+            {
+                var roomSize = new Size(
+                    randGenerator.Next(15, Width - indent - 1),
+                    randGenerator.Next(15, Height - indent - 1)
+                    );
+                var roomPos = new Point(
+                    randGenerator.Next(indent, Width - roomSize.Width - 1),
+                    randGenerator.Next(indent, Height - roomSize.Height - 1)
+                    );
+
+                Room = new Rectangle(X + roomPos.X, Y + roomPos.Y, roomSize.Width, roomSize.Height);
+            }
+            
         }
     }
 }

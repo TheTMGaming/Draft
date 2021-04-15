@@ -55,6 +55,7 @@ namespace Top_Down_shooter
                     index++;
                 }
             }
+            root.CreateRooms();
 
             return leaves;
         }
