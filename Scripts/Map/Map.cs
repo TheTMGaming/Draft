@@ -28,7 +28,7 @@ namespace Top_Down_shooter
         {
             var randGenerator = new Random();
             
-            var root = new Leaf(0, 0, Width, Height);
+            var root = new Leaf(0, 0, Width, Height, minLeafSize);
             leaves.Add(root);
 
             var didSplite = true;

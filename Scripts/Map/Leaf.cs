@@ -24,12 +24,13 @@ namespace Top_Down_shooter
         private readonly float aspectRation = 0.25f;
         private readonly int minLeafSize = 6;
 
-        public Leaf(int x, int y, int width, int height)
+        public Leaf(int x, int y, int width, int height, int minLeafSize)
         {
             X = x;
             Y = y;
             Width = width;
             Height = height;
+            this.minLeafSize = minLeafSize;
         }
 
         public bool Split()
@@ -53,13 +54,13 @@ namespace Top_Down_shooter
 
             if (isHeightSplited)
             {
-                RightChild = new Leaf(X, Y, Width, splitOffset);
-                LeftChild = new Leaf(X, Y + splitOffset, Width, Height - splitOffset);
+                RightChild = new Leaf(X, Y, Width, splitOffset, minLeafSize);
+                LeftChild = new Leaf(X, Y + splitOffset, Width, Height - splitOffset, minLeafSize);
             }
             else
             {
-                RightChild = new Leaf(X, Y, splitOffset, Height);
-                LeftChild = new Leaf(X + splitOffset, Y, Width - splitOffset, Height);
+                RightChild = new Leaf(X, Y, splitOffset, Height, minLeafSize);
+                LeftChild = new Leaf(X + splitOffset, Y, Width - splitOffset, Height, minLeafSize);
             }
 
             return true;
