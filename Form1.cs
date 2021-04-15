@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Top_Down_shooter
 {
     public class Form1 : Form
     {
         private readonly GameModel gameModel;
+
+        private List<Leaf> leaves;
 
         public Form1()
         {
@@ -15,6 +18,7 @@ namespace Top_Down_shooter
             CenterToScreen();
 
             gameModel = new GameModel();
+            leaves = new Map(Width, Height).CreateRandomMap();
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -35,11 +39,16 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            foreach (var sprite in gameModel.GameSprites)
-                DrawSprite(g, sprite);
+            //foreach (var sprite in gameModel.GameSprites)
+            //    DrawSprite(g, sprite);
 
-            foreach (var ui in gameModel.UI)
-                ui.Draw(g);
+            //foreach (var ui in gameModel.UI)
+            //    ui.Draw(g);
+
+            foreach (var leaf in leaves)
+            {
+                g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
+            }
         }
 
         protected override void OnMouseClick(MouseEventArgs e)

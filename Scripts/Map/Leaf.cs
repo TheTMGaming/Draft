@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Numerics;
 
-namespace Top_Down_shooter.Scripts.Map
+namespace Top_Down_shooter
 {
     class Leaf
     {
