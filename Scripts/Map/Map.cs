@@ -12,11 +12,10 @@ namespace Top_Down_shooter
         public int Width { get; set; }
         public int Height { get; set; }
 
-        private readonly int maxLeafSize = 150;
-        private readonly int minLeafSize = 80;
-        private readonly float roomSplitChance = 0.75f;
+        private readonly int maxLeafSize = 500;
+        private readonly int minLeafSize = 200;
 
-        private List<Leaf> leaves = new List<Leaf>();
+        private Queue<Leaf> leaves = new Queue<Leaf>();
 
         public Map(int width, int height)
         {
@@ -24,40 +23,31 @@ namespace Top_Down_shooter
             Height = height;
         }
 
-        public List<Leaf> CreateRandomMap()
+        public IEnumerable<Leaf> CreateRandomMap()
         {
             var randGenerator = new Random();
             
             var root = new Leaf(0, 0, Width, Height, minLeafSize);
-            leaves.Add(root);
+            leaves.Enqueue(root);
 
-            var didSplite = true;
-            while (didSplite)
+            while (leaves.Count > 0)
             {
-                didSplite = false;
+                var leaf = leaves.Dequeue();
 
-                var index = 0;
-                while (index < leaves.Count)
+                if (leaf.Width > minLeafSize && leaf.Height > minLeafSize)
                 {
-                    var leaf = leaves[index];
-                    if (leaf.LeftChild is null && leaf.RightChild is null)
+                    if (leaf.Split())
                     {
-                        if (leaf.Width > maxLeafSize || leaf.Height > maxLeafSize || randGenerator.NextDouble() >= 1 - roomSplitChance)
-                        {
-                            if (leaf.Split())
-                            {
-                                leaves.Add(leaf.RightChild);
-                                leaves.Add(leaf.LeftChild);
-                                didSplite = true;
-                            }
-                        }
+                        leaves.Enqueue(leaf.RightChild);
+                        leaves.Enqueue(leaf.LeftChild);
                     }
-                    index++;
+                    
                 }
-            }
-            root.CreateRooms();
 
-            return leaves;
+                yield return leaf;
+            }
+
+            root.CreateRooms();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Top_Down_shooter
         public List<Rectangle> Halls { get; set; }
 
         private readonly float aspectRation = 0.25f;
-        private readonly int minLeafSize = 6;
+        private readonly int minLeafSize;
         private readonly int indent = 3;
         private readonly Random randGenerator;
 
@@ -38,13 +38,11 @@ namespace Top_Down_shooter
 
         public bool Split()
         {
-            if (!(LeftChild is null) || !(RightChild is null))
-                return false;
-
             var isHeightSplited = randGenerator.NextDouble() > 0.5;
-            if (Width > Height && Width / Height >= 1 + aspectRation)
+
+            if (Width > Height && 1.0 * Width / Height >= 1 + aspectRation)
                 isHeightSplited = false;
-            else if (Height > Width && Height / Width >= 1 + aspectRation)
+            else if (Height > Width && 1.0 * Height / Width >= 1 + aspectRation)
                 isHeightSplited = true;
 
             var maxLeafSize = (isHeightSplited ? Height : Width) - minLeafSize;

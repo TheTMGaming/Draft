@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Top_Down_shooter
 {
@@ -9,7 +10,7 @@ namespace Top_Down_shooter
     {
         private readonly GameModel gameModel;
 
-        private List<Leaf> leaves;
+        private readonly List<Leaf> leaves;
 
         public Form1()
         {
@@ -18,7 +19,7 @@ namespace Top_Down_shooter
             CenterToScreen();
 
             gameModel = new GameModel();
-            leaves = new Map(Width, Height).CreateRandomMap();
+            leaves = new Map(Width * 3, Height * 3).CreateRandomMap().ToList();
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -47,12 +48,12 @@ namespace Top_Down_shooter
 
             foreach (var leaf in leaves)
             {
-                //g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
+                g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
                 g.DrawRectangle(new Pen(Color.Black), leaf.Room.X, leaf.Room.Y, leaf.Room.Width, leaf.Room.Height);
 
                 if (leaf.Halls is null) continue;
-                foreach (var hall in leaf.Halls)
-                    g.DrawRectangle(new Pen(Color.Yellow), hall.X, hall.Y, hall.Width, hall.Height);
+                //foreach (var hall in leaf.Halls)
+                //    g.DrawRectangle(new Pen(Color.Yellow), hall.X, hall.Y, hall.Width, hall.Height);
             }
         }
 
