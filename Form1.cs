@@ -47,8 +47,12 @@ namespace Top_Down_shooter
 
             foreach (var leaf in leaves)
             {
-                g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
+                //g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
                 g.DrawRectangle(new Pen(Color.Black), leaf.Room.X, leaf.Room.Y, leaf.Room.Width, leaf.Room.Height);
+
+                if (leaf.Halls is null) continue;
+                foreach (var hall in leaf.Halls)
+                    g.DrawRectangle(new Pen(Color.Yellow), hall.X, hall.Y, hall.Width, hall.Height);
             }
         }
 

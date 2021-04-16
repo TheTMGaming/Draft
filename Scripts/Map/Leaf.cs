@@ -73,6 +73,11 @@ namespace Top_Down_shooter
             {
                 if (!(LeftChild is null)) LeftChild.CreateRooms();
                 if (!(RightChild is null)) RightChild.CreateRooms();
+
+                if (!(LeftChild is null) && !(RightChild is null))
+                {
+                    CreateHall();
+                }
             }
             else
             {
@@ -86,8 +91,119 @@ namespace Top_Down_shooter
                     );
 
                 Room = new Rectangle(X + roomPos.X, Y + roomPos.Y, roomSize.Width, roomSize.Height);
+            }     
+        }
+
+        public Rectangle GetRoom()
+        {
+            if (Room != Rectangle.Empty)
+                return Room;
+            else
+            {
+                var leftRoom = LeftChild?.GetRoom();
+                var rightRoom = RightChild?.GetRoom();
+
+                return (rightRoom is null ? leftRoom : leftRoom is null ? leftRoom : randGenerator.Next() > .5 ? leftRoom : rightRoom).Value;
             }
-            
+        }
+
+        public void CreateHall()
+        {
+            var leftRoom = LeftChild.GetRoom();
+            var rightRoom = RightChild.GetRoom();
+
+            Halls = new List<Rectangle>();
+
+            var point1 = new Point(
+                randGenerator.Next(leftRoom.Left + 1, leftRoom.Right - 2),
+                randGenerator.Next(leftRoom.Top + 1, leftRoom.Bottom - 2)
+                );
+
+            var point2 = new Point(
+                randGenerator.Next(rightRoom.Left + 1, rightRoom.Right - 2),
+                randGenerator.Next(rightRoom.Top + 1, rightRoom.Bottom - 2)
+                );
+
+            var width = point2.X - point1.X;
+            var height = point2.Y - point1.Y;
+
+            if (width < 0)
+            {
+                if (height < 0)
+                {
+                    if (randGenerator.NextDouble() < .5)
+                    {
+                        Halls.Add(new Rectangle(point2.X, point1.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point1.X, point1.Y, 1, Math.Abs(height)));
+                    }
+                    else
+                    {
+                        Halls.Add(new Rectangle(point2.X, point2.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point1.X, point2.Y, 1, Math.Abs(height)));
+                    }
+                }
+                else if (height > 0)
+                {
+                    if (randGenerator.NextDouble() < .5)
+                    {
+                        Halls.Add(new Rectangle(point2.X, point1.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point2.X, point1.Y, 1, Math.Abs(height)));
+                    }
+                    else
+                    {
+                        Halls.Add(new Rectangle(point2.X, point2.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point1.X, point1.Y, 1, Math.Abs(height)));
+                    }
+                }
+                else
+                {
+                    Halls.Add(new Rectangle(point2.X, point2.Y, Math.Abs(width), 1));
+                }
+            }
+            else if (width > 0)
+            {
+                if (height < 0)
+                {
+                    if (randGenerator.NextDouble() < 0.5)
+                    {
+                        Halls.Add(new Rectangle(point1.X, point2.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point1.X, point2.Y, 1, Math.Abs(height)));
+                    }
+                    else
+                    {
+                        Halls.Add(new Rectangle(point1.X, point1.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point2.X, point2.Y, 1, Math.Abs(height)));
+                    }
+                }
+                else if (height > 0)
+                {
+                    if (randGenerator.NextDouble() < 0.5)
+                    {
+                        Halls.Add(new Rectangle(point1.X, point1.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point2.X, point1.Y, 1, Math.Abs(height)));
+                    }
+                    else
+                    {
+                        Halls.Add(new Rectangle(point1.X, point2.Y, Math.Abs(width), 1));
+                        Halls.Add(new Rectangle(point1.X, point1.Y, 1, Math.Abs(height)));
+                    }
+                }
+                else
+                {
+                    Halls.Add(new Rectangle(point1.X, point1.Y, Math.Abs(width), 1));
+                }
+            }
+            else
+            {
+                if (height < 0)
+                {
+                    Halls.Add(new Rectangle(point2.X, point2.Y, 1, Math.Abs(height)));
+                }
+                else if (height > 0)
+                {
+                    Halls.Add(new Rectangle(point1.X, point1.Y, 1, Math.Abs(height)));
+                }
+            }
         }
     }
 }

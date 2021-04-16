@@ -42,7 +42,7 @@ namespace Top_Down_shooter
                     var leaf = leaves[index];
                     if (leaf.LeftChild is null && leaf.RightChild is null)
                     {
-                        if (leaf.Width > maxLeafSize || leaf.Height > maxLeafSize || randGenerator.NextDouble() >= roomSplitChance)
+                        if (leaf.Width > maxLeafSize || leaf.Height > maxLeafSize || randGenerator.NextDouble() >= 1 - roomSplitChance)
                         {
                             if (leaf.Split())
                             {
