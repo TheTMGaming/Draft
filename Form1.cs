@@ -67,6 +67,7 @@ namespace Top_Down_shooter
             }
         }
 
+
         protected override void OnKeyUp(KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -101,7 +102,7 @@ namespace Top_Down_shooter
 
             for (var node = gameModel.GameSprites.First; !(node is null); node = node.Next)
             {
-                if (node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height)
+                if ((node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height) && !(node.Value is Player))
                 {
                     gameModel.GameSprites.Remove(node);
                     continue;
