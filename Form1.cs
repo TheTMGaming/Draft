@@ -35,6 +35,13 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
+            g.DrawRectangle(new Pen(Color.Black), 140, 140, 64, 64);
+            var image = new Bitmap("Sprites/Grass.png");
+            g.DrawImage(
+                image, 300, 300,
+                new Rectangle(64*3, 0, 64, 64),
+                GraphicsUnit.Pixel);
+
             foreach (var sprite in gameModel.GameSprites)
                 DrawSprite(g, sprite);
 
