@@ -55,6 +55,7 @@
     <Compile Include="Scripts\Gun.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Map.cs" />
     <Compile Include="Scripts\Sprite.cs" />
     <Compile Include="Scripts\UI.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
