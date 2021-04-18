@@ -22,15 +22,15 @@ namespace Top_Down_shooter
         {
             var rand = new Random();
 
-            for (var row = sizeTile / 2; row <= Width; row += sizeTile)
+            for (var x = sizeTile / 2; x < Width; x += sizeTile)
             {
-                for (var col = sizeTile / 2; col <= Height; col += sizeTile)
+                for (var y = sizeTile / 2; y < Height; y += sizeTile)
                 {
-                    map[row / sizeTile, col / sizeTile] = new Sprite()
+                    map[x / sizeTile, y / sizeTile] = new Sprite()
                     {
-                        X = col,
-                        Y = row,
-                        Image = new Bitmap("Sprites/Grass.png")
+                        X = x,
+                        Y = y,
+                        Image = new Bitmap("Sprites/Grass.png").Extract(new Rectangle(64 * rand.Next(0, 4), 0, 64, 64))
                     };
                 }
             }

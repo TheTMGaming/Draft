@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Top_Down_shooter.Scripts
+namespace Top_Down_shooter
 {
     static class ExtensionsBitmap
     {

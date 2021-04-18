@@ -51,6 +51,7 @@
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Scripts\ExtensionsBitmap.cs" />
     <Compile Include="Scripts\GameModel.cs" />
     <Compile Include="Scripts\Gun.cs" />
     <Compile Include="Program.cs" />
