@@ -7,8 +7,8 @@ namespace Top_Down_shooter
     {
         private readonly Rectangle bounds;
         private readonly int depth;
-        private readonly Rectangle[] objects;
-        private readonly QuadTree[] nodes;
+        private readonly List<Rectangle> objects;
+        private readonly List<QuadTree> nodes;
 
         private static int maxObjectsCount = 10;
         private static int maxLevels = 4;
@@ -17,7 +17,8 @@ namespace Top_Down_shooter
         {
             this.bounds = bounds;
             depth = nextDepth;
-            nodes = new QuadTree[4];
+            nodes = new List<QuadTree>();
+            objects = new List<Rectangle>();
         }
 
         private void Split()
@@ -62,6 +63,5 @@ namespace Top_Down_shooter
 
             return list;
         }
-
     }
 }
