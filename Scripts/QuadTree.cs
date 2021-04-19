@@ -11,8 +11,8 @@ namespace Top_Down_shooter
         private List<Rectangle> objects;
         private readonly List<QuadTree> nodes;
 
-        private static int maxObjectsCount = 10;
-        private static int maxDepth = 4;
+        private readonly int maxObjectsCount = 10;
+        private readonly int maxDepth = 4;
 
         public QuadTree(Rectangle bounds, int nextDepth)
         {
