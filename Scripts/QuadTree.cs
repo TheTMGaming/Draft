@@ -22,16 +22,19 @@ namespace Top_Down_shooter
             objects = new List<Rectangle>();
         }
 
-        public List<Rectangle> GetCollidedRectanglesWith(Rectangle rect)
+        public List<Rectangle> GetCandidatesToCollide(Rectangle rect)
         {
             var returnedList = new List<Rectangle>(objects);
 
+            if (nodes.Count > 0)
             return returnedList.Concat(
                 GetQuadTreesBelongsTo(rect)
-                 .SelectMany(node => node.GetCollidedRectanglesWith(rect))
+                 .SelectMany(node => node.GetCandidatesToCollide(rect))
                 )
                 .Distinct()
                 .ToList();
+
+            return returnedList;
         }
 
         private void Split()
@@ -39,21 +42,21 @@ namespace Top_Down_shooter
             var subWidth = bounds.Width / 2;
             var subHeight = bounds.Height / 2;
 
-            nodes[0] = new QuadTree(
+            nodes.Add(new QuadTree(
                 new Rectangle(bounds.X + subWidth, bounds.Y, subWidth, subHeight),
-                depth + 1);
+                depth + 1));
 
-            nodes[1] = new QuadTree(
+            nodes.Add(new QuadTree(
                 new Rectangle(bounds.X, bounds.Y, subWidth, subHeight),
-                depth + 1);
+                depth + 1));
 
-            nodes[2] = new QuadTree(
+            nodes.Add(new QuadTree(
                 new Rectangle(bounds.X, bounds.Y + subHeight, subWidth, subHeight),
-                depth + 1);
+                depth + 1));
 
-            nodes[3] = new QuadTree(
+            nodes.Add(new QuadTree(
                 new Rectangle(bounds.X + subWidth, bounds.Y + subHeight, subWidth, subHeight),
-                depth + 1);
+                depth + 1));
         }
 
         private List<QuadTree> GetQuadTreesBelongsTo(Rectangle rect)
@@ -83,7 +86,7 @@ namespace Top_Down_shooter
             {
                 foreach (var node in GetQuadTreesBelongsTo(rect))
                     node.Insert(rect);
-
+                
                 return;
             }
 
