@@ -22,8 +22,8 @@ namespace Top_Down_shooter
 
     class CharacterRender : IRender, ISlicedRender
     {
-        public int StateCount { get; protected set; }
-        public int FrameCount { get; protected set; }
+        public int StateCount { get; set; }
+        public int FrameCount { get; set; }
         public Size FrameSize => new Size(atlasAnimation.Image.Width / FrameCount, atlasAnimation.Image.Height / StateCount);
 
         private readonly Character character;
@@ -53,7 +53,7 @@ namespace Top_Down_shooter
 
         public void PlayAnimation() => frame = (frame + 1) % FrameCount;
 
-        public void ChangeState(int rowInAtlas)
+        public void SetState(int rowInAtlas)
         {
             if (rowInAtlas < 0 || rowInAtlas >= StateCount)
                 throw new ArgumentException("The number of state is not in Atlas", "rowInAtlas");
@@ -61,12 +61,14 @@ namespace Top_Down_shooter
             state = rowInAtlas;
         }
 
-        public static AnimationTypes GetAnimationType(Character character)
+        public void ChangeTypeAnimation()
         {
-            if (character.DirectionX == DirectionX.Idle && character.DirectionY == DirectionY.Idle)
-                return character.Sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
+            var rowInAtlas = character.Sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
 
-            return character.Sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
+            if (character.DirectionX == DirectionX.Idle && character.DirectionY == DirectionY.Idle)
+                rowInAtlas = character.Sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
+
+            state = (int)rowInAtlas;
         }
     }
 
