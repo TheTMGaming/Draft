@@ -21,7 +21,13 @@ namespace Top_Down_shooter
         {
             foreach (var obj in gameObjects)
             {
+                if (obj is CharacterRender character)
+                {
+                    character.ChangeTypeAnimation();
+                    character.PlayAnimation();
+                }
 
+                obj.Draw(g);
             }
         }
     }
