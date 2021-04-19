@@ -37,6 +37,33 @@ namespace Top_Down_shooter
             return returnedList;
         }
 
+        public void Insert(Rectangle rect)
+        {
+            if (nodes.Count > 0)
+            {
+                foreach (var node in GetQuadTreesBelongsTo(rect))
+                    node.Insert(rect);
+
+                return;
+            }
+
+            objects.Add(rect);
+
+            if (objects.Count > maxObjectsCount && depth < maxDepth)
+            {
+                if (nodes.Count == 0)
+                    Split();
+
+                foreach (var obj in objects)
+                {
+                    foreach (var node in GetQuadTreesBelongsTo(obj))
+                        node.Insert(obj);
+                }
+
+                objects = new List<Rectangle>();
+            }
+        }
+
         private void Split()
         {
             var subWidth = bounds.Width / 2;
@@ -78,33 +105,6 @@ namespace Top_Down_shooter
                 list.Add(nodes[3]);
 
             return list;
-        }
-
-        private void Insert(Rectangle rect)
-        {
-            if (nodes.Count > 0)
-            {
-                foreach (var node in GetQuadTreesBelongsTo(rect))
-                    node.Insert(rect);
-                
-                return;
-            }
-
-            objects.Add(rect);
-
-            if (objects.Count > maxObjectsCount && depth < maxDepth)
-            {
-                if (nodes.Count == 0)
-                    Split();
-
-                foreach (var obj in objects)
-                {
-                    foreach (var node in GetQuadTreesBelongsTo(obj))
-                        node.Insert(obj);
-                }
-
-                objects = new List<Rectangle>();
-            }
         }
     }
 }
