@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Top_Down_shooter
 {
@@ -19,6 +20,18 @@ namespace Top_Down_shooter
             depth = nextDepth;
             nodes = new List<QuadTree>();
             objects = new List<Rectangle>();
+        }
+
+        public List<Rectangle> GetCollidedRectanglesWith(Rectangle rect)
+        {
+            var returnedList = new List<Rectangle>(objects);
+
+            return returnedList.Concat(
+                GetQuadTreesBelongsTo(rect)
+                 .SelectMany(node => node.GetCollidedRectanglesWith(rect))
+                )
+                .Distinct()
+                .ToList();
         }
 
         private void Split()
@@ -43,7 +56,7 @@ namespace Top_Down_shooter
                 depth + 1);
         }
 
-        public List<QuadTree> GetQuadTreesBelongsTo(Rectangle rect)
+        private List<QuadTree> GetQuadTreesBelongsTo(Rectangle rect)
         {
             var list = new List<QuadTree>();
             var verticalMidpoint = bounds.X + bounds.Width / 2;
@@ -64,7 +77,7 @@ namespace Top_Down_shooter
             return list;
         }
 
-        public void Insert(Rectangle rect)
+        private void Insert(Rectangle rect)
         {
             if (nodes.Count > 0)
             {
