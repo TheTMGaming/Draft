@@ -99,9 +99,9 @@ namespace Top_Down_shooter
                     foreach (var node in GetQuadTreesBelongsTo(obj))
                         node.Insert(obj);
                 }
-            }
 
-            objects = new List<Rectangle>();
+                objects = new List<Rectangle>();
+            }
         }
     }
 }
