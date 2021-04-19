@@ -8,7 +8,10 @@ namespace Top_Down_shooter
     interface IRender
     {
         void Draw(Graphics g);
+    }
 
+    interface ISlicedRender
+    {
         void Draw(Graphics g, Point startSlice, Size sizeSlice);
     }
 
@@ -17,7 +20,7 @@ namespace Top_Down_shooter
         IdleRight, IdleLeft, RunRight, RunLeft
     }
 
-    class CharacterRender : IRender
+    class CharacterRender : IRender, ISlicedRender
     {
         public int StateCount { get; protected set; }
         public int FrameCount { get; protected set; }
@@ -67,7 +70,7 @@ namespace Top_Down_shooter
         }
     }
 
-    class SpriteRender : IRender
+    class SpriteRender : IRender, ISlicedRender
     {
         private readonly Sprite sprite;
 
@@ -96,6 +99,7 @@ namespace Top_Down_shooter
         private readonly int y;
 
         private readonly HealthBar healthBar;
+        private readonly Size sizeBar;
 
         private readonly SpriteRender background;
         private readonly SpriteRender bar;
@@ -104,8 +108,9 @@ namespace Top_Down_shooter
         private readonly Point offsetBackground = new Point(140, 20);
         private readonly Point offsetBar = new Point(140, 20);
 
-        public HealthBarRender(int xLeft, int yTop)
+        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop)
         {
+            this.healthBar = healthBar;
             x = xLeft;
             y = yTop;
 
@@ -115,14 +120,20 @@ namespace Top_Down_shooter
                 new Sprite(x + offsetBackground.X, y + offsetBackground.Y, 0, new Bitmap(@"Sprites/BackgroundHealthBar.png"))
                 );
 
+            var imageBar = new Bitmap(@"Sprites/HealthBar.png");
+            sizeBar = imageBar.Size;
             bar = new SpriteRender(
-                new Sprite(x + offsetBar.X, y + offsetBar.Y, 0, new Bitmap(@"Sprites/HealthBar.png"))
+                new Sprite(x + offsetBar.X, y + offsetBar.Y, 0, imageBar)
                 ); 
         }
 
         public void Draw(Graphics g)
         {
             heart.Draw(g);
+
+            background.Draw(g);
+
+            bar.Draw(g, new Point(0, 0), new Size(sizeBar.Width * healthBar.Percent / 100, sizeBar.Height));
         }
     }
 }
