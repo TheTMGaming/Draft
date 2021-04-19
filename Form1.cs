@@ -7,7 +7,7 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private readonly GameModel gameModel;
-        private readonly Sprite[,] map;
+        private readonly Map map;
 
         public Form1()
         {
@@ -16,7 +16,7 @@ namespace Top_Down_shooter
             CenterToScreen();
 
             gameModel = new GameModel();
-            map = new Map(Width, Height).CreateMap();
+            map = new Map(Width, Height);
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -112,6 +112,7 @@ namespace Top_Down_shooter
                     gameModel.GameSprites.Remove(node);
                     continue;
                 }
+
 
                 node.Value.Move();
             }
