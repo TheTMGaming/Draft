@@ -34,14 +34,6 @@ namespace Top_Down_shooter
                     };
                 }
             }
-
-            map[0, 0] = new Sprite
-            {
-                X = 32,
-                Y = 32,
-                Image = new Bitmap("Sprite/Box.png");
-            }
-
             return map;
         }
 
