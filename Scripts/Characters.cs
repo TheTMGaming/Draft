@@ -4,11 +4,6 @@ using System.Drawing;
 namespace Top_Down_shooter
 {
     #region
-    enum AnimationTypes
-    {
-        IdleRight, IdleLeft, RunRight, RunLeft
-    }
-
     enum DirectionX
     {
         Left = -1, Idle = 0, Right = 1 
@@ -25,15 +20,17 @@ namespace Top_Down_shooter
     }
     #endregion
 
-    abstract class Character : AnimationSprite
+    abstract class Character
     {
+        public int X { get; set; }
+        public int Y { get; set; }
         public int Speed { get; set; }
         public int Health { get; set; }
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
 
-        public override void Move()
+        public virtual void Move()
         {
             X += (int)Math.Round(Speed * (int)DirectionX * (DirectionY != DirectionY.Idle ? Math.Sqrt(2) / 2 : 1));
             Y += (int)Math.Round(Speed * (int)DirectionY * (DirectionX != DirectionX.Idle ? Math.Sqrt(2) / 2 : 1));
@@ -44,22 +41,9 @@ namespace Top_Down_shooter
             DirectionX = directionX;
             if (DirectionX != DirectionX.Idle)
                 Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
-            ChangeState((int)GetAnimationType(this));
         }
 
-        public virtual void ChangeDirection(DirectionY directionY)
-        {
-            DirectionY = directionY;
-            ChangeState((int)GetAnimationType(this));
-        }
-
-        public static AnimationTypes GetAnimationType(Character character)
-        {
-            if (character.DirectionX == DirectionX.Idle && character.DirectionY == DirectionY.Idle)
-                return character.Sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
-
-            return character.Sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
-        }
+        public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;   
     }
 
     class Player : Character
@@ -68,17 +52,13 @@ namespace Top_Down_shooter
 
         private readonly Point OffsetPositionGun = new Point(20, 38);
 
-        public Player(int x, int y, int speed, Bitmap atlas, int stateCountAnimation, int frameCountAnimation)
+        public Player(int x, int y, int speed)
         {
             X = x;
             Y = y;
             Speed = speed;
 
-            Image = atlas;
-            StateCount = stateCountAnimation;
-            FrameCount = frameCountAnimation;
-
-            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y, new Bitmap(@"Sprites/Gun.png"));
+            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
         }
 
         public override void Move()

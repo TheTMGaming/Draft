@@ -17,6 +17,7 @@ namespace Top_Down_shooter
 
             gameModel = new GameModel();
             map = new Map(Width, Height);
+            
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -37,7 +38,7 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            foreach (var a in map)
+            foreach (var a in map.Tiles)
                 a.Draw(g);
 
             foreach (var sprite in gameModel.GameSprites)

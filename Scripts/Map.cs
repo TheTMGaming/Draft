@@ -16,9 +16,11 @@ namespace Top_Down_shooter
             Width = width;
             Height = height;
             Tiles = new Sprite[Width / sizeTile, Height / sizeTile];
+
+            CreateMap();
         }
 
-        public Sprite[,] CreateMap()
+        public void CreateMap()
         {
             var rand = new Random();
 
@@ -39,7 +41,6 @@ namespace Top_Down_shooter
                     };
                 }
             }
-            return Tiles;
         }
 
     }

@@ -9,25 +9,12 @@ namespace Top_Down_shooter
         public float Angle { get; set; }
         public Bitmap Image { get; set; }
 
-        public virtual void Draw(Graphics g)
+        public Sprite(int xLeft, int yTop, float angleInRadian, Bitmap image)
         {
-            Draw(g, new Point(0, 0), new Size(Image.Width, Image.Height));
-        }
-
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
-        {
-            g.DrawImage(
-               Image, X - Image.Width / 2, Y - Image.Height / 2,
-               new Rectangle(startSlice, sizeSlice),
-               GraphicsUnit.Pixel);
-        }
-
-        public virtual void Move() { }
-
-        public virtual void Move(int x, int y)
-        {
-            X = x;
-            Y = y;
+            X = xLeft;
+            Y = yTop;
+            Angle = angleInRadian;
+            Image = image;
         }
     }
 }
