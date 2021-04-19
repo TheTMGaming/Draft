@@ -13,7 +13,6 @@ namespace Top_Down_shooter
         IdleRight, IdleLeft, RunRight, RunLeft
     }
 
-
     class CharacterRender : IRender
     {
         public int StateCount { get; protected set; }
@@ -58,6 +57,24 @@ namespace Top_Down_shooter
                 return character.Sight == Sight.Left ? AnimationTypes.IdleLeft : AnimationTypes.IdleRight;
 
             return character.Sight == Sight.Left ? AnimationTypes.RunLeft : AnimationTypes.RunRight;
+        }
+    }
+
+    class SpriteRender : IRender
+    {
+        private readonly Sprite sprite;
+
+        public SpriteRender(Sprite sprite)
+        {
+            this.sprite = sprite;
+        }
+
+        public void Draw(Graphics g)
+        {
+            g.DrawImage(sprite.Image,
+                sprite.X, sprite.Y, 
+                new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height), 
+                GraphicsUnit.Pixel);
         }
     }
 }
