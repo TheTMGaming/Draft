@@ -11,6 +11,7 @@ namespace Top_Down_shooter
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public float Angle { get; set; }
 
         public readonly Point SpawnBullets = new Point(10, -10);
 
