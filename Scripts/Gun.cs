@@ -7,38 +7,42 @@ using System.Threading.Tasks;
 
 namespace Top_Down_shooter
 {
-    class Gun : Sprite
+    class Gun
     {
+        public int X { get; set; }
+        public int Y { get; set; }
+
         public readonly Point SpawnBullets = new Point(10, -10);
 
-        public Gun(int x, int y, Bitmap image)
+        public Gun(int x, int y)
         {
             X = x;
             Y = y;
-            Image = image;
         }
 
-        public override void Move(int x, int y)
+        public void Move(int x, int y)
         {
             X = x;
             Y = y;
         }
     }
 
-    class Bullet : Sprite
+    class Bullet
     {
+        public int X { get; set; }
+        public int Y { get; set; }
         public int Speed { get; set; }
+        public float Angle { get; set; }
 
-        public Bullet(int x, int y, int speed, float angle, Bitmap image)
+        public Bullet(int x, int y, int speed, float angle)
         {
             Speed = speed;
             X = x;
             Y = y;
             Angle = angle;
-            Image = image;
         }
 
-        public override void Move()
+        public void Move()
         {
             X += (int)(Speed * Math.Cos(Angle));
             Y += (int)(Speed * Math.Sin(Angle));
