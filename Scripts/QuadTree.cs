@@ -7,11 +7,11 @@ namespace Top_Down_shooter
     {
         private readonly Rectangle bounds;
         private readonly int depth;
-        private readonly List<Rectangle> objects;
+        private List<Rectangle> objects;
         private readonly List<QuadTree> nodes;
 
         private static int maxObjectsCount = 10;
-        private static int maxLevels = 4;
+        private static int maxDepth = 4;
 
         public QuadTree(Rectangle bounds, int nextDepth)
         {
@@ -62,6 +62,33 @@ namespace Top_Down_shooter
                 list.Add(nodes[3]);
 
             return list;
+        }
+
+        public void Insert(Rectangle rect)
+        {
+            if (nodes.Count > 0)
+            {
+                foreach (var node in GetQuadTreesBelongsTo(rect))
+                    node.Insert(rect);
+
+                return;
+            }
+
+            objects.Add(rect);
+
+            if (objects.Count > maxObjectsCount && depth < maxDepth)
+            {
+                if (nodes.Count == 0)
+                    Split();
+
+                foreach (var obj in objects)
+                {
+                    foreach (var node in GetQuadTreesBelongsTo(obj))
+                        node.Insert(obj);
+                }
+            }
+
+            objects = new List<Rectangle>();
         }
     }
 }
