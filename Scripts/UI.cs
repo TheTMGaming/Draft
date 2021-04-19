@@ -1,13 +1,8 @@
 ﻿using System.Drawing;
 
 namespace Top_Down_shooter
-{
-    interface IUserInterface
-    {
-        void Draw(Graphics g);
-    }
-
-    class HealthBar : IUserInterface
+{ 
+    class HealthBar
     {
         public int Percent
         {

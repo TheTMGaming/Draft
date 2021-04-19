@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 
 namespace Top_Down_shooter
@@ -6,6 +8,8 @@ namespace Top_Down_shooter
     interface IRender
     {
         void Draw(Graphics g);
+
+        void Draw(Graphics g, Point startSlice, Size sizeSlice);
     }
 
     enum AnimationTypes
@@ -33,11 +37,14 @@ namespace Top_Down_shooter
 
         public void Draw(Graphics g)
         {
-            g.DrawImage(
-               atlasAnimation.Image, character.X - FrameSize.Width / 2, character.Y - FrameSize.Height / 2,
-               new Rectangle(
-                   new Point(FrameSize.Width * frame, FrameSize.Height * state),
-                   FrameSize),
+            Draw(g, new Point(FrameSize.Width * frame, FrameSize.Height * state), FrameSize);
+        }
+
+        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        {
+            g.DrawImage(atlasAnimation.Image,
+               character.X - FrameSize.Width / 2, character.Y - FrameSize.Height / 2,
+               new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }
 
@@ -71,10 +78,51 @@ namespace Top_Down_shooter
 
         public void Draw(Graphics g)
         {
+            Draw(g, new Point(0, 0), new Size(sprite.Image.Width, sprite.Image.Height));
+        }
+
+        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        {
             g.DrawImage(sprite.Image,
-                sprite.X, sprite.Y, 
-                new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height), 
-                GraphicsUnit.Pixel);
+               sprite.X, sprite.Y,
+               new Rectangle(startSlice, sizeSlice),
+               GraphicsUnit.Pixel);
+        }
+    }
+
+    class HealthBarRender : IRender
+    {
+        private readonly int x;
+        private readonly int y;
+
+        private readonly HealthBar healthBar;
+
+        private readonly SpriteRender background;
+        private readonly SpriteRender bar;
+        private readonly SpriteRender heart;
+
+        private readonly Point offsetBackground = new Point(140, 20);
+        private readonly Point offsetBar = new Point(140, 20);
+
+        public HealthBarRender(int xLeft, int yTop)
+        {
+            x = xLeft;
+            y = yTop;
+
+            heart = new SpriteRender(new Sprite(x, y, 0, new Bitmap(@"Sprites/Heart.png")));
+
+            background = new SpriteRender(
+                new Sprite(x + offsetBackground.X, y + offsetBackground.Y, 0, new Bitmap(@"Sprites/BackgroundHealthBar.png"))
+                );
+
+            bar = new SpriteRender(
+                new Sprite(x + offsetBar.X, y + offsetBar.Y, 0, new Bitmap(@"Sprites/HealthBar.png"))
+                ); 
+        }
+
+        public void Draw(Graphics g)
+        {
+            heart.Draw(g);
         }
     }
 }
