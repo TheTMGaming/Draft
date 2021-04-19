@@ -12,8 +12,8 @@ namespace Top_Down_shooter
         public int Width { get; set; }
         public int Height { get; set; }
 
-        private readonly int maxLeafSize = 500;
-        private readonly int minLeafSize = 200;
+        //private readonly int maxLeafSize = 20;
+        private readonly int minLeafSize = 20;
 
         private Queue<Leaf> leaves = new Queue<Leaf>();
 
@@ -47,7 +47,7 @@ namespace Top_Down_shooter
                 yield return leaf;
             }
 
-            root.CreateRooms();
+            //root.CreateRooms();
         }
     }
 }

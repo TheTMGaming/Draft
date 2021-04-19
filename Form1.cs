@@ -19,7 +19,7 @@ namespace Top_Down_shooter
             CenterToScreen();
 
             gameModel = new GameModel();
-            leaves = new Map(Width * 3, Height * 3).CreateRandomMap().ToList();
+            leaves = new Map(Width, Height).CreateRandomMap().ToList();
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -46,7 +46,7 @@ namespace Top_Down_shooter
             //foreach (var ui in gameModel.UI)
             //    ui.Draw(g);
 
-            foreach (var leaf in leaves)
+            foreach (var leaf in new Map(Width, Height).CreateRandomMap())
             {
                 g.DrawRectangle(new Pen(Color.Black), leaf.X, leaf.Y, leaf.Width, leaf.Height);
                 g.DrawRectangle(new Pen(Color.Black), leaf.Room.X, leaf.Room.Y, leaf.Room.Width, leaf.Room.Height);
