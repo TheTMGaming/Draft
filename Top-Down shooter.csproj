@@ -58,7 +58,7 @@
     <Compile Include="GameRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\GameObjects\Map.cs" />
+    <Compile Include="Scripts\GameObjects\TileMap.cs" />
     <Compile Include="Scripts\QuadTree.cs" />
     <Compile Include="Scripts\Renders\CharacterRender.cs" />
     <Compile Include="Scripts\Renders\GunRender.cs" />
