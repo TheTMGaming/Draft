@@ -8,7 +8,7 @@ namespace Top_Down_shooter
     {
         private readonly GameModel gameModel;
         private readonly GameRender gameRender;
-        private readonly Map map;
+        //private readonly Map map;
 
         public Form1()
         {
@@ -24,7 +24,7 @@ namespace Top_Down_shooter
             updateGameLoop.Tick += (sender, args) => UpdateGameLoop();
 
             var playAnimations = new Timer();
-            playAnimations.Interval = 300;
+            playAnimations.Interval = 250;
             playAnimations.Tick += new EventHandler((sender, args) =>
             {
                 gameRender.PlayAnimations();

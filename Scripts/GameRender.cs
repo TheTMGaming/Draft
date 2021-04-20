@@ -12,13 +12,10 @@ namespace Top_Down_shooter
             gameObjects = new List<IRender>();
 
             var playerImg = new Bitmap("Sprites/Player.png");
-            gameObjects.Add(new CharacterRender(gameModel.Player, 
-                new Sprite(gameModel.Player.X - playerImg.Width / 4, gameModel.Player.Y - playerImg.Height / 8, 0, playerImg),
-                4, 2));
+            gameObjects.Add(new CharacterRender(gameModel.Player, playerImg, 4, 2));
 
             var gunImg = new Bitmap("Sprites/Gun.png");
-            gameObjects.Add(new GunRender(gameModel.Player.Gun,
-                new Sprite(gameModel.Player.Gun.X - gunImg.Width / 4, gameModel.Player.Gun.Y - gunImg.Height / 8, 0, gunImg)));
+            gameObjects.Add(new GunRender(gameModel.Player.Gun, gunImg));
             
         }
 
@@ -41,18 +38,5 @@ namespace Top_Down_shooter
                 }
             }
         }
-
-
-        //private void DrawSprite(Graphics g, Sprite sprite)
-        //{
-        //    g.TranslateTransform(sprite.X, sprite.Y);
-        //    g.RotateTransform((float)(sprite.Angle * 180 / Math.PI));
-        //    g.TranslateTransform(-sprite.X, -sprite.Y);
-
-        //    sprite.Draw(g);
-
-        //    g.ResetTransform();
-        //}
-
     }
 }

@@ -24,15 +24,15 @@ namespace Top_Down_shooter
     {
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
-        public Size FrameSize => new Size(atlasAnimation.Image.Width / FrameCount, atlasAnimation.Image.Height / StateCount);
+        public Size FrameSize => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
 
         private readonly Character character;
-        private readonly Sprite atlasAnimation;
+        private readonly Bitmap atlasAnimation;
 
         private int frame;
         private int state;
 
-        public CharacterRender(Character character, Sprite atlasAnimation, int stateCount, int frameCount)
+        public CharacterRender(Character character, Bitmap atlasAnimation, int stateCount, int frameCount)
         {
             this.character = character;
             this.atlasAnimation = atlasAnimation;
@@ -47,7 +47,7 @@ namespace Top_Down_shooter
 
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
-            g.DrawImage(atlasAnimation.Image,
+            g.DrawImage(atlasAnimation,
                character.X - FrameSize.Width / 2, character.Y - FrameSize.Height / 2,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
@@ -76,36 +76,39 @@ namespace Top_Down_shooter
 
     class SpriteRender : IRender, IAnimationRender
     {
-        private readonly Sprite sprite;
+        private readonly int x, y;
+        private readonly Bitmap image;
 
-        public SpriteRender(Sprite sprite)
+        public SpriteRender(int xLeft, int yTop, Bitmap image)
         {
-            this.sprite = sprite;
+            x = xLeft;
+            y = yTop;
+            this.image = image;
         }
 
         public void Draw(Graphics g)
         {
-            Draw(g, new Point(0, 0), new Size(sprite.Image.Width, sprite.Image.Height));
+            Draw(g, new Point(0, 0), new Size(image.Width, image.Height));
         }
 
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
-            g.DrawImage(sprite.Image,
-               sprite.X, sprite.Y,
-               new Rectangle(startSlice, sizeSlice),
-               GraphicsUnit.Pixel);
+            g.DrawImage(image,
+                x, y,
+                new Rectangle(startSlice, sizeSlice),
+                GraphicsUnit.Pixel);
         }
     }
 
     class GunRender : IRender
     {
         private readonly Gun gun;
-        private readonly Sprite sprite;
+        private readonly Bitmap image;
 
-        public GunRender(Gun gun, Sprite sprite)
+        public GunRender(Gun gun, Bitmap image)
         {
             this.gun = gun;
-            this.sprite = sprite;
+            this.image = image;
         }
 
         public void Draw(Graphics g)
@@ -113,10 +116,11 @@ namespace Top_Down_shooter
             g.TranslateTransform(gun.X, gun.Y);
             g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
             g.TranslateTransform(-gun.X, -gun.Y);
-            g.DrawImage(sprite.Image,
-               gun.X - sprite.Image.Width / 2, gun.Y - sprite.Image.Height / 2,
-               new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height),
-               GraphicsUnit.Pixel);
+
+            g.DrawImage(image,
+                gun.X - image.Width / 2, gun.Y - image.Height / 2,
+                new Rectangle(0, 0, image.Width, image.Height),
+                GraphicsUnit.Pixel);
 
             g.ResetTransform();
         }
@@ -143,17 +147,14 @@ namespace Top_Down_shooter
             x = xLeft;
             y = yTop;
 
-            heart = new SpriteRender(new Sprite(x, y, 0, new Bitmap(@"Sprites/Heart.png")));
+            heart = new SpriteRender(x, y, new Bitmap(@"Sprites/Heart.png"));
 
             background = new SpriteRender(
-                new Sprite(x + offsetBackground.X, y + offsetBackground.Y, 0, new Bitmap(@"Sprites/BackgroundHealthBar.png"))
+                x + offsetBackground.X, y + offsetBackground.Y, new Bitmap(@"Sprites/BackgroundHealthBar.png")
                 );
 
             var imageBar = new Bitmap(@"Sprites/HealthBar.png");
-            sizeBar = imageBar.Size;
-            bar = new SpriteRender(
-                new Sprite(x + offsetBar.X, y + offsetBar.Y, 0, imageBar)
-                ); 
+            bar = new SpriteRender(x + offsetBar.X, y + offsetBar.Y, imageBar); 
         }
 
         public void Draw(Graphics g)
