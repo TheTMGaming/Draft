@@ -24,23 +24,23 @@ namespace Top_Down_shooter
         {
             var rand = new Random();
 
-            for (var x = sizeTile / 2; x < Width; x += sizeTile)
-            {
-                for (var y = sizeTile / 2; y < Height; y += sizeTile)
-                {
-                    var image = new Bitmap("Sprites/Grass.png").Extract(new Rectangle(64 * rand.Next(0, 4), 0, 64, 64));
+            //for (var x = sizeTile / 2; x < Width; x += sizeTile)
+            //{
+            //    for (var y = sizeTile / 2; y < Height; y += sizeTile)
+            //    {
+            //        var image = new Bitmap("Sprites/Grass.png").Extract(new Rectangle(64 * rand.Next(0, 4), 0, 64, 64));
 
-                    if (rand.NextDouble() > 0.95)
-                        image = new Bitmap("Sprites/Box.png");
+            //        if (rand.NextDouble() > 0.95)
+            //            image = new Bitmap("Sprites/Box.png");
 
-                    Tiles[x / sizeTile, y / sizeTile] = new Sprite()
-                    {
-                        X = x,
-                        Y = y,
-                        Image = image
-                    };
-                }
-            }
+            //        Tiles[x / sizeTile, y / sizeTile] = new Sprite()
+            //        {
+            //            X = x,
+            //            Y = y,
+            //            Image = image
+            //        };
+            //    }
+            //}
         }
 
     }

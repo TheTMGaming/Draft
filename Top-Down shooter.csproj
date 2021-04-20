@@ -53,11 +53,13 @@
     </Compile>
     <Compile Include="Scripts\ExtensionsBitmap.cs" />
     <Compile Include="Scripts\GameModel.cs" />
+    <Compile Include="Scripts\GameRender.cs" />
     <Compile Include="Scripts\Gun.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Map.cs" />
     <Compile Include="Scripts\QuadTree.cs" />
+    <Compile Include="Scripts\Renders.cs" />
     <Compile Include="Scripts\Sprite.cs" />
     <Compile Include="Scripts\UI.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

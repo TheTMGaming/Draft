@@ -15,6 +15,8 @@ namespace Top_Down_shooter
         {
             Player = new Player(100, 100, 5);
             HealthBar = new HealthBar(100);
+
+            Bullets = new LinkedList<Bullet>();
         }
 
         public void Shoot()

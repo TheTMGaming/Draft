@@ -10,7 +10,7 @@ namespace Top_Down_shooter
         void Draw(Graphics g);
     }
 
-    interface ISlicedRender
+    interface IAnimationRender
     {
         void Draw(Graphics g, Point startSlice, Size sizeSlice);
     }
@@ -20,7 +20,7 @@ namespace Top_Down_shooter
         IdleRight, IdleLeft, RunRight, RunLeft
     }
 
-    class CharacterRender : IRender, ISlicedRender
+    class CharacterRender : IRender, IAnimationRender
     {
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
@@ -32,10 +32,12 @@ namespace Top_Down_shooter
         private int frame;
         private int state;
 
-        public CharacterRender(Character character, Sprite atlasAnimation)
+        public CharacterRender(Character character, Sprite atlasAnimation, int stateCount, int frameCount)
         {
             this.character = character;
             this.atlasAnimation = atlasAnimation;
+            StateCount = stateCount;
+            FrameCount = frameCount;
         }
 
         public void Draw(Graphics g)
@@ -72,7 +74,7 @@ namespace Top_Down_shooter
         }
     }
 
-    class SpriteRender : IRender, ISlicedRender
+    class SpriteRender : IRender, IAnimationRender
     {
         private readonly Sprite sprite;
 
@@ -92,6 +94,31 @@ namespace Top_Down_shooter
                sprite.X, sprite.Y,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
+        }
+    }
+
+    class GunRender : IRender
+    {
+        private readonly Gun gun;
+        private readonly Sprite sprite;
+
+        public GunRender(Gun gun, Sprite sprite)
+        {
+            this.gun = gun;
+            this.sprite = sprite;
+        }
+
+        public void Draw(Graphics g)
+        {
+            g.TranslateTransform(gun.X, gun.Y);
+            g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
+            g.TranslateTransform(-gun.X, -gun.Y);
+            g.DrawImage(sprite.Image,
+               gun.X - sprite.Image.Width / 2, gun.Y - sprite.Image.Height / 2,
+               new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height),
+               GraphicsUnit.Pixel);
+
+            g.ResetTransform();
         }
     }
 

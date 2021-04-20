@@ -7,6 +7,7 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private readonly GameModel gameModel;
+        private readonly GameRender gameRender;
         private readonly Map map;
 
         public Form1()
@@ -16,8 +17,7 @@ namespace Top_Down_shooter
             CenterToScreen();
 
             gameModel = new GameModel();
-            map = new Map(Width, Height);
-            
+            gameRender = new GameRender(gameModel);
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -27,7 +27,7 @@ namespace Top_Down_shooter
             playAnimations.Interval = 300;
             playAnimations.Tick += new EventHandler((sender, args) =>
             {
-                gameModel.PlayAnimations();
+                gameRender.PlayAnimations();
             });
 
             playAnimations.Start();
@@ -38,14 +38,7 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            foreach (var a in map.Tiles)
-                a.Draw(g);
-
-            foreach (var sprite in gameModel.GameSprites)
-                DrawSprite(g, sprite);
-
-            foreach (var ui in gameModel.UI)
-                ui.Draw(g);
+            gameRender.DrawObjects(g);
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
@@ -89,31 +82,20 @@ namespace Top_Down_shooter
             }
         }
 
-        private void DrawSprite(Graphics g, Sprite sprite)
-        {
-            g.TranslateTransform(sprite.X, sprite.Y);
-            g.RotateTransform((float)(sprite.Angle * 180 / Math.PI));
-            g.TranslateTransform(-sprite.X, -sprite.Y);
-
-            sprite.Draw(g);
-
-            g.ResetTransform();
-        }
-
         private void UpdateGameLoop()
         {
             var mousePosition = PointToClient(MousePosition);
 
             gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y - gameModel.Player.Gun.Y, mousePosition.X - gameModel.Player.Gun.X);
+            gameModel.Player.Move();
 
-            for (var node = gameModel.GameSprites.First; !(node is null); node = node.Next)
+            for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
-                if ((node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height) && !(node.Value is Player))
+                if ((node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height))
                 {
-                    gameModel.GameSprites.Remove(node);
+                    gameModel.Bullets.Remove(node);
                     continue;
                 }
-
 
                 node.Value.Move();
             }
