@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Drawing;
 
-namespace Top_Down_shooter
+namespace Top_Down_shooter.Scripts.GameObjects
 {
     #region
     enum DirectionX
     {
-        Left = -1, Idle = 0, Right = 1 
+        Left = -1, Idle = 0, Right = 1
     }
 
     enum DirectionY
@@ -43,28 +42,6 @@ namespace Top_Down_shooter
                 Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
         }
 
-        public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;   
-    }
-
-    class Player : Character
-    {
-        public Gun Gun { get; set; }
-
-        private readonly Point OffsetPositionGun = new Point(20, 38);
-
-        public Player(int x, int y, int speed)
-        {
-            X = x;
-            Y = y;
-            Speed = speed;
-
-            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
-        }
-
-        public override void Move()
-        {
-            base.Move();
-            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
-        }
+        public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;
     }
 }

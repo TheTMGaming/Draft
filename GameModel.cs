@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.UI;
 
 
 namespace Top_Down_shooter

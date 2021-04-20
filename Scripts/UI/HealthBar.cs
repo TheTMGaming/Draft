@@ -1,6 +1,5 @@
-﻿
-namespace Top_Down_shooter
-{ 
+﻿namespace Top_Down_shooter.Scripts.UI
+{
     class HealthBar
     {
         public int Percent
@@ -18,7 +17,7 @@ namespace Top_Down_shooter
 
         public HealthBar(int percent)
         {
-            Percent = percent;    
-        }     
+            Percent = percent;
+        }
     }
 }

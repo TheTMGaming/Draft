@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using Top_Down_shooter.Scripts.Renders;
 
 namespace Top_Down_shooter
 {
@@ -11,11 +12,9 @@ namespace Top_Down_shooter
         {
             gameObjects = new List<IRender>();
 
-            var playerImg = new Bitmap("Sprites/Player.png");
-            gameObjects.Add(new CharacterRender(gameModel.Player, playerImg, 4, 2));
+            gameObjects.Add(new CharacterRender(gameModel.Player, new Bitmap("Sprites/Player.png"), 4, 2));
 
-            var gunImg = new Bitmap("Sprites/Gun.png");
-            gameObjects.Add(new GunRender(gameModel.Player.Gun, gunImg));
+            gameObjects.Add(new GunRender(gameModel.Player.Gun, new Bitmap("Sprites/Gun.png")));
             
         }
 
