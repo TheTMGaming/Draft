@@ -66,6 +66,7 @@
     <Compile Include="Scripts\Renders\HealthBarRender.cs" />
     <Compile Include="Scripts\Renders\SpriteRender.cs" />
     <Compile Include="Scripts\Renders\RenderInterfaces.cs" />
+    <Compile Include="Scripts\Renders\TileMapRender.cs" />
     <Compile Include="Scripts\UI\HealthBar.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

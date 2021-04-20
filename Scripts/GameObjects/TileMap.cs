@@ -3,19 +3,23 @@ using System.Drawing;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
+    enum TileTypes
+    {
+        Grass, Box
+    }
+
     class TileMap
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public readonly Sprite[,] Tiles;
+        public readonly TileTypes[,] Tiles;
 
-        private readonly int sizeTile = 64;
 
         public TileMap(int width, int height)
         {
             Width = width;
             Height = height;
-            Tiles = new Sprite[Width / sizeTile, Height / sizeTile];
+            Tiles = new TileTypes[Width, Height];
 
             CreateMap();
         }
@@ -24,21 +28,14 @@ namespace Top_Down_shooter.Scripts.GameObjects
         {
             var rand = new Random();
 
-            for (var x = sizeTile / 2; x < Width; x += sizeTile)
+            for (var x = 0; x < Width; x++)
             {
-                for (var y = sizeTile / 2; y < Height; y += sizeTile)
+                for (var y = 0; y < Height; y++)
                 {
-                    var image = new Bitmap("Sprites/Grass.png").Extract(new Rectangle(64 * rand.Next(0, 4), 0, 64, 64));
-
-                    if (rand.NextDouble() > 0.95)
-                        image = new Bitmap("Sprites/Box.png");
-
-                    Tiles[x / sizeTile, y / sizeTile] = new Sprite()
-                    {
-                        X = x,
-                        Y = y,
-                        Image = image
-                    };
+                    if (rand.NextDouble() > .95)
+                        Tiles[x, y] = TileTypes.Box;
+                    else
+                        Tiles[x, y] = TileTypes.Grass;
                 }
             }
         }

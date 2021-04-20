@@ -7,6 +7,7 @@ namespace Top_Down_shooter
     class GameRender
     {
         private readonly List<IRender> gameObjects;
+        private readonly TileMapRender mapRender;
 
         public GameRender(GameModel gameModel)
         {
@@ -17,6 +18,8 @@ namespace Top_Down_shooter
             gameObjects.Add(new GunRender(gameModel.Player.Gun, new Bitmap("Sprites/Gun.png")));
 
             gameObjects.Add(new BulletsRender(gameModel.Bullets, new Bitmap("Sprites/Bullet.png")));
+
+            mapRender = new TileMapRender(gameModel.Map);
             
         }
 
@@ -26,6 +29,11 @@ namespace Top_Down_shooter
             {
                 obj.Draw(g);
             }
+        }
+
+        public void DrawMap(Graphics g)
+        {
+            mapRender.Draw(g);
         }
 
         public void PlayAnimations()

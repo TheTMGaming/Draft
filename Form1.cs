@@ -39,6 +39,7 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
+            gameRender.DrawMap(g);
             gameRender.DrawObjects(g);
         }
 
