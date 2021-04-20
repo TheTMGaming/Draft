@@ -15,6 +15,8 @@ namespace Top_Down_shooter
             gameObjects.Add(new CharacterRender(gameModel.Player, new Bitmap("Sprites/Player.png"), 4, 2));
 
             gameObjects.Add(new GunRender(gameModel.Player.Gun, new Bitmap("Sprites/Gun.png")));
+
+            gameObjects.Add(new BulletsRender(gameModel.Bullets, new Bitmap("Sprites/Bullet.png")));
             
         }
 
