@@ -37,6 +37,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public virtual void ChangeDirection(DirectionX directionX)
         {
+            if (directionX == DirectionX)
+                return;
+
             DirectionX = directionX;
             if (DirectionX != DirectionX.Idle)
                 Sight = directionX == DirectionX.Left ? Sight.Left : Sight.Right;
