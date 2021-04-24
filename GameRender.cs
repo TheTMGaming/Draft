@@ -7,12 +7,14 @@ namespace Top_Down_shooter
     class GameRender
     {
         public readonly List<IRender> gameObjects;
+        public readonly IRender player;
 
         public GameRender(GameModel gameModel)
         {
             gameObjects = new List<IRender>();
 
-            gameObjects.Add(new CharacterRender(gameModel.Player, new Bitmap("Sprites/Player.png"), 4, 2));
+            player = new CharacterRender(gameModel.Player, new Bitmap("Sprites/Player.png"), 4, 2);
+            gameObjects.Add(player);
 
             gameObjects.Add(new GunRender(gameModel.Player.Gun, new Bitmap("Sprites/Gun.png")));
 

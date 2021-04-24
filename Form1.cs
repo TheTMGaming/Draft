@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.Renders;
 
 namespace Top_Down_shooter
 {
@@ -91,7 +92,8 @@ namespace Top_Down_shooter
             var mousePosition = PointToClient(MousePosition);
 
             gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y - gameModel.Player.Gun.Y, mousePosition.X - gameModel.Player.Gun.X);
-            gameModel.Player.Move();
+            if (!PhysicsController.IsCollide(gameModel.Player, gameRender.player))
+                gameModel.Player.Move();
 
             for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
