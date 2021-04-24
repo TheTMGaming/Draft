@@ -12,7 +12,7 @@ namespace Top_Down_shooter
         public readonly Player Player;
         public readonly HealthBar HealthBar;
         public readonly LinkedList<Bullet> Bullets;
-        public readonly TileMap Map;
+        public readonly TileMapController Map;
 
         public GameModel()
         {
@@ -20,7 +20,7 @@ namespace Top_Down_shooter
             HealthBar = new HealthBar(100);
 
             Bullets = new LinkedList<Bullet>();
-            Map = new TileMap(20, 20);
+            Map = new TileMapController(20, 20);
         }
 
         public void Shoot()

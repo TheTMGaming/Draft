@@ -8,14 +8,14 @@ namespace Top_Down_shooter.Scripts.GameObjects
         Grass, Box
     }
 
-    class TileMap
+    class TileMapController
     {
         public int Width { get; set; }
         public int Height { get; set; }
         public readonly TileTypes[,] Tiles;
 
 
-        public TileMap(int width, int height)
+        public TileMapController(int width, int height)
         {
             Width = width;
             Height = height;

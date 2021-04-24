@@ -9,14 +9,14 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly int width;
         private readonly int height;
 
-        private readonly TileMap map;
+        private readonly TileMapController map;
         private readonly SpriteRender[,] tiles;
         private readonly int sizeTile = 64;
 
         private readonly Bitmap grassImages = new Bitmap("Sprites/Grass.png");
         private readonly Bitmap boxImage = new Bitmap("Sprites/Box.png");
 
-        public TileMapRender(TileMap map)
+        public TileMapRender(TileMapController map)
         {
             this.map = map;
             width = map.Width * sizeTile;
