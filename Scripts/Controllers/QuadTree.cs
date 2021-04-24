@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace Top_Down_shooter
+namespace Top_Down_shooter.Scripts.Controllers
 {
     class QuadTree
     {
@@ -14,7 +14,7 @@ namespace Top_Down_shooter
         private readonly int maxObjectsCount = 10;
         private readonly int maxDepth = 4;
 
-        public QuadTree(Rectangle bounds, int nextDepth)
+        public QuadTree(Rectangle bounds, int nextDepth = 0)
         {
             this.bounds = bounds;
             depth = nextDepth;

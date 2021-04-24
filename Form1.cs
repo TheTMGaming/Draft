@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Controllers;
 
 namespace Top_Down_shooter
 {
@@ -19,6 +20,7 @@ namespace Top_Down_shooter
 
             gameModel = new GameModel();
             gameRender = new GameRender(gameModel);
+            TileMapController.CreateTile();
 
             var updateGameLoop = new Timer();
             updateGameLoop.Interval = 30;
@@ -39,7 +41,7 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            gameRender.DrawMap(g);
+            TileMapController.DrawTile(g);
             gameRender.DrawObjects(g);
         }
 

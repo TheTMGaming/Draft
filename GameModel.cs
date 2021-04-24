@@ -13,7 +13,7 @@ namespace Top_Down_shooter
         public readonly Player Player;
         public readonly HealthBar HealthBar;
         public readonly LinkedList<Bullet> Bullets;
-        public readonly TileMapController Map;
+        
 
         public GameModel()
         {
@@ -21,16 +21,19 @@ namespace Top_Down_shooter
             HealthBar = new HealthBar(100);
 
             Bullets = new LinkedList<Bullet>();
-            Map = new TileMapController(1920, 1080);
+          
         }
 
         public void Shoot()
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
 
-            Bullets.AddLast(new Bullet(
-                Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y, 
-                20, Player.Gun.Angle));
+            var bullet = new Bullet(
+                Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
+                20, Player.Gun.Angle);
+
+            Bullets.AddLast(bullet);
+
         }
 
         private Point RotatePoint(Point point, float angleInRadian)

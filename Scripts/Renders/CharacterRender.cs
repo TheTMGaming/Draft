@@ -11,9 +11,12 @@ namespace Top_Down_shooter.Scripts.Renders
 
     class CharacterRender : IAnimationRender
     {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Size Size => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
+
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
-        public Size Size => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
 
         private readonly Character character;
         private readonly Bitmap atlasAnimation;
@@ -36,8 +39,11 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
+            X = character.X - Size.Width / 2;
+            Y = character.Y - Size.Height / 2;
+
             g.DrawImage(atlasAnimation,
-               character.X - Size.Width / 2, character.Y - Size.Height / 2,
+               X, Y,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }

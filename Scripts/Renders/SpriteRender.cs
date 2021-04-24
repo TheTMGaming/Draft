@@ -4,15 +4,16 @@ namespace Top_Down_shooter.Scripts.Renders
 {
     class SpriteRender : IAnimationRender
     {
+        public int X { get; set; }
+        public int Y { get; set; }
         public Size Size => image.Size;
 
-        private readonly int x, y;
         private readonly Bitmap image;
 
         public SpriteRender(int xLeft, int yTop, Bitmap image)
         {
-            x = xLeft;
-            y = yTop;
+            X = xLeft;
+            Y = yTop;
             this.image = image;
         }
 
@@ -24,7 +25,7 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
             g.DrawImage(image,
-                x, y,
+                X, Y,
                 new Rectangle(startSlice, sizeSlice),
                 GraphicsUnit.Pixel);
         }

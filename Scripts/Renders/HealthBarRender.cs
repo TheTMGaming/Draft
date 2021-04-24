@@ -5,10 +5,9 @@ namespace Top_Down_shooter.Scripts.Renders
 {
     class HealthBarRender : IRender
     {
-        public Size Size => new Size(x + offsetBackground.X + background.Size.Width, heart.Size.Height);
-
-        private readonly int x;
-        private readonly int y;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Size Size => new Size(X + offsetBackground.X + background.Size.Width, heart.Size.Height);
 
         private readonly HealthBar healthBar;
         private readonly Size sizeBar;
@@ -23,17 +22,17 @@ namespace Top_Down_shooter.Scripts.Renders
         public HealthBarRender(HealthBar healthBar, int xLeft, int yTop)
         {
             this.healthBar = healthBar;
-            x = xLeft;
-            y = yTop;
+            X = xLeft;
+            Y = yTop;
 
-            heart = new SpriteRender(x, y, new Bitmap(@"Sprites/Heart.png"));
+            heart = new SpriteRender(X, Y, new Bitmap(@"Sprites/Heart.png"));
 
             background = new SpriteRender(
-                x + offsetBackground.X, y + offsetBackground.Y, new Bitmap(@"Sprites/BackgroundHealthBar.png")
+                X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(@"Sprites/BackgroundHealthBar.png")
                 );
 
             var imageBar = new Bitmap(@"Sprites/HealthBar.png");
-            bar = new SpriteRender(x + offsetBar.X, y + offsetBar.Y, imageBar);
+            bar = new SpriteRender(X + offsetBar.X, Y + offsetBar.Y, imageBar);
         }
 
         public void Draw(Graphics g)
