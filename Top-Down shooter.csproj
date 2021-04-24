@@ -54,6 +54,7 @@
     <Compile Include="GameModel.cs" />
     <Compile Include="Scripts\GameObjects\Bullet.cs" />
     <Compile Include="Scripts\GameObjects\Character.cs" />
+    <Compile Include="Scripts\GameObjects\GameObject.cs" />
     <Compile Include="Scripts\GameObjects\Gun.cs" />
     <Compile Include="Scripts\GameObjects\Player.cs" />
     <Compile Include="GameRender.cs" />

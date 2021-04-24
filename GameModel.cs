@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.UI;
+using Top_Down_shooter.Scripts.Controllers;
 
 
 namespace Top_Down_shooter
@@ -20,7 +21,7 @@ namespace Top_Down_shooter
             HealthBar = new HealthBar(100);
 
             Bullets = new LinkedList<Bullet>();
-            Map = new TileMapController(20, 20);
+            Map = new TileMapController(1920, 1080);
         }
 
         public void Shoot()

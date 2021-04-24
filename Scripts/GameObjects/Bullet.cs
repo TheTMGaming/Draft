@@ -2,10 +2,8 @@
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
-    class Bullet
+    class Bullet : GameObject
     {
-        public int X { get; set; }
-        public int Y { get; set; }
         public int Speed { get; set; }
         public float Angle { get; set; }
 

@@ -8,7 +8,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 {
     class PhysicsController
     {
-        private readonly TileMapController
+        private readonly QuadTree boxCollider;
 
         public static bool IsCollide(Entity entity, Point dir)
         {

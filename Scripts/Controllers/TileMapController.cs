@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Top_Down_shooter.Scripts.Renders;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
@@ -12,30 +13,39 @@ namespace Top_Down_shooter.Scripts.Controllers
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public readonly TileTypes[,] Tiles;
 
+        public readonly SpriteRender[,] Tiles;
+
+        private readonly int sizeTile = 64;
+        private readonly Bitmap grassImages = new Bitmap("Sprites/Grass.png");
+        private readonly Bitmap boxImage = new Bitmap("Sprites/Box.png");
 
         public TileMapController(int width, int height)
         {
             Width = width;
             Height = height;
-            Tiles = new TileTypes[Width, Height];
+            Tiles = new SpriteRender[Width / sizeTile, Height / sizeTile];
 
-            CreateMap();
         }
 
-        public void CreateMap()
+       
+        public void CreateTile()
         {
             var rand = new Random();
 
-            for (var x = 0; x < Width; x++)
+            for (var x = 0; x < Width; x += sizeTile)
             {
-                for (var y = 0; y < Height; y++)
+                for (var y = 0; y < Height; y += sizeTile)
                 {
+                    var image = grassImages.Extract(new Rectangle(sizeTile * rand.Next(0, 4), 0, sizeTile, sizeTile));
+
                     if (rand.NextDouble() > .95)
-                        Tiles[x, y] = TileTypes.Box;
-                    else
-                        Tiles[x, y] = TileTypes.Grass;
+                    {
+                        image = new Bitmap("Sprites/Box.png");
+
+                    }
+
+                    tiles[x / sizeTile, y / sizeTile] = new SpriteRender(x, y, image);
                 }
             }
         }

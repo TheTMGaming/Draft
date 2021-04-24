@@ -2,10 +2,8 @@
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
-    class Gun
+    class Gun : GameObject
     {
-        public int X { get; set; }
-        public int Y { get; set; }
         public float Angle { get; set; }
 
         public readonly Point SpawnBullets = new Point(10, -10);
