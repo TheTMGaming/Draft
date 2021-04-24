@@ -15,6 +15,8 @@ namespace Top_Down_shooter.Scripts.Renders
             this.image = image;
         }
 
+        public Size Size => image.Size;
+
         public void Draw(Graphics g)
         {
             g.TranslateTransform(gun.X, gun.Y);

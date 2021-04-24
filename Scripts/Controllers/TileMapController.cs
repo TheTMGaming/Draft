@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Top_Down_shooter.Scripts.GameObjects
+namespace Top_Down_shooter.Scripts.Controllers
 {
     enum TileTypes
     {

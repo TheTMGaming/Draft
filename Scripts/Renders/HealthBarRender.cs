@@ -5,6 +5,8 @@ namespace Top_Down_shooter.Scripts.Renders
 {
     class HealthBarRender : IRender
     {
+        public Size Size => new Size(x + offsetBackground.X + background.Size.Width, heart.Size.Height);
+
         private readonly int x;
         private readonly int y;
 

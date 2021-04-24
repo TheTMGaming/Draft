@@ -19,6 +19,8 @@ namespace Top_Down_shooter.Scripts.Renders
             this.image = image;
         }
 
+        public Size Size => image.Size;
+
         public void Draw(Graphics g)
         {
             foreach (var bullet in bullets)

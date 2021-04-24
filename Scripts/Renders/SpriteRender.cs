@@ -2,8 +2,10 @@
 
 namespace Top_Down_shooter.Scripts.Renders
 {
-    class SpriteRender : IRender, IAnimationRender
+    class SpriteRender : IAnimationRender
     {
+        public Size Size => image.Size;
+
         private readonly int x, y;
         private readonly Bitmap image;
 

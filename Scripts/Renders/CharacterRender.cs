@@ -9,11 +9,11 @@ namespace Top_Down_shooter.Scripts.Renders
         IdleRight, IdleLeft, RunRight, RunLeft
     }
 
-    class CharacterRender : IRender, IAnimationRender
+    class CharacterRender : IAnimationRender
     {
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
-        public Size FrameSize => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
+        public Size Size => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
 
         private readonly Character character;
         private readonly Bitmap atlasAnimation;
@@ -31,13 +31,13 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public void Draw(Graphics g)
         {
-            Draw(g, new Point(FrameSize.Width * frame, FrameSize.Height * state), FrameSize);
+            Draw(g, new Point(Size.Width * frame, Size.Height * state), Size);
         }
 
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
             g.DrawImage(atlasAnimation,
-               character.X - FrameSize.Width / 2, character.Y - FrameSize.Height / 2,
+               character.X - Size.Width / 2, character.Y - Size.Height / 2,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
         }
