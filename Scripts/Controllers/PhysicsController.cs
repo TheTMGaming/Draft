@@ -17,9 +17,6 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static bool IsCollide(Character entity, IRender sprite)
         {
-            //if (entity.posX + dir.X <= 0 || entity.posX + dir.X >= MapController.cellSize * (MapController.mapWidth - 1) || entity.posY + dir.Y <= 0 || entity.posY + dir.Y >= MapController.cellSize * (MapController.mapHeight - 1))
-            //    return true;
-
             var rect = new Rectangle(
                 sprite.X + (int)entity.DirectionX * entity.Speed,
                 sprite.Y + (int)entity.DirectionY * entity.Speed,

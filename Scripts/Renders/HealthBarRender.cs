@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.Renders
@@ -25,14 +26,13 @@ namespace Top_Down_shooter.Scripts.Renders
             X = xLeft;
             Y = yTop;
 
-            heart = new SpriteRender(X, Y, new Bitmap(@"Sprites/Heart.png"));
+            heart = new SpriteRender(X, Y, Resources.Heart);
 
             background = new SpriteRender(
-                X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(@"Sprites/BackgroundHealthBar.png")
+                X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar
                 );
 
-            var imageBar = new Bitmap(@"Sprites/HealthBar.png");
-            bar = new SpriteRender(X + offsetBar.X, Y + offsetBar.Y, imageBar);
+            bar = new SpriteRender(X + offsetBar.X, Y + offsetBar.Y, Resources.HealthBar);
         }
 
         public void Draw(Graphics g)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
@@ -16,8 +17,6 @@ namespace Top_Down_shooter.Scripts.Controllers
         public static SpriteRender[,] Tiles;
 
         private static int sizeTile = 64;
-        private static Bitmap grassImages = new Bitmap("Sprites/Grass.png");
-        private static Bitmap boxImage = new Bitmap("Sprites/Box.png");
 
         static TileMapController()
         {
@@ -38,14 +37,14 @@ namespace Top_Down_shooter.Scripts.Controllers
                 
                     if (rand.NextDouble() > .95)
                     {
-                        var box = new SpriteRender(x * sizeTile, y * sizeTile, boxImage);
+                        var box = new SpriteRender(x * sizeTile, y * sizeTile, Resources.Box);
                         Tiles[x, y] = box;
                         PhysicsController.AddCollider(box);
                     }
                     else
                     {
                         Tiles[x, y] = new SpriteRender(x * sizeTile, y * sizeTile,
-                            grassImages.Extract(new Rectangle(sizeTile * rand.Next(0, 4), 0, sizeTile, sizeTile)));
+                            Resources.Grass.Extract(new Rectangle(sizeTile * rand.Next(0, 4), 0, sizeTile, sizeTile)));
                     }
                 }
             }
