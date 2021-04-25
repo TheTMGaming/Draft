@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter
 {
@@ -16,7 +17,7 @@ namespace Top_Down_shooter
         public Form1()
         {
             DoubleBuffered = true;
-            Size = new Size(1280, 768);
+            Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
             CenterToScreen();
 
             gameModel = new GameModel();

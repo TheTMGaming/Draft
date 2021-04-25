@@ -16,13 +16,13 @@ namespace Top_Down_shooter.Scripts.Controllers
         public static int Height;
         public static SpriteRender[,] Tiles;
 
-        private static int sizeTile = 64;
+        private static int sizeTile = int.Parse(Resources.TileSize);
 
         static TileMapController()
         {
-            Tiles = new SpriteRender[1920 / sizeTile, 1080 / sizeTile];
-            Width = 1920;
-            Height = 1080;
+            Width = int.Parse(Resources.MapWidth);
+            Height = int.Parse(Resources.MapHeight);
+            Tiles = new SpriteRender[Width / sizeTile, Height / sizeTile];          
         }
 
        
