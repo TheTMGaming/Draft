@@ -42,9 +42,12 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            CameraController.Move(gameModel.Player, g);
 
             TileMapController.DrawTile(g);
+
             gameRender.DrawObjects(g);
+            
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
@@ -93,9 +96,10 @@ namespace Top_Down_shooter
             var mousePosition = PointToClient(MousePosition);
 
             gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y - gameModel.Player.Gun.Y, mousePosition.X - gameModel.Player.Gun.X);
+
             if (!PhysicsController.IsCollide(gameModel.Player, gameRender.player))
                 gameModel.Player.Move();
-
+           
             for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
                 if ((node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height))

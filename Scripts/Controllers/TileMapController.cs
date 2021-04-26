@@ -53,7 +53,9 @@ namespace Top_Down_shooter.Scripts.Controllers
         public static void DrawTile(Graphics g)
         {
             foreach (var tile in Tiles)
+            {
                 tile.Draw(g);
+            }
         }
 
     }

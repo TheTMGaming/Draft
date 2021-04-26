@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Controllers;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -41,7 +42,7 @@ namespace Top_Down_shooter.Scripts.Renders
         {
             X = character.X - Size.Width / 2;
             Y = character.Y - Size.Height / 2;
-
+            
             g.DrawImage(atlasAnimation,
                X, Y,
                new Rectangle(startSlice, sizeSlice),

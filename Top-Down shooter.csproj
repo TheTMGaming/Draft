@@ -51,6 +51,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\Controllers\CameraController.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
