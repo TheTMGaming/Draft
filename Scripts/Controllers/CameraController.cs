@@ -4,9 +4,10 @@ using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
-    static class CameraController
+    class CameraController
     {
-        private static Point position;
+        public int X { get; set; }
+        public int Y { get; set; }
 
         private static readonly int screenWidth;
         private static readonly int screenHeight;
@@ -21,21 +22,21 @@ namespace Top_Down_shooter.Scripts.Controllers
             mapHeight = int.Parse(Resources.MapHeight);
         }
 
-        public static void Move(Player player, Graphics g)
+        public void Move(Player player, Graphics g)
         {
             if (player.X > screenWidth / 2 && player.X < mapWidth - screenWidth / 2)
             {
-                position.X = -(player.X - screenWidth / 2);
+                X = player.X - screenWidth / 2;
 
             }
 
             if (player.Y > screenHeight / 2 && player.Y < mapHeight - screenHeight / 2)
             {
-                position.Y = -(player.Y - screenHeight / 2);
+                Y = player.Y - screenHeight / 2;
             }
 
 
-            g.TranslateTransform(position.X, position.Y);
+            g.TranslateTransform(-X, -Y);
         }
     }
 }
