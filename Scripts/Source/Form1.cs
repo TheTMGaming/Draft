@@ -42,8 +42,8 @@ namespace Top_Down_shooter
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            gameRender.Camera.Move(gameModel.Player, g);
 
+            g.TranslateTransform(-gameRender.Camera.X, -gameRender.Camera.Y);
             TileMapController.DrawTile(g);
 
             gameRender.DrawObjects(g);
@@ -94,20 +94,14 @@ namespace Top_Down_shooter
         private void UpdateGameLoop()
         {
             var mousePosition = PointToClient(MousePosition);
+            gameRender.Camera.Move(gameModel.Player);
+            gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y + gameRender.Camera.Y - gameModel.Player.Gun.Y, mousePosition.X + gameRender.Camera.X - gameModel.Player.Gun.X);
 
-            gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y + gameRender.Camera.Y - gameModel.Player.Gun.Y, mousePosition.X + gameRender.Camera.Y - gameModel.Player.Gun.X);
-
-            if (!PhysicsController.IsCollide(gameModel.Player, gameRender.player))
+            //if (!PhysicsController.IsCollide(gameModel.Player, gameRender.player))
                 gameModel.Player.Move();
            
             for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
-                if ((node.Value.X < 0 || node.Value.X > Size.Width || node.Value.Y < 0 || node.Value.Y > Size.Height))
-                {
-                    gameModel.Bullets.Remove(node);
-                    continue;
-                }
-
                 node.Value.Move();
             }
 

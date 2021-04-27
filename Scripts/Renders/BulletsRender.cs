@@ -31,16 +31,18 @@ namespace Top_Down_shooter.Scripts.Renders
                 X = bullet.X - image.Width / 2;
                 Y = bullet.Y - image.Height / 2;
 
-                //g.TranslateTransform(bullet.X, bullet.Y);
-                //g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
-                //g.TranslateTransform(-bullet.X, -bullet.Y);
+                g.TranslateTransform(bullet.X, bullet.Y);
+                g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
+                g.TranslateTransform(-bullet.X, -bullet.Y);
 
                 g.DrawImage(image,
                     X, Y,
                     new Rectangle(0, 0, image.Width, image.Height),
                     GraphicsUnit.Pixel);
 
-                //g.ResetTransform();
+                g.TranslateTransform(bullet.X, bullet.Y);
+                g.RotateTransform(-(float)(bullet.Angle * 180 / Math.PI));
+                g.TranslateTransform(-bullet.X, -bullet.Y);
             }
         }
     }

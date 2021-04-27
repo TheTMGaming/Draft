@@ -22,7 +22,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             mapHeight = int.Parse(Resources.MapHeight);
         }
 
-        public void Move(Player player, Graphics g)
+        public void Move(Player player)
         {
             if (player.X > screenWidth / 2 && player.X < mapWidth - screenWidth / 2)
             {
@@ -34,9 +34,6 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 Y = player.Y - screenHeight / 2;
             }
-
-
-            g.TranslateTransform(-X, -Y);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Top_Down_shooter
 
             gameObjects.Add(new GunRender(gameModel.Player.Gun, Resources.Gun));
 
+            gameObjects.Add(new BulletsRender(gameModel.Bullets, Resources.Bullet));
+
         }
 
         public void DrawObjects(Graphics g)

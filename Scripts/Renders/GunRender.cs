@@ -33,7 +33,9 @@ namespace Top_Down_shooter.Scripts.Renders
                 new Rectangle(0, 0, image.Width, image.Height),
                 GraphicsUnit.Pixel);
 
-            g.ResetTransform();
+            g.TranslateTransform(gun.X, gun.Y);
+            g.RotateTransform(-(float)(gun.Angle * 180 / Math.PI));
+            g.TranslateTransform(-gun.X, -gun.Y);
         }
     }
 
