@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -9,6 +10,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public Bullet(int x, int y, int speed, float angle)
         {
+            Size = new Size(10, 10);
             Speed = speed;
             X = x;
             Y = y;

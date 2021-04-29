@@ -16,6 +16,8 @@ namespace Top_Down_shooter.Scripts.Controllers
             trackingCollisions = new HashSet<GameObject>();
         }
 
+        public static bool IsCollided(GameObject gameObject) => IsCollided(gameObject, out var other);
+
         public static bool IsCollided(GameObject gameObject, out GameObject other)
         {
             foreach (var obj in colliders.GetCandidateToCollision(gameObject))

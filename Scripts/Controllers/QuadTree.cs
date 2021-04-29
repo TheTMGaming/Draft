@@ -42,9 +42,6 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public void Insert(GameObject gameObject)
         {
-            if (!gameObject.Collider.Contains(bounds))
-                return;
-
             if (nodes.Count > 0)
             {
                 foreach (var node in GetContainedNodes(gameObject))

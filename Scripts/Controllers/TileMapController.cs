@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Renders;
 using Top_Down_shooter.Properties;
 
@@ -39,7 +40,12 @@ namespace Top_Down_shooter.Scripts.Controllers
                     {
                         var box = new SpriteRender(x * sizeTile, y * sizeTile, Resources.Box);
                         Tiles[x, y] = box;
-                        Physics.AddCollider(box);
+                        Physics.AddToTrackingCollisions(new GameObject
+                        {
+                            X = box.X + box.Size.Width / 2,
+                            Y = box.Y + box.Size.Height / 2,
+                            Size = box.Size
+                        }) ;
                     }
                     else
                     {

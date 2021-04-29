@@ -33,6 +33,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Y += GetRoundSpeedY();
         }
 
+        public virtual void ComeBack()
+        {
+            X -= GetRoundSpeedX();
+            Y -= GetRoundSpeedY();
+        }
+
         public virtual void ChangeDirection(DirectionX directionX)
         {
             if (directionX == DirectionX)

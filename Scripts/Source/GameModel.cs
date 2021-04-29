@@ -33,6 +33,7 @@ namespace Top_Down_shooter
                 20, Player.Gun.Angle);
 
             Bullets.AddLast(bullet);
+            Physics.AddToTrackingCollisions(bullet);
 
         }
 

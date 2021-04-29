@@ -10,6 +10,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public Player(int x, int y, int speed)
         {
+            Size = new Size(70, 110);
             X = x;
             Y = y;
             Speed = speed;
@@ -19,6 +20,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public override void Move()
         {
             base.Move();
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+        }
+
+        public override void ComeBack()
+        {
+            base.ComeBack();
             Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
         }
     }

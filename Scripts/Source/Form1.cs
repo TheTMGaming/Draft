@@ -97,18 +97,29 @@ namespace Top_Down_shooter
             gameRender.Camera.Move(gameModel.Player);
             gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y + gameRender.Camera.Y - gameModel.Player.Gun.Y, mousePosition.X + gameRender.Camera.X - gameModel.Player.Gun.X);
 
-            if (!Physics.IsCollide(gameModel.Player, gameRender.player))
-                gameModel.Player.Move();
+            Physics.Update();
+
+            gameModel.Player.Move();
+
+            if (Physics.IsCollided(gameModel.Player, out var a))
+            {
+                if (!(a is Bullet))
+                gameModel.Player.ComeBack();
+            }
+                
            
             for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
-                if (Physics.IsCollide(node.Value))
-                {
-                    gameModel.Bullets.Remove(node);
-                    continue;
-                }
-
                 node.Value.Move();
+
+                if (Physics.IsCollided(node.Value, out var other))
+                {
+                    if (other is Player || other is Bullet)
+                        continue;
+
+                    gameModel.Bullets.Remove(node);
+                    Physics.RemoveFromTrackingCollisions(node.Value);
+                }             
             }
 
             Invalidate();
