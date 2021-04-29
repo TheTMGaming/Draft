@@ -39,7 +39,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     {
                         var box = new SpriteRender(x * sizeTile, y * sizeTile, Resources.Box);
                         Tiles[x, y] = box;
-                        PhysicsController.AddCollider(box);
+                        Physics.AddCollider(box);
                     }
                     else
                     {

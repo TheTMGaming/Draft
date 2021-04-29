@@ -13,7 +13,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
             X = x;
             Y = y;
             Speed = speed;
-
             Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
         }
 
