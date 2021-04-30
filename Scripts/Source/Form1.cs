@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Source;
 using Top_Down_shooter.Properties;
+using System.ComponentModel;
 
 namespace Top_Down_shooter
 {
     public class Form1 : Form
     {
+        private readonly object locker = new object();
+
         private readonly GameModel gameModel;
         private readonly GameRender gameRender;
+        private readonly Queue<Bullet> bullets;
         //private readonly Map map;
 
         public Form1()
         {
-            
+            bullets = new Queue<Bullet>();
 
             DoubleBuffered = true;
             Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
@@ -41,8 +46,13 @@ namespace Top_Down_shooter
             playAnimations.Start();
             updateGameLoop.Start();
 
-            var thread = new Thread(new ThreadStart(A));
-            thread.Start();
+            var worker = new BackgroundWorker();
+            worker.DoWork += A;
+            worker.RunWorkerAsync();
+
+            var worker1 = new BackgroundWorker();
+            worker1.DoWork += B;
+            worker1.RunWorkerAsync();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -56,17 +66,17 @@ namespace Top_Down_shooter
             
         }
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-                gameModel.Shoot();
-        }
+        //protected override void OnMouseClick(MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Left)
+        //        gameModel.Shoot();
+        //}
 
-        private void A()
+        private void A(object sender, DoWorkEventArgs e)
         {
            while (true)
-            {
-                Console.WriteLine(1);
+           {
+                
                 if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_UP))
                     gameModel.Player.ChangeDirection(DirectionY.Up);
                 else if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_DOWN))
@@ -80,7 +90,24 @@ namespace Top_Down_shooter
                     gameModel.Player.ChangeDirection(DirectionX.Left);
                 else
                     gameModel.Player.ChangeDirection(DirectionX.Idle);
+                
 
+                Thread.Sleep(30);
+           }
+        }
+
+        private void B(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_LBUTTON))
+                {
+                    bullets.Enqueue(gameModel.Shoot());
+                    Thread.Sleep(30);
+                }
+                
+
+                Thread.Sleep(100);
             }
         }
 
@@ -121,6 +148,12 @@ namespace Top_Down_shooter
 
         private void UpdateGameLoop()
         {
+            while (bullets.Count > 0)
+            {
+                var b = bullets.Dequeue();
+                gameModel.Bullets.AddLast(b);
+            }
+
             var mousePosition = PointToClient(MousePosition);
             gameRender.Camera.Move(gameModel.Player);
             gameModel.Player.Gun.Angle = (float)Math.Atan2(mousePosition.Y + gameRender.Camera.Y - gameModel.Player.Gun.Y, mousePosition.X + gameRender.Camera.X - gameModel.Player.Gun.X);
@@ -132,10 +165,10 @@ namespace Top_Down_shooter
             if (Physics.IsCollided(gameModel.Player, out var a))
             {
                 if (!(a is Bullet))
-                gameModel.Player.ComeBack();
+                    gameModel.Player.ComeBack();
             }
-                
-           
+
+
             for (var node = gameModel.Bullets.First; !(node is null); node = node.Next)
             {
                 node.Value.Move();
@@ -147,10 +180,11 @@ namespace Top_Down_shooter
 
                     gameModel.Bullets.Remove(node);
                     Physics.RemoveFromTrackingCollisions(node.Value);
-                }             
+                }
             }
 
             Invalidate();
+           
         }
     }
 }

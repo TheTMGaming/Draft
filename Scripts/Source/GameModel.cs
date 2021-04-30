@@ -24,16 +24,15 @@ namespace Top_Down_shooter
           
         }
 
-        public void Shoot()
+        public Bullet Shoot()
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
 
-            var bullet = new Bullet(
+            return new Bullet(
                 Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
                 20, Player.Gun.Angle);
 
-            Bullets.AddLast(bullet);
-            Physics.AddToTrackingCollisions(bullet);
+            
 
         }
 

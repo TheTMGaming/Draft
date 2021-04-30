@@ -40,6 +40,7 @@ namespace Top_Down_shooter.Scripts.Renders
                 g.RotateTransform(-(float)(bullet.Angle * 180 / Math.PI));
                 g.TranslateTransform(-bullet.X, -bullet.Y);
             }
+            
         }
     }
 }
