@@ -8,14 +8,14 @@ using Top_Down_shooter.Scripts.Controllers;
 
 namespace Top_Down_shooter
 {
-    class GameModel
+    static class GameModel
     {
-        public readonly Player Player;
-        public readonly HealthBar HealthBar;
-        public readonly LinkedList<Bullet> Bullets;
-        
+        public static readonly Player Player;
+        public static readonly HealthBar HealthBar;
+        public static readonly LinkedList<Bullet> Bullets;
 
-        public GameModel()
+
+        static GameModel()
         {
             Player = new Player(100, 100, 5);
             HealthBar = new HealthBar(100);
@@ -24,7 +24,7 @@ namespace Top_Down_shooter
           
         }
 
-        public Bullet Shoot()
+        public static Bullet Shoot()
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
 
@@ -36,7 +36,7 @@ namespace Top_Down_shooter
 
         }
 
-        private Point RotatePoint(Point point, float angleInRadian)
+        private static Point RotatePoint(Point point, float angleInRadian)
         {
             return new Point(
                 (int)(point.X * Math.Cos(angleInRadian) - point.Y * Math.Sin(angleInRadian)),
