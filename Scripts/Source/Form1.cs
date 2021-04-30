@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Controllers;
-using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Scripts.Source;
 using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter
@@ -16,6 +17,8 @@ namespace Top_Down_shooter
 
         public Form1()
         {
+            
+
             DoubleBuffered = true;
             Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
             CenterToScreen();
@@ -24,11 +27,11 @@ namespace Top_Down_shooter
             gameRender = new GameRender(gameModel);
             TileMapController.CreateTile();
 
-            var updateGameLoop = new Timer();
+            var updateGameLoop = new System.Windows.Forms.Timer();
             updateGameLoop.Interval = 30;
             updateGameLoop.Tick += (sender, args) => UpdateGameLoop();
 
-            var playAnimations = new Timer();
+            var playAnimations = new System.Windows.Forms.Timer();
             playAnimations.Interval = 250;
             playAnimations.Tick += new EventHandler((sender, args) =>
             {
@@ -37,6 +40,9 @@ namespace Top_Down_shooter
 
             playAnimations.Start();
             updateGameLoop.Start();
+
+            var thread = new Thread(new ThreadStart(A));
+            thread.Start();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -56,40 +62,62 @@ namespace Top_Down_shooter
                 gameModel.Shoot();
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        private void A()
         {
-            switch (e.KeyCode)
+           while (true)
             {
-                case Keys.W:
+                Console.WriteLine(1);
+                if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_UP))
                     gameModel.Player.ChangeDirection(DirectionY.Up);
-                    break;
-                case Keys.A:
-                    gameModel.Player.ChangeDirection(DirectionX.Left);
-                    break;
-                case Keys.S:
+                else if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_DOWN))
                     gameModel.Player.ChangeDirection(DirectionY.Down);
-                    break;
-                case Keys.D:
-                    gameModel.Player.ChangeDirection(DirectionX.Right);
-                    break;
-            }
-        }
-
-
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                case Keys.S:
+                else
                     gameModel.Player.ChangeDirection(DirectionY.Idle);
-                    break;
-                case Keys.A:
-                case Keys.D:
+
+                if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_RIGHT))
+                    gameModel.Player.ChangeDirection(DirectionX.Right);
+                else if (Keyboard.IsKeyPressed(Keyboard.VirtualKeyStates.VK_LEFT))
+                    gameModel.Player.ChangeDirection(DirectionX.Left);
+                else
                     gameModel.Player.ChangeDirection(DirectionX.Idle);
-                    break;
+
             }
         }
+
+        //protected override void OnKeyDown(KeyEventArgs e)
+        //{
+        //    switch (e.KeyCode)
+        //    {
+        //        case Keys.W:
+        //            gameModel.Player.ChangeDirection(DirectionY.Up);
+        //            break;
+        //        case Keys.A:
+        //            gameModel.Player.ChangeDirection(DirectionX.Left);
+        //            break;
+        //        case Keys.S:
+        //            gameModel.Player.ChangeDirection(DirectionY.Down);
+        //            break;
+        //        case Keys.D:
+        //            gameModel.Player.ChangeDirection(DirectionX.Right);
+        //            break;
+        //    }
+        //}
+
+
+        //protected override void OnKeyUp(KeyEventArgs e)
+        //{
+        //    switch (e.KeyCode)
+        //    {
+        //        case Keys.W:
+        //        case Keys.S:
+        //            gameModel.Player.ChangeDirection(DirectionY.Idle);
+        //            break;
+        //        case Keys.A:
+        //        case Keys.D:
+        //            gameModel.Player.ChangeDirection(DirectionX.Idle);
+        //            break;
+        //    }
+        //}
 
         private void UpdateGameLoop()
         {
