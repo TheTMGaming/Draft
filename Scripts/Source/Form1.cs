@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Drawing;
-using System.Threading;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Scripts.Controllers;
-using Top_Down_shooter.Properties;
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using Top_Down_shooter.Properties;
+using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.GameObjects;
 
 namespace Top_Down_shooter
 {
     public class Form1 : Form
     {
-        private readonly GameRender gameRender;
-
         private readonly int IntervalUpdateGameLoop = 30;
         private readonly int IntervalUpdateAnimations = 250;
 
@@ -23,12 +19,11 @@ namespace Top_Down_shooter
             Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
             CenterToScreen();
 
-            gameRender = new GameRender();
             TileMapController.CreateTile();
 
          
             RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
-            RunTimer(IntervalUpdateAnimations, gameRender.PlayAnimations);
+            RunTimer(IntervalUpdateAnimations, GameRender.PlayAnimations);
 
             RunFunctionAsync(Controller.KeyboardHandler);
             RunFunctionAsync(Controller.MouseHandler);
@@ -38,10 +33,10 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            g.TranslateTransform(-gameRender.Camera.X, -gameRender.Camera.Y);
+            g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
             TileMapController.DrawTile(g);
 
-            gameRender.DrawObjects(g);
+            GameRender.DrawObjects(g);
             
         }
 
@@ -55,10 +50,10 @@ namespace Top_Down_shooter
             }
 
             var mousePosition = PointToClient(MousePosition);
-            gameRender.Camera.Move(GameModel.Player);
+            GameRender.Camera.Move(GameModel.Player);
             GameModel.Player.Gun.Angle = (float)Math.Atan2(
-                mousePosition.Y + gameRender.Camera.Y - GameModel.Player.Gun.Y,
-                mousePosition.X + gameRender.Camera.X - GameModel.Player.Gun.X);
+                mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
+                mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
             
             Physics.Update();
 

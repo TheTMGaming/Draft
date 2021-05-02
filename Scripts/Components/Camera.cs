@@ -4,7 +4,7 @@ using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
-    class CameraController
+    class Camera
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -14,7 +14,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         private static readonly int mapWidth;
         private static readonly int mapHeight;
 
-        static CameraController()
+        static Camera()
         {
             screenWidth = int.Parse(Resources.ScreenWidth);
             screenHeight = int.Parse(Resources.ScreenHeight);
