@@ -16,7 +16,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private static bool wasShot;
 
-        public static void KeyboardHandler(object sender, DoWorkEventArgs e)
+        public static void KeyboardHandler()
         {
             while (true)
             {
@@ -39,7 +39,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             }
         }
 
-        public static void MouseHandler(object sender, DoWorkEventArgs e)
+        public static void MouseHandler()
         {
             while (true)
             {

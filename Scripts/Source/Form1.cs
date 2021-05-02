@@ -13,11 +13,12 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private readonly GameRender gameRender;
-        //private readonly Map map;
+
+        private readonly int IntervalUpdateGameLoop = 30;
+        private readonly int IntervalUpdateAnimations = 250;
 
         public Form1()
         {
-
             DoubleBuffered = true;
             Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
             CenterToScreen();
@@ -25,27 +26,12 @@ namespace Top_Down_shooter
             gameRender = new GameRender();
             TileMapController.CreateTile();
 
-            var updateGameLoop = new System.Windows.Forms.Timer();
-            updateGameLoop.Interval = 30;
-            updateGameLoop.Tick += (sender, args) => UpdateGameLoop();
+         
+            RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
+            RunTimer(IntervalUpdateAnimations, gameRender.PlayAnimations);
 
-            var playAnimations = new System.Windows.Forms.Timer();
-            playAnimations.Interval = 250;
-            playAnimations.Tick += new EventHandler((sender, args) =>
-            {
-                gameRender.PlayAnimations();
-            });
-
-            playAnimations.Start();
-            updateGameLoop.Start();
-
-            var worker = new BackgroundWorker();
-            worker.DoWork += Controller.KeyboardHandler;
-            worker.RunWorkerAsync();
-
-            var worker1 = new BackgroundWorker();
-            worker1.DoWork += Controller.MouseHandler;
-            worker1.RunWorkerAsync();
+            RunFunctionAsync(Controller.KeyboardHandler);
+            RunFunctionAsync(Controller.MouseHandler);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -101,6 +87,23 @@ namespace Top_Down_shooter
 
             Invalidate();
            
+        }
+
+        private void RunTimer(int interval, Action func)
+        {
+            var timer = new System.Windows.Forms.Timer();
+
+            timer.Interval = interval;
+            timer.Tick += (sender, args) => func();
+
+            timer.Start();
+        }
+
+        private void RunFunctionAsync(Action func)
+        {
+            var worker = new BackgroundWorker();
+            worker.DoWork += (sender, args) => func();
+            worker.RunWorkerAsync();
         }
     }
 }
