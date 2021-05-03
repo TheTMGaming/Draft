@@ -131,7 +131,7 @@ namespace Top_Down_shooter.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 1080.
+        ///   Ищет локализованную строку, похожую на 1920.
         /// </summary>
         public static string MapHeight {
             get {
