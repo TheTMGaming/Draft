@@ -11,6 +11,7 @@ namespace Top_Down_shooter
     static class GameModel
     {
         public static readonly Player Player;
+        public static readonly Map Map;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
 
@@ -19,7 +20,7 @@ namespace Top_Down_shooter
         {
             Player = new Player(100, 100, 5);
             HealthBar = new HealthBar(100);
-
+            Map = new Map();
             Bullets = new LinkedList<Bullet>();
           
         }

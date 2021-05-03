@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="Scripts\Components\Camera.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
+    <Compile Include="Scripts\Controllers\Map.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
@@ -68,7 +69,6 @@
     <Compile Include="Scripts\Renders\GameRender.cs" />
     <Compile Include="Scripts\Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\Controllers\TileMapController.cs" />
     <Compile Include="Scripts\Controllers\QuadTree.cs" />
     <Compile Include="Scripts\Renders\CharacterRender.cs" />
     <Compile Include="Scripts\Renders\GunRender.cs" />

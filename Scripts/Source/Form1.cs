@@ -18,9 +18,6 @@ namespace Top_Down_shooter
             DoubleBuffered = true;
             Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
             CenterToScreen();
-
-            TileMapController.CreateTile();
-
          
             RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimer(IntervalUpdateAnimations, GameRender.PlayAnimations);
@@ -34,8 +31,10 @@ namespace Top_Down_shooter
             Graphics g = e.Graphics;
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
-            TileMapController.DrawTile(g);
 
+            
+            GameModel.Map.Draw(g);
+            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(int.Parse(Resources.MapWidth) / 2, int.Parse(Resources.MapHeight) / 2, 50, 50));
             GameRender.DrawObjects(g);
             
         }
@@ -55,7 +54,7 @@ namespace Top_Down_shooter
                 mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
                 mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
             
-            Physics.Update();
+            //Physics.Update();
 
             GameModel.Player.Move();
 
