@@ -78,17 +78,25 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 var tile = queue.Dequeue();
 
-                var n = GetNeighbors(tile.point, visited);
-                if (n.Count(a => Cells[a.X, a.Y] == TileTypes.Box) == 0 && tile.level > 2 && randGenerator.NextDouble() > .75 + tile.level * 0.007)
+                var n = Enumerable
+                .Range(-3, 7)
+                .SelectMany(dx => Enumerable.Range(-3, 7),
+                            (dx, dy) => new Point(tile.point.X + dx, tile.point.Y + dy))
+                .Where(q => q.X > -1 && q.X < width && q.Y > -1 && q.Y < height && q != tile.point).ToList();
+
+                
+                if (n.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < 2
+                    && tile.level > 3
+                    && randGenerator.NextDouble() > 0.8 + (tile.level - 3) * 0.012
+                    )
                     Cells[tile.point.X, tile.point.Y] = TileTypes.Box;
 
-                foreach (var neighbour in n)
+                foreach (var neighbour in GetNeighbors(tile.point, visited).ToList())
                 {
-                    if (!visited.Contains(neighbour))
-                    {
-                        queue.Enqueue(new A(neighbour, tile.level + 1));
-                        visited.Add(neighbour);
-                    }
+                   
+                    queue.Enqueue(new A(neighbour, tile.level + 1));
+                    visited.Add(neighbour);
+                    
                 }
 
                 visited.Add(tile.point);
@@ -131,11 +139,11 @@ namespace Top_Down_shooter.Scripts.Controllers
         private IEnumerable<Point> GetNeighbors(Point point, HashSet<Point> visited)
         {
             return Enumerable
-                .Range(-2, 4)
-                .SelectMany(dx => Enumerable.Range(-2, 4).Where(dy => dx != point.X && dy != point.Y),
+                .Range(-1, 3)
+                .SelectMany(dx => Enumerable.Range(-1, 3),
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
                 .Where(n => n.X > -1 && n.X < width && n.Y > -1 && n.Y < height
-                ) ;
+                && !visited.Contains(n)) ;
         }
 
     }

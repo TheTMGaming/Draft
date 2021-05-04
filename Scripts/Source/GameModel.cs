@@ -18,7 +18,7 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
-            Player = new Player(100, 100, 5);
+            Player = new Player(100, 100, 8);
             HealthBar = new HealthBar(100);
             Map = new Map();
             Bullets = new LinkedList<Bullet>();

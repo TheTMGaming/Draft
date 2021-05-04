@@ -54,7 +54,7 @@ namespace Top_Down_shooter
                 mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
                 mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
             
-            //Physics.Update();
+            Physics.Update();
 
             GameModel.Player.Move();
 
