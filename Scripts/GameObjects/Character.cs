@@ -27,16 +27,10 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
 
-        public virtual void Move()
+        public virtual void Move(bool isReverse = false)
         {
-            X += GetRoundSpeedX();
-            Y += GetRoundSpeedY();
-        }
-
-        public virtual void ComeBack()
-        {
-            X -= GetRoundSpeedX();
-            Y -= GetRoundSpeedY();
+            X += GetRoundSpeedX() * (isReverse ? -1 : 1);
+            Y += GetRoundSpeedY() * (isReverse ? -1 : 1);
         }
 
         public virtual void ChangeDirection(DirectionX directionX)

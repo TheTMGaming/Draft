@@ -61,7 +61,7 @@ namespace Top_Down_shooter
             if (Physics.IsCollided(GameModel.Player, out var a))
             {
                 if (!(a is Bullet))
-                    GameModel.Player.ComeBack();
+                    GameModel.Player.Move(isReverse: true);
             }
 
 
