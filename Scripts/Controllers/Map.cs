@@ -63,7 +63,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
                     && tile.level > sizeBossZone
-                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels)
+                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels
+                    && !new Rectangle(tile.point.X * sizeTile, tile.point.Y * sizeTile, sizeTile, sizeTile).IntersectsWith(GameModel.Player.Collider))
                 {
                     var box = new Box(tile.point.X * sizeTile + sizeTile / 2, tile.point.Y * sizeTile + sizeTile / 2);
 
