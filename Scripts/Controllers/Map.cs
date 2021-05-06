@@ -71,7 +71,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 var tile = queue.Dequeue();
 
-                var zone = GetTileZone(tile.point);
+                var zone = GetTileZone(tile.point).ToList();
 
                 if (zone.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < maxCountBoxStack
                     && tile.level > sizeBossZone
@@ -80,7 +80,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     Cells[tile.point.X, tile.point.Y] = TileTypes.Box;
                 }
 
-                foreach (var neighbour in GetNeighbors(tile.point, visited).ToList())
+                foreach (var neighbour in GetNeighbors(tile.point, zone, visited))
                 {                  
                     queue.Enqueue(new A(neighbour, tile.level + 1));
                     visited.Add(neighbour);                   
@@ -124,21 +124,18 @@ namespace Top_Down_shooter.Scripts.Controllers
         private IEnumerable<Point> GetTileZone(Point point)
         {
             return Enumerable
-                .Range(-sizeViewedZoneTile, 3 + sizeViewedZoneTile)
-                .SelectMany(dx => Enumerable.Range(-3, 7),
+                .Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2)
+                .SelectMany(dx => Enumerable.Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2),
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
                 .Where(p => p.X > -1 && p.X < width && p.Y > -1 && p.Y < height && p != point);
         }
 
 
-        private IEnumerable<Point> GetNeighbors(Point point, HashSet<Point> visited)
+        private IEnumerable<Point> GetNeighbors(Point point, IEnumerable<Point> tileZone, HashSet<Point> visited)
         {
-            return Enumerable
-                .Range(-1, 3)
-                .SelectMany(dx => Enumerable.Range(-1, 3),
-                            (dx, dy) => new Point(point.X + dx, point.Y + dy))
-                .Where(n => n.X > -1 && n.X < width && n.Y > -1 && n.Y < height
-                && !visited.Contains(n)) ;
+            return tileZone
+                .Where(p => Math.Abs(p.X - point.X) < 2 && Math.Abs(p.Y - point.Y) < 2
+                    && !visited.Contains(p));
         }
 
     }
