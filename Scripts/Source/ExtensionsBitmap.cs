@@ -14,15 +14,15 @@ namespace Top_Down_shooter
             return bmp;
         }
 
-        public static Bitmap Blackout(this Bitmap source, float fraction)
+        public static Bitmap Blackout(this Bitmap source, float percent)
         {
             var bmp = new Bitmap(source);
 
-            if ((int)(255 * fraction) > -1 && (int)(255 * fraction) < 256)
+            if ((int)(255 * percent) > -1 && (int)(255 * percent) < 256)
             {
                 using (var g = Graphics.FromImage(bmp))
                 {
-                    var darken = Color.FromArgb((int)(255 * fraction), Color.Black);
+                    var darken = Color.FromArgb((int)(255 * percent), Color.Black);
 
                     using (var brush = new SolidBrush(darken))
                         g.FillRectangle(brush, new Rectangle(0, 0, bmp.Width, bmp.Height));
