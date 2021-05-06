@@ -54,7 +54,9 @@
     <Compile Include="Scripts\Components\Camera.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\Controllers\Map.cs" />
+    <Compile Include="Scripts\GameObjects\Box.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
+    <Compile Include="Scripts\Renders\BoxRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,7 +76,7 @@
     <Compile Include="Scripts\Renders\GunRender.cs" />
     <Compile Include="Scripts\Renders\HealthBarRender.cs" />
     <Compile Include="Scripts\Renders\IAnimationRender.cs" />
-    <Compile Include="Scripts\Renders\SpriteRender.cs" />
+    <Compile Include="Scripts\Renders\ImageRender.cs" />
     <Compile Include="Scripts\Renders\IRender.cs" />
     <Compile Include="Scripts\Renders\TileMapRender.cs" />
     <Compile Include="Scripts\UI\HealthBar.cs" />

@@ -27,8 +27,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
     class Map
     {
-        public readonly TileTypes[,] Cells;
-        public readonly SpriteRender[,] Tiles;
+        public readonly ImageRender[,] Tiles;
 
         private readonly int width;
         private readonly int height;
@@ -46,8 +45,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             width = int.Parse(Resources.MapWidth) / sizeTile;
             height = int.Parse(Resources.MapHeight) / sizeTile;
-            Cells = new TileTypes[width, height];
-            Tiles = new SpriteRender[width, height];
+            Tiles = new ImageRender[width, height];
 
             CreateMap();
         }
@@ -62,22 +60,22 @@ namespace Top_Down_shooter.Scripts.Controllers
 
             var visited = new HashSet<Point>();
             var queue = new Queue<A>();
+            var cells = new TileTypes[width, height];
 
             queue.Enqueue(new A(new Point(width / 2, height / 2), 0));
-            visited.Add(new Point(width / 2, height / 2));
-
 
             while (queue.Count > 0)
             {
                 var tile = queue.Dequeue();
+                visited.Add(tile.point);
 
                 var zone = GetTileZone(tile.point).ToList();
 
-                if (zone.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < maxCountBoxStack
+                if (zone.Count(a => cells[a.X, a.Y] == TileTypes.Box) < maxCountBoxStack
                     && tile.level > sizeBossZone
                     && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels)
                 {
-                    Cells[tile.point.X, tile.point.Y] = TileTypes.Box;
+                    cells[tile.point.X, tile.point.Y] = TileTypes.Box;
 
                     var box = new SpriteRender(tile.point.X * sizeTile, tile.point.Y * sizeTile, Resources.Box);
 
@@ -100,8 +98,6 @@ namespace Top_Down_shooter.Scripts.Controllers
                     queue.Enqueue(new A(neighbour, tile.level + 1));
                     visited.Add(neighbour);                   
                 }
-
-                visited.Add(tile.point);
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace Top_Down_shooter.Scripts.Renders
 {
-    class SpriteRender : IAnimationRender
+    class ImageRender : IAnimationRender
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private readonly Bitmap image;
 
-        public SpriteRender(int xLeft, int yTop, Bitmap image)
+        public ImageRender(int xLeft, int yTop, Bitmap image)
         {
             X = xLeft;
             Y = yTop;

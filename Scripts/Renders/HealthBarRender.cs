@@ -13,9 +13,9 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly HealthBar healthBar;
         private readonly Size sizeBar;
 
-        private readonly SpriteRender background;
-        private readonly SpriteRender bar;
-        private readonly SpriteRender heart;
+        private readonly ImageRender background;
+        private readonly ImageRender bar;
+        private readonly ImageRender heart;
 
         private readonly Point offsetBackground = new Point(140, 20);
         private readonly Point offsetBar = new Point(140, 20);
@@ -26,13 +26,13 @@ namespace Top_Down_shooter.Scripts.Renders
             X = xLeft;
             Y = yTop;
 
-            heart = new SpriteRender(X, Y, Resources.Heart);
+            heart = new ImageRender(X, Y, Resources.Heart);
 
-            background = new SpriteRender(
+            background = new ImageRender(
                 X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar
                 );
 
-            bar = new SpriteRender(X + offsetBar.X, Y + offsetBar.Y, Resources.HealthBar);
+            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, Resources.HealthBar);
         }
 
         public void Draw(Graphics g)
