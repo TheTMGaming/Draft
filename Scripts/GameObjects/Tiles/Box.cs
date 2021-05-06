@@ -16,5 +16,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
             X = x;
             Y = y;
         }
+
+        public void DoDamage(int force)
+        {
+            Health -= force;
+
+            if (Health < 0) Health = 0;
+        }
     }
 }

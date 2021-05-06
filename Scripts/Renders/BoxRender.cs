@@ -14,7 +14,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private readonly Box box;
         private readonly Bitmap atlasStates = new Bitmap(Resources.Box);
-
+        
         public BoxRender(Box box)
         {
             this.box = box;
@@ -23,7 +23,7 @@ namespace Top_Down_shooter.Scripts.Renders
         }
         public void Draw(Graphics g)
         {
-            g.DrawImage(atlasStates.Darken(Box.MaxHealth - box.Health / Box.MaxHealth),
+            g.DrawImage(atlasStates.Blackout(1 - (float)box.Health / Box.MaxHealth),
                X, Y,
                new Rectangle(0, 0, Size.Width, Size.Height),
                GraphicsUnit.Pixel);
