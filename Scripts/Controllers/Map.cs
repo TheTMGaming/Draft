@@ -20,14 +20,9 @@ namespace Top_Down_shooter.Scripts.Controllers
         }
     }
 
-    enum TileTypes
-    {
-        Grass, Box
-    }
-
     class Map
     {
-        public readonly ImageRender[,] Tiles;
+        public readonly GameObject[,] Tiles;
 
         private readonly int width;
         private readonly int height;
@@ -45,22 +40,17 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             width = int.Parse(Resources.MapWidth) / sizeTile;
             height = int.Parse(Resources.MapHeight) / sizeTile;
-            Tiles = new ImageRender[width, height];
+            Tiles = new GameObject[width, height];
 
             CreateMap();
         }
-        public void Draw(Graphics g)
-        {
-            foreach (var s in Tiles)
-                s.Draw(g);
-        }
+
         private void CreateMap()
         {
             var rand = new Random();
 
             var visited = new HashSet<Point>();
             var queue = new Queue<A>();
-            var cells = new TileTypes[width, height];
 
             queue.Enqueue(new A(new Point(width / 2, height / 2), 0));
 
@@ -71,26 +61,19 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 var zone = GetTileZone(tile.point).ToList();
 
-                if (zone.Count(a => cells[a.X, a.Y] == TileTypes.Box) < maxCountBoxStack
+                if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
                     && tile.level > sizeBossZone
                     && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels)
                 {
-                    cells[tile.point.X, tile.point.Y] = TileTypes.Box;
-
-                    var box = new SpriteRender(tile.point.X * sizeTile, tile.point.Y * sizeTile, Resources.Box);
+                    var box = new Box(tile.point.X * sizeTile, tile.point.Y * sizeTile);
 
                     Tiles[tile.point.X, tile.point.Y] = box;
-                    Physics.AddToTrackingCollisions(new GameObject
-                    {
-                        X = box.X + box.Size.Width / 2,
-                        Y = box.Y + box.Size.Height / 2,
-                        Size = box.Size
-                    });
+                    Physics.AddToTrackingCollisions(box);
                 }
                 else
                 {
-                    Tiles[tile.point.X, tile.point.Y] = new SpriteRender(tile.point.X * sizeTile, tile.point.Y * sizeTile,
-                            Resources.Grass.Extract(new Rectangle(sizeTile * rand.Next(0, 4), 0, sizeTile, sizeTile)));
+                   
+                    Tiles[tile.point.X, tile.point.Y] = new Grass(tile.point.X * sizeTile, tile.point.Y * sizeTile);
                 }
 
                 foreach (var neighbour in GetNeighbors(tile.point, zone, visited))

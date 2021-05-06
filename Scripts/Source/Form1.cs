@@ -32,8 +32,6 @@ namespace Top_Down_shooter
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
-            
-            GameModel.Map.Draw(g);
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(int.Parse(Resources.MapWidth) / 2, int.Parse(Resources.MapHeight) / 2, 50, 50));
             GameRender.DrawObjects(g);
             

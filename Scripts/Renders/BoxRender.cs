@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.Renders
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Size Size => throw new NotImplementedException();
+        public Size Size => new Size(sizeFrame, sizeFrame);
 
         private readonly Box box;
         private readonly Bitmap atlasStates = new Bitmap(Resources.Box);
@@ -26,7 +26,7 @@ namespace Top_Down_shooter.Scripts.Renders
         {
             var state = 0;
 
-            if (box.Health < 50 && box.Health > 0)
+            if (box.Health < 5 && box.Health > 0)
                 state = 1;
             else if (box.Health < 1)
                 state = 2;
