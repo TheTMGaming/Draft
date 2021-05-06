@@ -65,7 +65,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     && tile.level > sizeBossZone
                     && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels)
                 {
-                    var box = new Box(tile.point.X * sizeTile, tile.point.Y * sizeTile);
+                    var box = new Box(tile.point.X * sizeTile + sizeTile / 2, tile.point.Y * sizeTile + sizeTile / 2);
 
                     Tiles[tile.point.X, tile.point.Y] = box;
                     Physics.AddToTrackingCollisions(box);
@@ -73,7 +73,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 else
                 {
                    
-                    Tiles[tile.point.X, tile.point.Y] = new Grass(tile.point.X * sizeTile, tile.point.Y * sizeTile);
+                    Tiles[tile.point.X, tile.point.Y] = new Grass(tile.point.X * sizeTile + sizeTile / 2, tile.point.Y * sizeTile + sizeTile / 2);
                 }
 
                 foreach (var neighbour in GetNeighbors(tile.point, zone, visited))

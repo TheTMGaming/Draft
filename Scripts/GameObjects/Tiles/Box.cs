@@ -1,14 +1,18 @@
-﻿namespace Top_Down_shooter.Scripts.GameObjects
+﻿using System.Drawing;
+using Top_Down_shooter.Properties;
+
+namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Box : GameObject
     { 
         public int Health { get; set; }
 
-        public Box(int xLeft, int yTop)
+        public Box(int x, int y)
         {
             Health = 10;
-            X = xLeft;
-            Y = yTop;
+            Size = new Size(int.Parse(Resources.TileSize), int.Parse(Resources.TileSize));
+            X = x;
+            Y = y;
         }
     }
 }

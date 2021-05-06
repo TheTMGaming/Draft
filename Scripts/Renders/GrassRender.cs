@@ -20,12 +20,14 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly Bitmap image;
         private readonly int sizeTile = int.Parse(Resources.TileSize);
 
+        private static Random randGenerator = new Random();
+
         public GrassRender(Grass grass)
         {
             this.grass = grass;
-            X = grass.X;
-            Y = grass.Y;
-            image = Resources.Grass.Extract(new Rectangle(sizeTile * new Random().Next(0, 4), 0, sizeTile, sizeTile));
+            X = grass.X - sizeTile / 2;
+            Y = grass.Y - sizeTile / 2;
+            image = Resources.Grass.Extract(new Rectangle(sizeTile * randGenerator.Next(0, 4), 0, sizeTile, sizeTile));
         }
 
         public void Draw(Graphics g)

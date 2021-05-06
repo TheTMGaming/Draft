@@ -1,14 +1,16 @@
-﻿
+﻿using System.Drawing;
+using Top_Down_shooter.Properties;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Grass : GameObject
     {
-        public Grass(int xLeft, int yTop)
+        public Grass(int x, int y)
         {
             IsTrigger = true;
-            X = xLeft;
-            Y = yTop;
+            Size = new Size(int.Parse(Resources.TileSize), int.Parse(Resources.TileSize));
+            X = x;
+            Y = y;
         }
     }
 }

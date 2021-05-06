@@ -19,8 +19,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public BoxRender(Box box)
         {
             this.box = box;
-            X = box.X;
-            Y = box.Y;
+            X = box.X - sizeFrame / 2;
+            Y = box.Y - sizeFrame / 2;
         }
         public void Draw(Graphics g)
         {
