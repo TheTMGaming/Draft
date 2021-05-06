@@ -5,42 +5,29 @@ using Top_Down_shooter.Scripts.GameObjects;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
-    class BoxRender : IAnimationRender
+    class BoxRender : IRender
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Size Size => new Size(sizeFrame, sizeFrame);
+        public Size Size => new Size(int.Parse(Resources.TileSize), int.Parse(Resources.TileSize));
 
         private readonly Box box;
         private readonly Bitmap atlasStates = new Bitmap(Resources.Box);
-        private readonly int sizeFrame = int.Parse(Resources.TileSize);
 
         public BoxRender(Box box)
         {
             this.box = box;
-            X = box.X - sizeFrame / 2;
-            Y = box.Y - sizeFrame / 2;
+            X = box.X - Size.Width / 2;
+            Y = box.Y - Size.Height / 2;
         }
         public void Draw(Graphics g)
         {
-            var state = 0;
-
-            if (box.Health < 5 && box.Health > 0)
-                state = 1;
-            else if (box.Health < 1)
-                state = 2;
-
-            Draw(g, new Point(sizeFrame * state, 0), new Size(sizeFrame, sizeFrame));
-        }
-        
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
-        {
-            g.DrawImage(atlasStates,
+            g.DrawImage(atlasStates.Darken(Box.MaxHealth - box.Health / Box.MaxHealth),
                X, Y,
-               new Rectangle(startSlice, sizeSlice),
+               new Rectangle(0, 0, Size.Width, Size.Height),
                GraphicsUnit.Pixel);
         }
-
+      
     }
 }
