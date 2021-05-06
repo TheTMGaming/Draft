@@ -71,9 +71,14 @@ namespace Top_Down_shooter
                 {
                     if (other is Player || other is Bullet)
                         continue;
-                    if (other is Box)
+                    if (other is Box box)
                     {
-                        ((Box)other).DoDamage(1);
+                        box.DoDamage(1);
+                        if (box.Health == 0)
+                        {
+                            GameModel.ChangeBoxToGrass(box);
+                            Physics.RemoveFromTrackingCollisions(box);
+                        }
                     }
 
                     GameModel.Bullets.Remove(node);

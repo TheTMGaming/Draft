@@ -14,30 +14,35 @@ namespace Top_Down_shooter.Scripts.Renders
         public Size Size => new Size(int.Parse(Resources.MapWidth), int.Parse(Resources.MapHeight));
 
         private readonly Map map;
-        private readonly List<IRender> tileRenders = new List<IRender>();
+        
 
         public MapRender(Map map)
         {
             this.map = map;
-
-            foreach (var tile in map.Tiles)
-            {
-                if (tile is Box)
-                {
-                    tileRenders.Add(new BoxRender(tile as Box));
-                    continue;
-                }
-
-                if (tile is Grass)
-                    tileRenders.Add(new GrassRender(tile as Grass));
-            }
         }
 
 
         public void Draw(Graphics g)
         {
-            foreach (var render in tileRenders)
-                render.Draw(g);
+            foreach (var tile in map.Tiles)
+            {
+                if (tile is Box box)
+                {
+                    g.DrawImage(box.Image.Blackout((1 - (float)box.Health / Box.MaxHealth) / 2),
+                        box.X - box.Image.Width / 2, box.Y - box.Image.Height / 2,
+                        new Rectangle(0, 0, box.Image.Width, box.Image.Height),
+                        GraphicsUnit.Pixel);
+                    continue;
+                }
+
+                if (tile is Grass grass)
+                {
+                    g.DrawImage(grass.Image,
+                        grass.X - grass.Image.Width / 2, grass.Y - grass.Image.Height / 2,
+                        new Rectangle(0, 0, grass.Image.Width, grass.Image.Height),
+                        GraphicsUnit.Pixel);
+                }
+            }
         }
     }
 }

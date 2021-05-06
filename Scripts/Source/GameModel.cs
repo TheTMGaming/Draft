@@ -37,6 +37,11 @@ namespace Top_Down_shooter
 
         }
 
+        public static void ChangeBoxToGrass(Box box)
+        {
+            Map.Tiles[(box.X - 64 / 2) / 64, (box.Y - 64 / 2) / 64] = new Grass(box.X, box.Y);
+        }
+
         private static Point RotatePoint(Point point, float angleInRadian)
         {
             return new Point(

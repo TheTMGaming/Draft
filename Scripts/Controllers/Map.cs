@@ -59,7 +59,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 var tile = queue.Dequeue();
                 visited.Add(tile.point);
 
-                var zone = GetTileZone(tile.point).ToList();
+                var zone = GetTileZone(tile.point);
 
                 if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
                     && tile.level > sizeBossZone
