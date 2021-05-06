@@ -22,7 +22,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
     enum TileTypes
     {
-        Grass, Box, None
+        Grass, Box
     }
 
     class Map
@@ -35,7 +35,13 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private readonly int sizeTile = int.Parse(Resources.TileSize);
         private readonly Random randGenerator = new Random();
-       
+
+        private readonly int maxCountBoxStack = 2;
+        private readonly int sizeBossZone = 3;
+        private readonly int sizeViewedZoneTile = 3;
+        private readonly float initialProbabilitySpawnBox = .8f;
+        private readonly float increasingProbabilityLevels = .012f;
+
         public Map()
         {
             width = int.Parse(Resources.MapWidth) / sizeTile;
@@ -54,22 +60,9 @@ namespace Top_Down_shooter.Scripts.Controllers
         }
         private void CreateMap()
         {
-            
-
-            
-
-            for (var i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    Cells[i, j] = TileTypes.None;
-                }
-            }
-
-
-            var level = 0;
             var visited = new HashSet<Point>();
             var queue = new Queue<A>();
+
             queue.Enqueue(new A(new Point(width / 2, height / 2), 0));
             visited.Add(new Point(width / 2, height / 2));
 
@@ -78,29 +71,22 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 var tile = queue.Dequeue();
 
-                var n = Enumerable
-                .Range(-3, 7)
-                .SelectMany(dx => Enumerable.Range(-3, 7),
-                            (dx, dy) => new Point(tile.point.X + dx, tile.point.Y + dy))
-                .Where(q => q.X > -1 && q.X < width && q.Y > -1 && q.Y < height && q != tile.point).ToList();
+                var zone = GetTileZone(tile.point);
 
-                
-                if (n.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < 2
-                    && tile.level > 3
-                    && randGenerator.NextDouble() > 0.8 + (tile.level - 3) * 0.012
-                    )
+                if (zone.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < maxCountBoxStack
+                    && tile.level > sizeBossZone
+                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels)
+                {
                     Cells[tile.point.X, tile.point.Y] = TileTypes.Box;
+                }
 
                 foreach (var neighbour in GetNeighbors(tile.point, visited).ToList())
-                {
-                   
+                {                  
                     queue.Enqueue(new A(neighbour, tile.level + 1));
-                    visited.Add(neighbour);
-                    
+                    visited.Add(neighbour);                   
                 }
 
                 visited.Add(tile.point);
-                level++;
             }
         }
 
@@ -133,6 +119,15 @@ namespace Top_Down_shooter.Scripts.Controllers
                     }
                 }
             }
+        }
+
+        private IEnumerable<Point> GetTileZone(Point point)
+        {
+            return Enumerable
+                .Range(-sizeViewedZoneTile, 3 + sizeViewedZoneTile)
+                .SelectMany(dx => Enumerable.Range(-3, 7),
+                            (dx, dy) => new Point(point.X + dx, point.Y + dy))
+                .Where(p => p.X > -1 && p.X < width && p.Y > -1 && p.Y < height && p != point);
         }
 
 
