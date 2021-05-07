@@ -2,6 +2,7 @@
 using System.Drawing;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
@@ -12,7 +13,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         static Physics()
         {
-            colliders = new QuadTree(new Rectangle(0, 0, int.Parse(Resources.MapWidth), int.Parse(Resources.MapHeight)));
+            colliders = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
             trackingCollisions = new HashSet<GameObject>();
         }
 

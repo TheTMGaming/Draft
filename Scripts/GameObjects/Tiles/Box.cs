@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Top_Down_shooter.Properties;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -14,7 +15,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public Box(int x, int y)
         {
             Health = 10;
-            Size = new Size(int.Parse(Resources.TileSize), int.Parse(Resources.TileSize));
+            Size = new Size(GameSettings.TileSize, GameSettings.TileSize);
             X = x;
             Y = y;
         }

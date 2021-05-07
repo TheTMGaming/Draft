@@ -4,6 +4,7 @@ using Top_Down_shooter.Scripts.Controllers;
 using System.Collections.Generic;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Properties;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -11,7 +12,7 @@ namespace Top_Down_shooter.Scripts.Renders
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public Size Size => new Size(int.Parse(Resources.MapWidth), int.Parse(Resources.MapHeight));
+        public Size Size => new Size(GameSettings.MapWidth, GameSettings.MapHeight);
 
         private readonly Map map;
         

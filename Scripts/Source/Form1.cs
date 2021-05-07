@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter
 {
@@ -16,7 +17,8 @@ namespace Top_Down_shooter
         public Form1()
         {
             DoubleBuffered = true;
-            Size = new Size(int.Parse(Resources.ScreenWidth), int.Parse(Resources.ScreenHeight));
+            Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
+            //FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
          
             RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
@@ -34,7 +36,7 @@ namespace Top_Down_shooter
 
             
             GameRender.DrawObjects(g);
-            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(int.Parse(Resources.MapWidth) / 2, int.Parse(Resources.MapHeight) / 2, 50, 50));
+            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
         }
 
         private void UpdateGameLoop()

@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Properties;
+﻿using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
@@ -9,30 +8,17 @@ namespace Top_Down_shooter.Scripts.Controllers
         public int X { get; set; }
         public int Y { get; set; }
 
-        private static readonly int screenWidth;
-        private static readonly int screenHeight;
-        private static readonly int mapWidth;
-        private static readonly int mapHeight;
-
-        static Camera()
-        {
-            screenWidth = int.Parse(Resources.ScreenWidth);
-            screenHeight = int.Parse(Resources.ScreenHeight);
-            mapWidth = int.Parse(Resources.MapWidth);
-            mapHeight = int.Parse(Resources.MapHeight);
-        }
-
         public void Move(Player player)
         {
-            if (player.X > screenWidth / 2 && player.X < mapWidth - screenWidth / 2)
+            if (player.X > GameSettings.ScreenWidth / 2 && player.X < GameSettings.MapWidth - GameSettings.ScreenWidth / 2)
             {
-                X = player.X - screenWidth / 2;
+                X = player.X - GameSettings.ScreenWidth / 2;
 
             }
 
-            if (player.Y > screenHeight / 2 && player.Y < mapHeight - screenHeight / 2)
+            if (player.Y > GameSettings.ScreenHeight / 2 && player.Y < GameSettings.MapHeight - GameSettings.ScreenHeight / 2)
             {
-                Y = player.Y - screenHeight / 2;
+                Y = player.Y - GameSettings.ScreenHeight / 2;
             }
         }
     }

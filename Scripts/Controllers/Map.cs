@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Scripts.Source;
 using Top_Down_shooter.Properties;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +27,6 @@ namespace Top_Down_shooter.Scripts.Controllers
         private readonly int width;
         private readonly int height;
 
-        private readonly int sizeTile = int.Parse(Resources.TileSize);
         private readonly Random randGenerator = new Random();
 
         private readonly int maxCountBoxStack = 2;
@@ -38,8 +37,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public Map()
         {
-            width = int.Parse(Resources.MapWidth) / sizeTile;
-            height = int.Parse(Resources.MapHeight) / sizeTile;
+            width = GameSettings.MapWidth / GameSettings.TileSize;
+            height = GameSettings.MapHeight / GameSettings.TileSize;
             Tiles = new GameObject[width, height];
 
             CreateMap();
@@ -49,16 +48,16 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             foreach (var x in Enumerable.Range(0, width))
             {
-                Tiles[x, 0] = new Block(x * sizeTile + sizeTile / 2, sizeTile / 2);
-                Tiles[x, height - 1] = new Block(x * sizeTile + sizeTile / 2, (height - 1) * sizeTile + sizeTile / 2);
+                Tiles[x, 0] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, GameSettings.TileSize / 2);
+                Tiles[x, height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, (height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                 Physics.AddToTrackingCollisions(Tiles[x, 0]);
                 Physics.AddToTrackingCollisions(Tiles[x, height - 1]);
             }
             foreach (var y in Enumerable.Range(1, height - 1))
             {
-                Tiles[0, y] = new Block(sizeTile / 2, y * sizeTile + sizeTile / 2);
-                Tiles[width - 1, y] = new Block((width - 1) * sizeTile + sizeTile / 2, y * sizeTile + sizeTile / 2);
+                Tiles[0, y] = new Block(GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
+                Tiles[width - 1, y] = new Block((width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                 Physics.AddToTrackingCollisions(Tiles[0, y]);
                 Physics.AddToTrackingCollisions(Tiles[width - 1, y]);
@@ -80,9 +79,9 @@ namespace Top_Down_shooter.Scripts.Controllers
                 if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
                     && tile.Level > sizeBossZone
                     && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.Level - sizeBossZone) * increasingProbabilityLevels
-                    && !new Rectangle(tile.Point.X * sizeTile, tile.Point.Y * sizeTile, sizeTile, sizeTile).IntersectsWith(GameModel.Player.Collider))
+                    && !new Rectangle(tile.Point.X * GameSettings.TileSize, tile.Point.Y * GameSettings.TileSize, GameSettings.TileSize, GameSettings.TileSize).IntersectsWith(GameModel.Player.Collider))
                 {
-                    var box = new Box(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
+                    var box = new Box(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                     Tiles[tile.Point.X, tile.Point.Y] = box;
                     Physics.AddToTrackingCollisions(box);
@@ -90,7 +89,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 else
                 {
                    
-                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
+                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
                 }
 
                 foreach (var neighbour in GetNeighbors(tile.Point, zone, visited))

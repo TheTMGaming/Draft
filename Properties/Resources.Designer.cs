@@ -141,57 +141,12 @@ namespace Top_Down_shooter.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 1920.
-        /// </summary>
-        public static string MapHeight {
-            get {
-                return ResourceManager.GetString("MapHeight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 1920.
-        /// </summary>
-        public static string MapWidth {
-            get {
-                return ResourceManager.GetString("MapWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap Player {
             get {
                 object obj = ResourceManager.GetObject("Player", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 768.
-        /// </summary>
-        public static string ScreenHeight {
-            get {
-                return ResourceManager.GetString("ScreenHeight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 1280.
-        /// </summary>
-        public static string ScreenWidth {
-            get {
-                return ResourceManager.GetString("ScreenWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 64.
-        /// </summary>
-        public static string TileSize {
-            get {
-                return ResourceManager.GetString("TileSize", resourceCulture);
             }
         }
     }
