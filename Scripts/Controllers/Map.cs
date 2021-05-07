@@ -8,15 +8,15 @@ using System.Linq;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
-    class A
+    class TileData
     {
-        public Point point;
-        public int level;
+        public Point Point;
+        public int Level;
 
-        public A(Point p, int l)
+        public TileData(Point point, int level)
         {
-            point = p;
-            level = l;
+            Point = point;
+            Level = level;
         }
     }
 
@@ -47,39 +47,55 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private void CreateMap()
         {
+            foreach (var x in Enumerable.Range(0, width))
+            {
+                Tiles[x, 0] = new Block(x * sizeTile + sizeTile / 2, sizeTile / 2);
+                Tiles[x, height - 1] = new Block(x * sizeTile + sizeTile / 2, (height - 1) * sizeTile + sizeTile / 2);
+
+                Physics.AddToTrackingCollisions(Tiles[x, 0]);
+                Physics.AddToTrackingCollisions(Tiles[x, height - 1]);
+            }
+            foreach (var y in Enumerable.Range(1, height - 1))
+            {
+                Tiles[0, y] = new Block(sizeTile / 2, y * sizeTile + sizeTile / 2);
+                Tiles[width - 1, y] = new Block((width - 1) * sizeTile + sizeTile / 2, y * sizeTile + sizeTile / 2);
+
+                Physics.AddToTrackingCollisions(Tiles[0, y]);
+                Physics.AddToTrackingCollisions(Tiles[width - 1, y]);
+            }
             var rand = new Random();
 
             var visited = new HashSet<Point>();
-            var queue = new Queue<A>();
+            var queue = new Queue<TileData>();
 
-            queue.Enqueue(new A(new Point(width / 2, height / 2), 0));
+            queue.Enqueue(new TileData(new Point(width / 2, height / 2), 0));
 
             while (queue.Count > 0)
             {
                 var tile = queue.Dequeue();
-                visited.Add(tile.point);
+                visited.Add(tile.Point);
 
-                var zone = GetTileZone(tile.point);
+                var zone = GetTileZone(tile.Point);
 
                 if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
-                    && tile.level > sizeBossZone
-                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.level - sizeBossZone) * increasingProbabilityLevels
-                    && !new Rectangle(tile.point.X * sizeTile, tile.point.Y * sizeTile, sizeTile, sizeTile).IntersectsWith(GameModel.Player.Collider))
+                    && tile.Level > sizeBossZone
+                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.Level - sizeBossZone) * increasingProbabilityLevels
+                    && !new Rectangle(tile.Point.X * sizeTile, tile.Point.Y * sizeTile, sizeTile, sizeTile).IntersectsWith(GameModel.Player.Collider))
                 {
-                    var box = new Box(tile.point.X * sizeTile + sizeTile / 2, tile.point.Y * sizeTile + sizeTile / 2);
+                    var box = new Box(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
 
-                    Tiles[tile.point.X, tile.point.Y] = box;
+                    Tiles[tile.Point.X, tile.Point.Y] = box;
                     Physics.AddToTrackingCollisions(box);
                 }
                 else
                 {
                    
-                    Tiles[tile.point.X, tile.point.Y] = new Grass(tile.point.X * sizeTile + sizeTile / 2, tile.point.Y * sizeTile + sizeTile / 2);
+                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
                 }
 
-                foreach (var neighbour in GetNeighbors(tile.point, zone, visited))
+                foreach (var neighbour in GetNeighbors(tile.Point, zone, visited))
                 {                  
-                    queue.Enqueue(new A(neighbour, tile.level + 1));
+                    queue.Enqueue(new TileData(neighbour, tile.Level + 1));
                     visited.Add(neighbour);                   
                 }
             }
@@ -91,7 +107,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 .Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2)
                 .SelectMany(dx => Enumerable.Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2),
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
-                .Where(p => p.X > -1 && p.X < width && p.Y > -1 && p.Y < height && p != point);
+                .Where(p => p.X > 0 && p.X < width - 1 && p.Y > 0 && p.Y < height - 1 && p != point);
         }
 
 

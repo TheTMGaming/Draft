@@ -41,6 +41,15 @@ namespace Top_Down_shooter.Scripts.Renders
                         grass.X - grass.Image.Width / 2, grass.Y - grass.Image.Height / 2,
                         new Rectangle(0, 0, grass.Image.Width, grass.Image.Height),
                         GraphicsUnit.Pixel);
+                    continue;
+                }
+
+                if (tile is Block block)
+                {
+                    g.DrawImage(block.Image,
+                        block.X - block.Image.Width / 2, block.Y - block.Image.Height / 2,
+                        new Rectangle(0, 0, block.Image.Width, block.Image.Height),
+                        GraphicsUnit.Pixel);
                 }
             }
         }

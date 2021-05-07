@@ -54,11 +54,10 @@
     <Compile Include="Scripts\Components\Camera.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\Controllers\Map.cs" />
+    <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
-    <Compile Include="Scripts\Renders\BoxRender.cs" />
-    <Compile Include="Scripts\Renders\GrassRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Block.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
