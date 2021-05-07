@@ -33,10 +33,8 @@ namespace Top_Down_shooter
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
             
-            GameModel.Map.Draw(g);
-            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(int.Parse(Resources.MapWidth) / 2, int.Parse(Resources.MapHeight) / 2, 50, 50));
             GameRender.DrawObjects(g);
-            
+            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(int.Parse(Resources.MapWidth) / 2, int.Parse(Resources.MapHeight) / 2, 50, 50));
         }
 
         private void UpdateGameLoop()
@@ -73,6 +71,15 @@ namespace Top_Down_shooter
                 {
                     if (other is Player || other is Bullet)
                         continue;
+                    if (other is Box box)
+                    {
+                        box.DoDamage(1);
+                        if (box.Health == 0)
+                        {
+                            GameModel.ChangeBoxToGrass(box);
+                            Physics.RemoveFromTrackingCollisions(box);
+                        }
+                    }
 
                     GameModel.Bullets.Remove(node);
                     Physics.RemoveFromTrackingCollisions(node.Value);

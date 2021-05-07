@@ -54,6 +54,9 @@
     <Compile Include="Scripts\Components\Camera.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\Controllers\Map.cs" />
+    <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
+    <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
+    <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
@@ -74,9 +77,9 @@
     <Compile Include="Scripts\Renders\GunRender.cs" />
     <Compile Include="Scripts\Renders\HealthBarRender.cs" />
     <Compile Include="Scripts\Renders\IAnimationRender.cs" />
-    <Compile Include="Scripts\Renders\SpriteRender.cs" />
+    <Compile Include="Scripts\Renders\ImageRender.cs" />
     <Compile Include="Scripts\Renders\IRender.cs" />
-    <Compile Include="Scripts\Renders\TileMapRender.cs" />
+    <Compile Include="Scripts\Renders\MapRender.cs" />
     <Compile Include="Scripts\UI\HealthBar.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -143,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Block.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

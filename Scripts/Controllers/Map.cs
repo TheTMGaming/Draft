@@ -8,142 +8,114 @@ using System.Linq;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
-    class A
+    class TileData
     {
-        public Point point;
-        public int level;
+        public Point Point;
+        public int Level;
 
-        public A(Point p, int l)
+        public TileData(Point point, int level)
         {
-            point = p;
-            level = l;
+            Point = point;
+            Level = level;
         }
-    }
-
-    enum TileTypes
-    {
-        Grass, Box, None
     }
 
     class Map
     {
-        public readonly TileTypes[,] Cells;
-        public readonly SpriteRender[,] Tiles;
+        public readonly GameObject[,] Tiles;
 
         private readonly int width;
         private readonly int height;
 
         private readonly int sizeTile = int.Parse(Resources.TileSize);
         private readonly Random randGenerator = new Random();
-       
+
+        private readonly int maxCountBoxStack = 2;
+        private readonly int sizeBossZone = 3;
+        private readonly int sizeViewedZoneTile = 3;
+        private readonly float initialProbabilitySpawnBox = .8f;
+        private readonly float increasingProbabilityLevels = .012f;
+
         public Map()
         {
             width = int.Parse(Resources.MapWidth) / sizeTile;
             height = int.Parse(Resources.MapHeight) / sizeTile;
-            Cells = new TileTypes[width, height];
-            Tiles = new SpriteRender[width, height];
-
+            Tiles = new GameObject[width, height];
 
             CreateMap();
-            CreateTiles();
         }
-        public void Draw(Graphics g)
-        {
-            foreach (var s in Tiles)
-                s.Draw(g);
-        }
+
         private void CreateMap()
         {
-            
-
-            
-
-            for (var i = 0; i < width; i++)
+            foreach (var x in Enumerable.Range(0, width))
             {
-                for (int j = 0; j < height; j++)
-                {
-                    Cells[i, j] = TileTypes.None;
-                }
+                Tiles[x, 0] = new Block(x * sizeTile + sizeTile / 2, sizeTile / 2);
+                Tiles[x, height - 1] = new Block(x * sizeTile + sizeTile / 2, (height - 1) * sizeTile + sizeTile / 2);
+
+                Physics.AddToTrackingCollisions(Tiles[x, 0]);
+                Physics.AddToTrackingCollisions(Tiles[x, height - 1]);
             }
+            foreach (var y in Enumerable.Range(1, height - 1))
+            {
+                Tiles[0, y] = new Block(sizeTile / 2, y * sizeTile + sizeTile / 2);
+                Tiles[width - 1, y] = new Block((width - 1) * sizeTile + sizeTile / 2, y * sizeTile + sizeTile / 2);
 
+                Physics.AddToTrackingCollisions(Tiles[0, y]);
+                Physics.AddToTrackingCollisions(Tiles[width - 1, y]);
+            }
+            var rand = new Random();
 
-            var level = 0;
             var visited = new HashSet<Point>();
-            var queue = new Queue<A>();
-            queue.Enqueue(new A(new Point(width / 2, height / 2), 0));
-            visited.Add(new Point(width / 2, height / 2));
+            var queue = new Queue<TileData>();
 
+            queue.Enqueue(new TileData(new Point(width / 2, height / 2), 0));
 
             while (queue.Count > 0)
             {
                 var tile = queue.Dequeue();
+                visited.Add(tile.Point);
 
-                var n = Enumerable
-                .Range(-3, 7)
-                .SelectMany(dx => Enumerable.Range(-3, 7),
-                            (dx, dy) => new Point(tile.point.X + dx, tile.point.Y + dy))
-                .Where(q => q.X > -1 && q.X < width && q.Y > -1 && q.Y < height && q != tile.point).ToList();
+                var zone = GetTileZone(tile.Point);
 
-                
-                if (n.Count(a => Cells[a.X, a.Y] == TileTypes.Box) < 2
-                    && tile.level > 3
-                    && randGenerator.NextDouble() > 0.8 + (tile.level - 3) * 0.012
-                    )
-                    Cells[tile.point.X, tile.point.Y] = TileTypes.Box;
+                if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
+                    && tile.Level > sizeBossZone
+                    && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.Level - sizeBossZone) * increasingProbabilityLevels
+                    && !new Rectangle(tile.Point.X * sizeTile, tile.Point.Y * sizeTile, sizeTile, sizeTile).IntersectsWith(GameModel.Player.Collider))
+                {
+                    var box = new Box(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
 
-                foreach (var neighbour in GetNeighbors(tile.point, visited).ToList())
+                    Tiles[tile.Point.X, tile.Point.Y] = box;
+                    Physics.AddToTrackingCollisions(box);
+                }
+                else
                 {
                    
-                    queue.Enqueue(new A(neighbour, tile.level + 1));
-                    visited.Add(neighbour);
-                    
+                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * sizeTile + sizeTile / 2, tile.Point.Y * sizeTile + sizeTile / 2);
                 }
 
-                visited.Add(tile.point);
-                level++;
-            }
-        }
-
-        private void CreateTiles()
-        {
-            var rand = new Random();
-
-
-            for (var x = 0; x < width; x += 1)
-            {
-                for (var y = 0; y < height; y += 1)
-                {
-
-                    if (Cells[x, y] == TileTypes.Box)
-                    { 
-                        var box = new SpriteRender(x * sizeTile, y * sizeTile, Resources.Box);
-
-                        Tiles[x, y] = box;
-                        Physics.AddToTrackingCollisions(new GameObject
-                        {
-                            X = box.X + box.Size.Width / 2,
-                            Y = box.Y + box.Size.Height / 2,
-                            Size = box.Size
-                        });
-                    }
-                    else
-                    {
-                        Tiles[x, y] = new SpriteRender(x * sizeTile, y * sizeTile,
-                            Resources.Grass.Extract(new Rectangle(sizeTile * rand.Next(0, 4), 0, sizeTile, sizeTile)));
-                    }
+                foreach (var neighbour in GetNeighbors(tile.Point, zone, visited))
+                {                  
+                    queue.Enqueue(new TileData(neighbour, tile.Level + 1));
+                    visited.Add(neighbour);                   
                 }
             }
         }
 
-
-        private IEnumerable<Point> GetNeighbors(Point point, HashSet<Point> visited)
+        private IEnumerable<Point> GetTileZone(Point point)
         {
             return Enumerable
-                .Range(-1, 3)
-                .SelectMany(dx => Enumerable.Range(-1, 3),
+                .Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2)
+                .SelectMany(dx => Enumerable.Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2),
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
-                .Where(n => n.X > -1 && n.X < width && n.Y > -1 && n.Y < height
-                && !visited.Contains(n)) ;
+                .Where(p => p.X > 0 && p.X < width - 1 && p.Y > 0 && p.Y < height - 1 && p != point);
+        }
+
+
+        private IEnumerable<Point> GetNeighbors(Point point, IEnumerable<Point> tileZone, HashSet<Point> visited)
+        {
+            return tileZone
+                .Where(p => Math.Abs(p.X - point.X) < 2 && Math.Abs(p.Y - point.Y) < 2
+                    && !visited.Contains(p));
         }
 
     }
