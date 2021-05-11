@@ -105,9 +105,9 @@ namespace Top_Down_shooter.Scripts.Controllers
             var horizontalMidpoint = bounds.Y + bounds.Height / 2;
 
             var rect = new Rectangle(
-                gameObject.X - gameObject.Size.Width / 2,
-                gameObject.Y - gameObject.Size.Height / 2,
-                gameObject.Size.Width, gameObject.Size.Height);
+                gameObject.X - gameObject.Collider.Width / 2,
+                gameObject.Y - gameObject.Collider.Height / 2,
+                gameObject.Collider.Width, gameObject.Collider.Height);
 
             if (rect.Y < horizontalMidpoint && rect.X + rect.Width > verticalMidpoint)
                 list.Add(nodes[0]);

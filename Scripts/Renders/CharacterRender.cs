@@ -47,6 +47,8 @@ namespace Top_Down_shooter.Scripts.Renders
                X, Y,
                new Rectangle(startSlice, sizeSlice),
                GraphicsUnit.Pixel);
+
+            g.FillRectangle(new SolidBrush(Color.Red), character.Collider.Transform);
         }
 
         public void PlayAnimation() => frame = (frame + 1) % FrameCount;
