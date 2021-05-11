@@ -104,21 +104,16 @@ namespace Top_Down_shooter.Scripts.Controllers
             var verticalMidpoint = bounds.X + bounds.Width / 2;
             var horizontalMidpoint = bounds.Y + bounds.Height / 2;
 
-            var rect = new Rectangle(
-                gameObject.X - gameObject.Collider.Width / 2,
-                gameObject.Y - gameObject.Collider.Height / 2,
-                gameObject.Collider.Width, gameObject.Collider.Height);
-
-            if (rect.Y < horizontalMidpoint && rect.X + rect.Width > verticalMidpoint)
+            if (gameObject.Collider.Y < horizontalMidpoint && gameObject.Collider.X + gameObject.Collider.Width > verticalMidpoint)
                 list.Add(nodes[0]);
 
-            if (rect.X < verticalMidpoint && rect.Y < horizontalMidpoint)
+            if (gameObject.Collider.X < verticalMidpoint && gameObject.Collider.Y < horizontalMidpoint)
                 list.Add(nodes[1]);
 
-            if (rect.X < verticalMidpoint && rect.Y + rect.Height > horizontalMidpoint)
+            if (gameObject.Collider.X < verticalMidpoint && gameObject.Collider.Y + gameObject.Collider.Height > horizontalMidpoint)
                 list.Add(nodes[2]);
 
-            if (rect.X + rect.Width > verticalMidpoint && rect.Y + rect.Height > horizontalMidpoint)
+            if (gameObject.Collider.X + gameObject.Collider.Width > verticalMidpoint && gameObject.Collider.Y + gameObject.Collider.Height > horizontalMidpoint)
                 list.Add(nodes[3]);
 
             return list;
