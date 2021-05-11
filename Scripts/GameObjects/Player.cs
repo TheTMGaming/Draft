@@ -12,7 +12,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public Player(int x, int y, int speed)
         {
             //Size = new Size(70, 110);
-            Collider = new Collider(this, 0, 50, 60, 60);
+            Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             X = x;
             Y = y;
             Speed = speed;
