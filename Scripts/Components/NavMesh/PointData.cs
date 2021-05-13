@@ -1,14 +1,16 @@
 ﻿
+using System.Drawing;
+
 namespace Top_Down_shooter.Scripts.Components
 {
-    class NodeData
+    class PointData
     {
-        public NodeData Previous { get; set; }
+        public Point? Previous { get; set; }
         public int G { get; }
         public int H { get; }
         public int F { get; }
 
-        public NodeData(NodeData previous, int g, int h)
+        public PointData(Point? previous, int g, int h)
         {
             Previous = previous;
             G = g;

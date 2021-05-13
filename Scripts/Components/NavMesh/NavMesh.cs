@@ -10,9 +10,10 @@ namespace Top_Down_shooter.Scripts.Components
     class NavMesh
     {
         private readonly GameObject[,] navMesh;
-
         private readonly int width;
         private readonly int height;
+
+        private readonly int costOrthogonalPoint = 10;
 
         public NavMesh(Map map)
         {
@@ -21,19 +22,19 @@ namespace Top_Down_shooter.Scripts.Components
             height = map.Tiles.GetLength(1);
         }
 
-        public Queue<Point> GetPath(Point start, Point target)
+        public Stack<Point> GetPath(Point start, Point target)
         {
             var startTilePosition = GetPositionInNavMesh(start);
             var endTilePosition = GetPositionInNavMesh(target);
 
             if (startTilePosition is null)
-                return new Queue<Point>();
+                return new Stack<Point>();
             
             var closed = new HashSet<Point>();
             var opened = new HashSet<Point>() { startTilePosition.Value };
-            var track = new Dictionary<Point, NodeData>()
+            var track = new Dictionary<Point, PointData>()
             {
-                [startTilePosition.Value] = new NodeData(null, 0, GetH(startTilePosition.Value, endTilePosition.Value))
+                [startTilePosition.Value] = new PointData(null, 0, GetH(startTilePosition.Value, endTilePosition.Value))
             };
 
             while (opened.Count > 0)
@@ -44,7 +45,7 @@ namespace Top_Down_shooter.Scripts.Components
                     .FirstOrDefault();
 
                 if (currPoint == endTilePosition)
-                    return BuildPath();
+                    return BuildPath(endTilePosition.Value, track);
 
                 closed.Add(currPoint);
                 foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint, closed))
@@ -52,27 +53,34 @@ namespace Top_Down_shooter.Scripts.Components
                     var g = track[currPoint].G + GetDistance(currPoint, neighbourPosition);
                     if (!opened.Contains(neighbourPosition) || g < track[neighbourPosition].G)
                     {
-                        track[neighbourPosition] = new NodeData(track[currPoint], g, GetH(neighbourPosition, endTilePosition.Value));
+                        track[neighbourPosition] = new PointData(currPoint, g, GetH(neighbourPosition, endTilePosition.Value));
                         opened.Add(neighbourPosition);
                     }
                 }
             }
+
+            return new Stack<Point>();
         }
 
-        private Queue<Point> BuildPath()
+        private Stack<Point> BuildPath(Point target, Dictionary<Point, PointData> track)
         {
-            throw new NotImplementedException();
+            var path = new Stack<Point>();
+            Point? end = target;
+
+            while (!(end is null))
+            {
+                path.Push(navMesh[end.Value.X, end.Value.Y].Transform);
+                end = track[end.Value].Previous;
+            }
+
+            return path;
         }
 
-        private int GetDistance(Point position1, Point position2)
-        {
-            throw new NotImplementedException();
-        }
+        private int GetDistance(Point pos1, Point pos2) =>
+            (int)Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint;
 
-        private int GetH(Point point, Point target)
-        {
-            throw new NotImplementedException();
-        }
+        private int GetH(Point point, Point target) =>
+            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
 
         private Point? GetPositionInNavMesh(Point point)
         {
