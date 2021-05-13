@@ -31,7 +31,7 @@ namespace Top_Down_shooter.Scripts.Components
                 return new Stack<Point>();
             
             var closed = new HashSet<Point>();
-            var opened = new HashSet<Point>() { startTilePosition.Value };
+            var opened = new HashSet<Point?>() { startTilePosition.Value };
             var track = new Dictionary<Point, PointData>()
             {
                 [startTilePosition.Value] = new PointData(null, 0, GetH(startTilePosition.Value, endTilePosition.Value))
@@ -40,17 +40,17 @@ namespace Top_Down_shooter.Scripts.Components
             while (opened.Count > 0)
             {
                 var currPoint = opened
-                    .OrderBy(p => track[p].F)
-                    .Where(p => !closed.Contains(p))
+                    .OrderBy(p => track[p.Value].F)
+                    .Where(p => !closed.Contains(p.Value))
                     .FirstOrDefault();
-
+                if (currPoint is null) return new Stack<Point>();
                 if (currPoint == endTilePosition)
                     return BuildPath(endTilePosition.Value, track);
 
-                closed.Add(currPoint);
-                foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint, closed))
+                closed.Add(currPoint.Value);
+                foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
                 {
-                    var g = track[currPoint].G + GetDistance(currPoint, neighbourPosition);
+                    var g = track[currPoint.Value].G + GetDistance(currPoint.Value, neighbourPosition);
                     if (!opened.Contains(neighbourPosition) || g < track[neighbourPosition].G)
                     {
                         track[neighbourPosition] = new PointData(currPoint, g, GetH(neighbourPosition, endTilePosition.Value));
@@ -77,7 +77,7 @@ namespace Top_Down_shooter.Scripts.Components
         }
 
         private int GetDistance(Point pos1, Point pos2) =>
-            (int)Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint;
+            (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);
 
         private int GetH(Point point, Point target) =>
             (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
@@ -89,22 +89,22 @@ namespace Top_Down_shooter.Scripts.Components
             var top = 0;
             var bottom = height - 1;
 
-            while (left < right && bottom < top)
+            while (left < right && top < bottom)
             {
                 var midX = (right + left) / 2;
                 var midY = (bottom + top) / 2;
+
+                if (navMesh[midX, midY].Collider.Transform.Contains(point))
+                    return new Point(midX, midY);
 
                 if (point.X <= navMesh[midX, midY].X)
                     right = midX;
                 else left = midX + 1;
 
                 if (point.Y <= navMesh[midX, midY].Y)
-                    bottom = midX;
-                else top = midX + 1;
+                    bottom = midY;
+                else top = midY + 1;
             }
-
-            if (navMesh[right, top].Collider.Transform.Contains(point))
-                return new Point(right, top);
 
             return null;
         }
