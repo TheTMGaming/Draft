@@ -13,6 +13,7 @@ namespace Top_Down_shooter
     static class GameModel
     {
         public static readonly Player Player;
+        public static readonly Tank Tank;
         public static readonly Map Map;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
@@ -20,13 +21,12 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
-            Player = new Player(120, 120, 8);
+            Player = new Player(120, 120);
+            Tank = new Tank(120, 120);
             HealthBar = new HealthBar(100);
             Map = new Map();
-            Player.Agent.Bake(Map);
+            NavMeshAgent.Bake(Map);
 
-             Player.a = Player.Agent.GetPath(new Point(Player.Collider.X, Player.Collider.Y), new Point(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2));
-            Player.b = Player.a.Pop();
             Bullets = new LinkedList<Bullet>();
           
         }

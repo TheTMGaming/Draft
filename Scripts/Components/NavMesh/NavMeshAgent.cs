@@ -8,25 +8,24 @@ using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Components
 {
-    class NavMeshAgent
+    static class NavMeshAgent
     {
-        public readonly Node[,] navMesh;
+        public static readonly Node[,] navMesh;
 
-        private readonly int width;
-        private readonly int height;
-        private readonly int distanceFromObstacle;
-        private readonly int stepAgent;
+        private static readonly int width;
+        private static readonly int height;
+        private static readonly int distanceFromObstacle;
+        private static readonly int stepAgent = 32;
 
-        private readonly int costOrthogonalPoint = 10;
+        private static readonly int costOrthogonalPoint = 10;
 
-        public NavMeshAgent(Character agent)
+        static NavMeshAgent()
         {
-            stepAgent = 32;
-
             width = GameSettings.MapWidth / stepAgent;
             height = GameSettings.MapHeight / stepAgent;
 
-            distanceFromObstacle = Math.Max(agent.Collider.Width, agent.Collider.Height) / 2;
+            distanceFromObstacle = Math.Max(
+                GameSettings.FiremanSizeCollider, Math.Max(GameSettings.TankSizeCollider, GameSettings.AquamanSizeCollider)) / 2;
 
             navMesh = new Node[width, height];
             for (var x = 0; x < width; x++)
@@ -38,7 +37,7 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        public void Bake(Map map)
+        public static void Bake(Map map)
         {
             foreach (var tile in map.Tiles)
             {
@@ -74,7 +73,7 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        public Stack<Point> GetPath(Point start, Point target)
+        public static Stack<Point> GetPath(Point start, Point target)
         {
             var startInMesh = new Point(start.X / stepAgent, start.Y / stepAgent);
             var targetInMesh = new Point(target.X / stepAgent, target.Y / stepAgent);
@@ -114,29 +113,30 @@ namespace Top_Down_shooter.Scripts.Components
             return new Stack<Point>();
         }
 
-        private Stack<Point> BuildPath(Point target, Dictionary<Point, Point?> track)
+        private static Stack<Point> BuildPath(Point target, Dictionary<Point, Point?> track)
         {
             var path = new Stack<Point>();
             Point? end = target;
 
             while (!(end is null))
             {
-                path.Push(navMesh[end.Value.X, end.Value.Y].Position);
+                if (!(track[end.Value] is null))
+                    path.Push(navMesh[end.Value.X, end.Value.Y].Position);
                 end = track[end.Value];
             }
 
             return path;
         }
 
-        private int GetDistance(Point pos1, Point pos2) =>
+        private static int GetDistance(Point pos1, Point pos2) =>
             (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);
 
-        private int GetH(Point point, Point target) =>
+        private static int GetH(Point point, Point target) =>
             (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
             //(int)(Math.Sqrt((target.X - point.X) * (target.X - point.X) + (target.Y - point.Y)*(target.Y - point.Y)));
 
         
-        private IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
+        private static IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
         {
             return Enumerable
                 .Range(-1, 3)

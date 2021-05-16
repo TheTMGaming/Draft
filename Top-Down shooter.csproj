@@ -64,6 +64,8 @@
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\Controllers\Map.cs" />
+    <Compile Include="Scripts\GameObjects\Enemy.cs" />
+    <Compile Include="Scripts\GameObjects\Tank.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
@@ -162,6 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Block.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

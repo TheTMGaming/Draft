@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
+using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
@@ -39,7 +40,7 @@ namespace Top_Down_shooter
             GameRender.DrawObjects(g);
             g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
 
-            foreach (var c in GameModel.Player.Agent.navMesh)
+            foreach (var c in NavMeshAgent.navMesh)
             {
                 var b = new SolidBrush(Color.Blue);
                 if (c.IsObstacle)
@@ -71,6 +72,7 @@ namespace Top_Down_shooter
             Physics.Update();
 
             GameModel.Player.Move();
+            GameModel.Tank.Move();
 
             if (Physics.IsCollided(GameModel.Player, out var a))
             {
