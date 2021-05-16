@@ -11,13 +11,13 @@ namespace Top_Down_shooter.Scripts.Tests
     class NavMeshTests
     {
         private Map map;
-        private NavMesh mesh;
+        private NavMeshAgent mesh;
         private readonly int tileSize = GameSettings.TileSize;
 
         public NavMeshTests()
         {
             map = new Map();
-            mesh = new NavMesh(map);
+            mesh = new NavMeshAgent(map);
         }
 
         [TestCase(0, 0)]
