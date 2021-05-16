@@ -1,1 +1,1 @@
-﻿![Иллюстрация NavMesh](Images/NavMesh.png)
+﻿![Иллюстрация NavMesh](/Images/NavMesh.png)
