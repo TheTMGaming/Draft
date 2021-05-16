@@ -1,1 +1,1 @@
-﻿![Иллюстрация NavMesh](https://github.com/TheTMGaming/Top-Down-shooter/raw/master/Images/NavMesh.png)
+﻿![Иллюстрация NavMesh](Images/NavMesh.png)
