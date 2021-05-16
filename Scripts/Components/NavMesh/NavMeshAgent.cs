@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.Components
 {
     class NavMeshAgent
     {
-        private readonly Node[,] navMesh;
+        public readonly Node[,] navMesh;
 
         private readonly int width;
         private readonly int height;
@@ -48,7 +48,7 @@ namespace Top_Down_shooter.Scripts.Components
                 var rect = tile.Collider.Transform;
 
                 var offsetX = distanceFromObstacle - distanceFromObstacle % stepAgent;
-                var offsetY = distanceFromObstacle - distanceFromObstacle & stepAgent;
+                var offsetY = distanceFromObstacle - distanceFromObstacle % stepAgent;
 
                 var xLeft = rect.X - offsetX;
                 if (xLeft < 0) xLeft = 0;
@@ -76,12 +76,16 @@ namespace Top_Down_shooter.Scripts.Components
 
         public Stack<Point> GetPath(Point start, Point target)
         {
+            var startInMesh = new Point(start.X / stepAgent, start.Y / stepAgent);
+            var targetInMesh = new Point(target.X / stepAgent, target.Y / stepAgent);
+
             var closed = new HashSet<Point>();
-            var opened = new HashSet<Point?>() { new Point(start.X / stepAgent, start.Y / stepAgent) };
+            var opened = new HashSet<Point?>() { startInMesh };
             var track = new Dictionary<Point, Point?>()
             {
-                [new Point(start.X / stepAgent, start.Y / stepAgent)] = null
+                [startInMesh] = null
             };
+            navMesh[startInMesh.X, startInMesh.Y].SetPathParameters(0, GetDistance(startInMesh, targetInMesh));
 
             while (opened.Count > 0)
             {
@@ -90,19 +94,17 @@ namespace Top_Down_shooter.Scripts.Components
                     .Where(p => !closed.Contains(p.Value))
                     .FirstOrDefault();
 
-                if (currPoint is null) return new Stack<Point>();
-
-                if (currPoint == target)
-                    return BuildPath(target, track);
+                if (currPoint == targetInMesh)
+                    return BuildPath(targetInMesh, track);
 
                 closed.Add(currPoint.Value);
                 foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
                 {
-                    var g = navMesh[currPoint.Value.X, currPoint.Value.Y].G + GetDistance(currPoint.Value, neighbourPosition);
-                    if (!opened.Contains(neighbourPosition) || g < navMesh[neighbourPosition.X, neighbourPosition.Y].G)
+                    var tempG = navMesh[currPoint.Value.X, currPoint.Value.Y].G + GetDistance(currPoint.Value, neighbourPosition);
+                    if (!opened.Contains(neighbourPosition) || tempG < navMesh[neighbourPosition.X, neighbourPosition.Y].G)
                     {
                         track[neighbourPosition] = currPoint;
-                        navMesh[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(g, GetH(neighbourPosition, target));
+                        navMesh[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(tempG, GetH(neighbourPosition, targetInMesh));
                         opened.Add(neighbourPosition);
                     }
                 }
@@ -129,8 +131,8 @@ namespace Top_Down_shooter.Scripts.Components
             (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);
 
         private int GetH(Point point, Point target) =>
-            //(Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
-            (int)(Math.Sqrt((target.X - point.X) * (target.X - point.X) + (target.Y - point.Y)*(target.Y - point.Y)));
+            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
+            //(int)(Math.Sqrt((target.X - point.X) * (target.X - point.X) + (target.Y - point.Y)*(target.Y - point.Y)));
 
         
         private IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
@@ -143,6 +145,7 @@ namespace Top_Down_shooter.Scripts.Components
                 .Where(neighbor =>
                     neighbor.X > -1 && neighbor.X < width && neighbor.Y > -1 && neighbor.Y < height
                     && neighbor.X != point.X && neighbor.Y != point.Y
+                    && !navMesh[neighbor.X, neighbor.Y].IsObstacle
                     && !closed.Contains(neighbor));
         }
     }

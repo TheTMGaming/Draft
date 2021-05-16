@@ -26,6 +26,7 @@ namespace Top_Down_shooter
 
             RunFunctionAsync(Controller.KeyboardHandler);
             RunFunctionAsync(Controller.MouseHandler);
+            
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -36,9 +37,15 @@ namespace Top_Down_shooter
 
             
             GameRender.DrawObjects(g);
+            //g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
+            foreach (var a in GameModel.Player.Agent.navMesh)
+            {
+                var c = new SolidBrush(Color.Blue);
+                if (a.IsObstacle)
+                    c = new SolidBrush(Color.Red);
+                g.FillRectangle(c, new Rectangle(a.Position.X, a.Position.Y,4, 4));
+            }
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
-
-            
         }
 
         private void UpdateGameLoop()

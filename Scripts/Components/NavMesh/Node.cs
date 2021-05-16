@@ -23,5 +23,10 @@ namespace Top_Down_shooter.Scripts.Components
             H = h;
             F = G + H;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Position, IsObstacle);
+        }
     }
 }
