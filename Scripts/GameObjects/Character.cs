@@ -1,4 +1,5 @@
 ﻿using System;
+using Top_Down_shooter.Scripts.Components;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -26,6 +27,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
+        public NavMeshAgent Agent { get; set; }
 
         public virtual void Move(bool isReverse = false)
         {

@@ -60,8 +60,8 @@
     </Compile>
     <Compile Include="Scripts\Components\Camera.cs" />
     <Compile Include="Scripts\Components\Collider.cs" />
-    <Compile Include="Scripts\Components\NavMesh\NavMesh.cs" />
-    <Compile Include="Scripts\Components\NavMesh\PointData.cs" />
+    <Compile Include="Scripts\Components\NavMesh\NavMeshAgent.cs" />
+    <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\Controllers\Map.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />

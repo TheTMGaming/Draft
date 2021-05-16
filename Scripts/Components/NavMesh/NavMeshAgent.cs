@@ -21,11 +21,12 @@ namespace Top_Down_shooter.Scripts.Components
 
         public NavMeshAgent(Character agent)
         {
+            stepAgent = agent.Speed;
+
             width = GameSettings.MapWidth / stepAgent;
             height = GameSettings.MapHeight / stepAgent;
 
             distanceFromObstacle = Math.Max(agent.Collider.Width, agent.Collider.Height) / 2;
-            stepAgent = agent.Speed;
 
             navMesh = new Node[width, height];
             for (var x = 0; x < width; x++)
@@ -37,7 +38,7 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        private void Bake(Map map)
+        public void Bake(Map map)
         {
             foreach (var tile in map.Tiles)
             {
@@ -48,9 +49,24 @@ namespace Top_Down_shooter.Scripts.Components
 
                 var offsetX = distanceFromObstacle - distanceFromObstacle % stepAgent;
                 var offsetY = distanceFromObstacle - distanceFromObstacle & stepAgent;
-                for (var x = rect.X - offsetX; x <= rect.X + rect.Width + offsetX; x += stepAgent)
+
+                var xLeft = rect.X - offsetX;
+                if (xLeft < 0) xLeft = 0;
+
+                var yTop = rect.Y - offsetY;
+                if (yTop < 0) yTop = 0;
+
+                var xRight = rect.X + rect.Width + offsetX;
+                if (xRight >= GameSettings.MapWidth)
+                    xRight = GameSettings.MapWidth - 1;
+
+                var yBottom = rect.Y + rect.Height + offsetY;
+                if (yBottom >= GameSettings.MapHeight)
+                    yBottom = GameSettings.MapHeight - 1;
+
+                for (var x = xLeft; x <= xRight; x += stepAgent)
                 {
-                    for (var y = rect.Y - offsetY; y <= rect.Y + rect.Height + offsetY; y += stepAgent)
+                    for (var y = yTop; y <= yBottom; y += stepAgent)
                     {
                         navMesh[x / stepAgent, y / stepAgent].IsObstacle = true;
                     }
@@ -58,59 +74,56 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        //public Stack<Point> GetPath(Point start, Point target)
-        //{
-        //    var startTilePosition = GetPositionInNavMesh(start);
-        //    var endTilePosition = GetPositionInNavMesh(target);
+        public Stack<Point> GetPath(Point start, Point target)
+        {
+            var closed = new HashSet<Point>();
+            var opened = new HashSet<Point?>() { new Point(start.X / stepAgent, start.Y / stepAgent) };
+            var track = new Dictionary<Point, Point?>()
+            {
+                [new Point(start.X / stepAgent, start.Y / stepAgent)] = null
+            };
 
-        //    if (startTilePosition is null)
-        //        return new Stack<Point>();
-            
-        //    var closed = new HashSet<Point>();
-        //    var opened = new HashSet<Point?>() { startTilePosition.Value };
-        //    var track = new Dictionary<Point, Node>()
-        //    {
-        //        [startTilePosition.Value] = new Node(null, 0, GetH(startTilePosition.Value, endTilePosition.Value))
-        //    };
+            while (opened.Count > 0)
+            {
+                var currPoint = opened
+                    .OrderBy(p => navMesh[p.Value.X, p.Value.Y].F)
+                    .Where(p => !closed.Contains(p.Value))
+                    .FirstOrDefault();
 
-        //    while (opened.Count > 0)
-        //    {
-        //        var currPoint = opened
-        //            .OrderBy(p => track[p.Value].F)
-        //            .Where(p => !closed.Contains(p.Value))
-        //            .FirstOrDefault();
-        //        if (currPoint is null) return new Stack<Point>();
-        //        if (currPoint == endTilePosition)
-        //            return BuildPath(endTilePosition.Value, track);
+                if (currPoint is null) return new Stack<Point>();
 
-        //        closed.Add(currPoint.Value);
-        //        foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
-        //        {
-        //            var g = track[currPoint.Value].G + GetDistance(currPoint.Value, neighbourPosition);
-        //            if (!opened.Contains(neighbourPosition) || g < track[neighbourPosition].G)
-        //            {
-        //                track[neighbourPosition] = new Node(currPoint, g, GetH(neighbourPosition, endTilePosition.Value));
-        //                opened.Add(neighbourPosition);
-        //            }
-        //        }
-        //    }
+                if (currPoint == target)
+                    return BuildPath(target, track);
 
-        //    return new Stack<Point>();
-        //}
+                closed.Add(currPoint.Value);
+                foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
+                {
+                    var g = navMesh[currPoint.Value.X, currPoint.Value.Y].G + GetDistance(currPoint.Value, neighbourPosition);
+                    if (!opened.Contains(neighbourPosition) || g < navMesh[neighbourPosition.X, neighbourPosition.Y].G)
+                    {
+                        track[neighbourPosition] = currPoint;
+                        navMesh[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(g, GetH(neighbourPosition, target));
+                        opened.Add(neighbourPosition);
+                    }
+                }
+            }
 
-        //private Stack<Point> BuildPath(Point target, Dictionary<Point, Node> track)
-        //{
-        //    var path = new Stack<Point>();
-        //    Point? end = target;
+            return new Stack<Point>();
+        }
 
-        //    while (!(end is null))
-        //    {
-        //        path.Push(navMesh[end.Value.X, end.Value.Y].Transform);
-        //        end = track[end.Value].Position;
-        //    }
+        private Stack<Point> BuildPath(Point target, Dictionary<Point, Point?> track)
+        {
+            var path = new Stack<Point>();
+            Point? end = target;
 
-        //    return path;
-        //}
+            while (!(end is null))
+            {
+                path.Push(navMesh[end.Value.X, end.Value.Y].Position);
+                end = track[end.Value];
+            }
+
+            return path;
+        }
 
         private int GetDistance(Point pos1, Point pos2) =>
             (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);

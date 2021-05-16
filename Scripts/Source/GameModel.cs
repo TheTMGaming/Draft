@@ -13,7 +13,6 @@ namespace Top_Down_shooter
     {
         public static readonly Player Player;
         public static readonly Map Map;
-        public static readonly NavMeshAgent NavMesh;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
 
@@ -23,7 +22,7 @@ namespace Top_Down_shooter
             Player = new Player(120, 120, 8);
             HealthBar = new HealthBar(100);
             Map = new Map();
-            NavMesh = new NavMeshAgent(Map);
+            Player.Agent.Bake(Map);
             Bullets = new LinkedList<Bullet>();
           
         }
