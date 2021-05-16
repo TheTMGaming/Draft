@@ -20,13 +20,13 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
-            Player = new Player(120, 120, 32);
+            Player = new Player(120, 120, 8);
             HealthBar = new HealthBar(100);
             Map = new Map();
             Player.Agent.Bake(Map);
 
              Player.a = Player.Agent.GetPath(new Point(Player.Collider.X, Player.Collider.Y), new Point(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2));
-            
+            Player.b = Player.a.Pop();
             Bullets = new LinkedList<Bullet>();
           
         }

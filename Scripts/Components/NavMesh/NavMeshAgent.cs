@@ -21,7 +21,7 @@ namespace Top_Down_shooter.Scripts.Components
 
         public NavMeshAgent(Character agent)
         {
-            stepAgent = agent.Speed;
+            stepAgent = 32;
 
             width = GameSettings.MapWidth / stepAgent;
             height = GameSettings.MapHeight / stepAgent;
