@@ -37,15 +37,20 @@ namespace Top_Down_shooter
 
             
             GameRender.DrawObjects(g);
-            //g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
-            foreach (var a in GameModel.Player.Agent.navMesh)
+            g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
+
+            foreach (var c in GameModel.Player.Agent.navMesh)
             {
-                var c = new SolidBrush(Color.Blue);
-                if (a.IsObstacle)
-                    c = new SolidBrush(Color.Red);
-                g.FillRectangle(c, new Rectangle(a.Position.X, a.Position.Y,4, 4));
+                var b = new SolidBrush(Color.Blue);
+                if (c.IsObstacle)
+                    b = new SolidBrush(Color.Red);
+
+
+                g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
             }
+
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
+            g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
         }
 
         private void UpdateGameLoop()

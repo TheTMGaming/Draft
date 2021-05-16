@@ -27,7 +27,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public override void Move(bool isReverse = false)
         {
-            if (a.Count > 0)
+            if (!(a is null) && a.Count > 0)
             {
                 var b = a.Pop();
                 X = b.X;

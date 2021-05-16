@@ -94,6 +94,7 @@ namespace Top_Down_shooter.Scripts.Components
                     .Where(p => !closed.Contains(p.Value))
                     .FirstOrDefault();
 
+                if (currPoint is null) break;
                 if (currPoint == targetInMesh)
                     return BuildPath(targetInMesh, track);
 
@@ -144,7 +145,6 @@ namespace Top_Down_shooter.Scripts.Components
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
                 .Where(neighbor =>
                     neighbor.X > -1 && neighbor.X < width && neighbor.Y > -1 && neighbor.Y < height
-                    && neighbor.X != point.X && neighbor.Y != point.Y
                     && !navMesh[neighbor.X, neighbor.Y].IsObstacle
                     && !closed.Contains(neighbor));
         }

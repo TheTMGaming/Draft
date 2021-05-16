@@ -6,6 +6,7 @@ using Top_Down_shooter.Scripts.UI;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
+using System.ComponentModel;
 
 namespace Top_Down_shooter
 {
@@ -19,11 +20,13 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
-            Player = new Player(120, 120, 8);
+            Player = new Player(120, 120, 32);
             HealthBar = new HealthBar(100);
             Map = new Map();
             Player.Agent.Bake(Map);
-            Player.a = Player.Agent.GetPath(GameModel.Player.Transform, new Point(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2));
+
+             Player.a = Player.Agent.GetPath(new Point(Player.Collider.X, Player.Collider.Y), new Point(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2));
+            
             Bullets = new LinkedList<Bullet>();
           
         }

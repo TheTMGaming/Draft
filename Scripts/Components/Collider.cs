@@ -5,9 +5,9 @@ namespace Top_Down_shooter.Scripts.Components
 {
     class Collider
     {
-        public int X => parent.X + localX - Width / 2;
-        public int Y => parent.Y + localY - Height / 2;
-        public Rectangle Transform => new Rectangle(X, Y, Width, Height);
+        public int X => parent.X + localX;
+        public int Y => parent.Y + localY;
+        public Rectangle Transform => new Rectangle(X - Width / 2, Y - Height / 2, Width, Height);
         public int Width { get; set; }
         public int Height { get; set; }
         public bool IsTrigger { get; set; }
