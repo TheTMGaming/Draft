@@ -157,10 +157,10 @@ namespace Top_Down_shooter.Scripts.Components
                 return pointInMesh;
       
             return Enumerable
-                .Range(-distanceFromObstacle, distanceFromObstacle * 2 + 1)
+                .Range(-2, 5)
                 .SelectMany(dx => Enumerable
-                                    .Range(-distanceFromObstacle, distanceFromObstacle * 2 + 1),
-                            (dx, dy) => new Point?(new Point(point.X + dx, point.Y + dy)))
+                                    .Range(-2, 5),
+                            (dx, dy) => new Point?(new Point(pointInMesh.X + dx, pointInMesh.Y + dy)))
                 .Where(neighbor =>
                     neighbor.Value.X > -1 && neighbor.Value.X < width && neighbor.Value.Y > -1 && neighbor.Value.Y < height
                     && !navMesh[neighbor.Value.X, neighbor.Value.Y].IsObstacle)
