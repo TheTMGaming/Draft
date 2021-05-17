@@ -32,9 +32,18 @@ namespace Top_Down_shooter.Scripts.GameObjects
                 nextCheckPoint = path.Pop();
 
             var q = MoveTowards(Transform, nextCheckPoint, Speed);
+
+            var s = new Point(GameModel.Player.X - X, GameModel.Player.Y - Y);
+            if (s.X > 0) ChangeDirection(DirectionX.Right);
+            else if (s.X < 0) ChangeDirection(DirectionX.Left);
+            else ChangeDirection(DirectionX.Idle);
+
+            if (s.Y > 0) ChangeDirection(DirectionY.Down);
+            else if (s.Y < 0) ChangeDirection(DirectionY.Up);
+            else ChangeDirection(DirectionY.Idle);
+
             X = (int)q.X;
             Y = (int)q.Y;
-            base.Move(isReverse);
         }
 
 
