@@ -50,6 +50,12 @@ namespace Top_Down_shooter
                 g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
             }
 
+            foreach (var c in GameModel.Tank.path)
+            {
+
+                g.FillRectangle(new SolidBrush(Color.Yellow), c.X, c.Y, 5, 5);
+            }
+
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
             //g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
         }

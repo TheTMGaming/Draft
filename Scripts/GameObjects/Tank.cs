@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Tank : Character
     {
-        private Stack<Point> path = new Stack<Point>();
+        public Stack<Point> path = new Stack<Point>();
         private Point nextCheckPoint;
 
         public Tank(int x, int y)

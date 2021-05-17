@@ -157,9 +157,9 @@ namespace Top_Down_shooter.Scripts.Components
                 return pointInMesh;
       
             return Enumerable
-                .Range(-2, 5)
+                .Range(-1, 3)
                 .SelectMany(dx => Enumerable
-                                    .Range(-2, 5),
+                                    .Range(-1, 3),
                             (dx, dy) => new Point?(new Point(pointInMesh.X + dx, pointInMesh.Y + dy)))
                 .Where(neighbor =>
                     neighbor.Value.X > -1 && neighbor.Value.X < width && neighbor.Value.Y > -1 && neighbor.Value.Y < height
