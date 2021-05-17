@@ -17,8 +17,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
         {
             X = x;
             Y = y;
-            Speed = 8;
+            Speed = 6;
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
+            nextCheckPoint = GameModel.Player.Transform;
         }
 
         public override void Move(bool isReverse = false)

@@ -76,7 +76,8 @@ namespace Top_Down_shooter.Scripts.Components
         public static Stack<Point> GetPath(Point start, Point target)
         {
             var startInMesh = new Point(start.X / stepAgent, start.Y / stepAgent);
-            var targetInMesh = new Point(target.X / stepAgent, target.Y / stepAgent);
+            var targetInMesh = GetEmptyPoint(target);
+            if (targetInMesh is null) return new Stack<Point>();
 
             var closed = new HashSet<Point>();
             var opened = new HashSet<Point?>() { startInMesh };
@@ -84,7 +85,7 @@ namespace Top_Down_shooter.Scripts.Components
             {
                 [startInMesh] = null
             };
-            navMesh[startInMesh.X, startInMesh.Y].SetPathParameters(0, GetDistance(startInMesh, targetInMesh));
+            navMesh[startInMesh.X, startInMesh.Y].SetPathParameters(0, GetDistance(startInMesh, targetInMesh.Value));
 
             while (opened.Count > 0)
             {
@@ -95,7 +96,7 @@ namespace Top_Down_shooter.Scripts.Components
 
                 if (currPoint is null) break;
                 if (currPoint == targetInMesh)
-                    return BuildPath(targetInMesh, track);
+                    return BuildPath(targetInMesh.Value, track);
 
                 closed.Add(currPoint.Value);
                 foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
@@ -104,7 +105,7 @@ namespace Top_Down_shooter.Scripts.Components
                     if (!opened.Contains(neighbourPosition) || tempG < navMesh[neighbourPosition.X, neighbourPosition.Y].G)
                     {
                         track[neighbourPosition] = currPoint;
-                        navMesh[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(tempG, GetH(neighbourPosition, targetInMesh));
+                        navMesh[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(tempG, GetH(neighbourPosition, targetInMesh.Value));
                         opened.Add(neighbourPosition);
                     }
                 }
@@ -147,6 +148,23 @@ namespace Top_Down_shooter.Scripts.Components
                     neighbor.X > -1 && neighbor.X < width && neighbor.Y > -1 && neighbor.Y < height
                     && !navMesh[neighbor.X, neighbor.Y].IsObstacle
                     && !closed.Contains(neighbor));
+        }
+
+        private static Point? GetEmptyPoint(Point point)
+        {
+            var pointInMesh = new Point(point.X / stepAgent, point.Y / stepAgent);
+            if (!navMesh[pointInMesh.X, pointInMesh.Y].IsObstacle)
+                return pointInMesh;
+      
+            return Enumerable
+                .Range(-distanceFromObstacle, distanceFromObstacle * 2 + 1)
+                .SelectMany(dx => Enumerable
+                                    .Range(-distanceFromObstacle, distanceFromObstacle * 2 + 1),
+                            (dx, dy) => new Point?(new Point(point.X + dx, point.Y + dy)))
+                .Where(neighbor =>
+                    neighbor.Value.X > -1 && neighbor.Value.X < width && neighbor.Value.Y > -1 && neighbor.Value.Y < height
+                    && !navMesh[neighbor.Value.X, neighbor.Value.Y].IsObstacle)
+                .FirstOrDefault();
         }
     }
 }

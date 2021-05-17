@@ -38,7 +38,7 @@ namespace Top_Down_shooter
 
             
             GameRender.DrawObjects(g);
-            g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
+            //g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
 
             foreach (var c in NavMeshAgent.navMesh)
             {
@@ -51,7 +51,7 @@ namespace Top_Down_shooter
             }
 
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
-            g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
+            //g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
         }
 
         private void UpdateGameLoop()
@@ -72,7 +72,7 @@ namespace Top_Down_shooter
             Physics.Update();
 
             GameModel.Player.Move();
-            GameModel.Tank.Move();
+         
 
             if (Physics.IsCollided(GameModel.Player, out var a))
             {
@@ -103,7 +103,7 @@ namespace Top_Down_shooter
                     Physics.RemoveFromTrackingCollisions(node.Value);
                 }
             }
-
+            GameModel.Tank.Move();
             Invalidate();
            
         }
