@@ -4,13 +4,16 @@ using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.UI;
 using Top_Down_shooter.Scripts.Controllers;
-
+using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.Source;
+using System.ComponentModel;
 
 namespace Top_Down_shooter
 {
     static class GameModel
     {
         public static readonly Player Player;
+        public static readonly Tank Tank;
         public static readonly Map Map;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
@@ -18,9 +21,12 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
-            Player = new Player(120, 120, 8);
+            Player = new Player(120, 120);
+            Tank = new Tank(120, 120);
             HealthBar = new HealthBar(100);
             Map = new Map();
+            NavMeshAgent.Bake(Map);
+
             Bullets = new LinkedList<Bullet>();
           
         }

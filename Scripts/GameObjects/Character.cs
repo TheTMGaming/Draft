@@ -1,4 +1,5 @@
 ﻿using System;
+using Top_Down_shooter.Scripts.Components;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {

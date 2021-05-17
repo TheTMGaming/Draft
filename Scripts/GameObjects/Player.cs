@@ -9,14 +9,13 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         private readonly Point OffsetPositionGun = new Point(20, 38);
 
-        public Player(int x, int y, int speed)
+        public Player(int x, int y)
         {
-            //Size = new Size(70, 110);
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             X = x;
             Y = y;
-            Speed = speed;
-            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+            Speed = 8;
+            Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);           
         }
 
         public override void Move(bool isReverse = false)

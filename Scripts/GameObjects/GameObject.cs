@@ -7,6 +7,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public Point Transform => new Point(X, Y);
         public Collider Collider { get; set; }
     }
 }
