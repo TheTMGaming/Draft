@@ -9,6 +9,7 @@ namespace Top_Down_shooter
     static class GameRender
     {
         public static readonly Camera Camera = new Camera();
+        public static readonly EnemiesRender EnemiesRender = new EnemiesRender(GameModel.Enemies, Resources.Tank);
 
         private static readonly List<IRender> gameObjects = new List<IRender>();
 
@@ -16,7 +17,7 @@ namespace Top_Down_shooter
         {
             gameObjects.Add(new MapRender(GameModel.Map));
             gameObjects.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
-            gameObjects.Add(new EnemiesRender(GameModel.Enemies, Resources.Tank));
+            gameObjects.Add(EnemiesRender);
             gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
 

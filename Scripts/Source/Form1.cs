@@ -24,6 +24,7 @@ namespace Top_Down_shooter
          
             RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimer(IntervalUpdateAnimations, GameRender.PlayAnimations);
+            RunTimer(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
 
             RunFunctionAsync(Controller.KeyboardHandler);
             RunFunctionAsync(Controller.MouseHandler);
@@ -35,8 +36,25 @@ namespace Top_Down_shooter
             Graphics g = e.Graphics;
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
-        
+
+
             GameRender.DrawObjects(g);
+            //g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
+
+            foreach (var c in NavMeshAgent.navMesh)
+            {
+                var b = new SolidBrush(Color.Blue);
+                if (c.IsObstacle)
+                    b = new SolidBrush(Color.Red);
+
+
+                g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
+            }
+
+          
+
+            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
+            //g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
         }
 
         private void UpdateGameLoop()
@@ -57,6 +75,7 @@ namespace Top_Down_shooter
             Physics.Update();
 
             GameModel.Player.Move();
+            Console.WriteLine(GameModel.Player.Transform);
             if (Physics.IsCollided(GameModel.Player, out var others))
             {
                 foreach (var other in others)

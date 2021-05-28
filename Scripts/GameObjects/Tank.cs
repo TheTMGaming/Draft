@@ -13,14 +13,22 @@ namespace Top_Down_shooter.Scripts.GameObjects
     class Tank : Enemy
     {
         public Stack<Point> path = new Stack<Point>();
+
         private Point nextCheckPoint;
+        private int resetPath;
+
+        private static Random randGenerator = new Random();
 
         public Tank(int x, int y)
         {
             X = x;
             Y = y;
 
-            Speed = GameSettings.TankSpeed;
+            resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
+            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
+                Speed = randGenerator.Next(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax);
+            else
+                Speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
             Health = GameSettings.TankHealth;
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
@@ -31,11 +39,11 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public override void Move(bool isReverse = false)
         {
-            //if (path.Count == 0)
-            //{
-                path = NavMeshAgent.GetPath(Transform, GameModel.Player.Transform);;
-            //}
-            //if (path.Count > 0 && Transform == nextCheckPoint)
+            if (path.Count < resetPath)
+            { 
+                path = NavMeshAgent.GetPath(Transform, GameModel.Player.Transform);
+                resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
+            }
             if (path.Count > 0)
                 nextCheckPoint = path.Pop();
 

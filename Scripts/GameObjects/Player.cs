@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -14,7 +15,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             X = x;
             Y = y;
-            Speed = 8;
+            Speed = GameSettings.PlayerSpeed;
             Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);           
         }
 

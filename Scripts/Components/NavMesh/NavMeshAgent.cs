@@ -134,7 +134,7 @@ namespace Top_Down_shooter.Scripts.Components
             (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);
 
         private static int GetH(Point point, Point target) =>
-            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint + randGenerator.Next(0, 10);
+            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
        
         private static IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
         {
