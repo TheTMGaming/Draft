@@ -25,7 +25,7 @@ namespace Top_Down_shooter.Scripts.Components
             height = GameSettings.MapHeight / stepAgent;
 
             distanceFromObstacle = Math.Max(
-                GameSettings.FiremanSizeCollider, Math.Max(GameSettings.TankSizeCollider, GameSettings.AquamanSizeCollider)) / 2;
+                GameSettings.FiremanSizeCollider, Math.Max(GameSettings.TankSizeCollider, GameSettings.WatermanSizeCollider)) / 2;
 
             navMesh = new Node[width, height];
             for (var x = 0; x < width; x++)

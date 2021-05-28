@@ -71,6 +71,7 @@
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
+    <Compile Include="Scripts\Renders\EnemiesRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

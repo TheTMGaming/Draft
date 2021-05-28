@@ -19,8 +19,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
         {
             X = x;
             Y = y;
-            Speed = 6;
-            Health = GameSettings.
+
+            Speed = GameSettings.TankSpeed;
+            Health = GameSettings.TankHealth;
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);

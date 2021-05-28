@@ -16,7 +16,7 @@ namespace Top_Down_shooter
         {
             gameObjects.Add(new MapRender(GameModel.Map));
             gameObjects.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
-            gameObjects.Add(new CharacterRender(GameModel.Tank, Resources.Tank, 4, 2));
+            gameObjects.Add(new EnemiesRender(GameModel.Enemies, Resources.Tank));
             gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
 
@@ -34,10 +34,10 @@ namespace Top_Down_shooter
         {
             foreach (var obj in gameObjects)
             {
-                if (obj is CharacterRender character)
+                if (obj is IAnimationRender render)
                 {
-                    character.ChangeTypeAnimation();
-                    character.PlayAnimation();
+                    render.ChangeTypeAnimation();
+                    render.PlayAnimation();
                 }
             }
         }

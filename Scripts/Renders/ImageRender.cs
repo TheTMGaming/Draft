@@ -2,7 +2,7 @@
 
 namespace Top_Down_shooter.Scripts.Renders
 {
-    class ImageRender : IAnimationRender
+    class ImageRender : IRender
     {
         public int X { get; set; }
         public int Y { get; set; }

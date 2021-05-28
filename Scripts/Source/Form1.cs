@@ -93,7 +93,8 @@ namespace Top_Down_shooter
                         if (collision is Character character)
                         {
                             character.Health -= 1;
-                            Console.WriteLine(character.Health);
+                            if (character.Health < 1)
+                                GameModel.RespawnEnemy(character);
                         }
                     }
 
@@ -101,7 +102,7 @@ namespace Top_Down_shooter
                     Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
                 }
             }
-            GameModel.Tank.Move();
+
             Invalidate();
            
         }

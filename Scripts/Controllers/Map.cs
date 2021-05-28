@@ -23,6 +23,7 @@ namespace Top_Down_shooter.Scripts.Controllers
     class Map
     {
         public readonly GameObject[,] Tiles;
+        public readonly List<GameObject> FreeTiles;
 
         private readonly int width;
         private readonly int height;
@@ -39,29 +40,16 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             width = GameSettings.MapWidth / GameSettings.TileSize;
             height = GameSettings.MapHeight / GameSettings.TileSize;
-            Tiles = new GameObject[width, height];
 
+            Tiles = new GameObject[width, height];
+            FreeTiles = new List<GameObject>();
+
+            CreateBlocks();
             CreateMap();
         }
 
         private void CreateMap()
         {
-            foreach (var x in Enumerable.Range(0, width))
-            {
-                Tiles[x, 0] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, GameSettings.TileSize / 2);
-                Tiles[x, height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, (height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
-
-                Physics.AddToTrackingCollisions(Tiles[x, 0].Collider);
-                Physics.AddToTrackingCollisions(Tiles[x, height - 1].Collider);
-            }
-            foreach (var y in Enumerable.Range(1, height - 1))
-            {
-                Tiles[0, y] = new Block(GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
-                Tiles[width - 1, y] = new Block((width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
-
-                Physics.AddToTrackingCollisions(Tiles[0, y].Collider);
-                Physics.AddToTrackingCollisions(Tiles[width - 1, y].Collider);
-            }
             var rand = new Random();
 
             var visited = new HashSet<Point>();
@@ -79,17 +67,21 @@ namespace Top_Down_shooter.Scripts.Controllers
                 if (zone.Count(a => Tiles[a.X, a.Y] is Box) < maxCountBoxStack
                     && tile.Level > sizeBossZone
                     && randGenerator.NextDouble() > initialProbabilitySpawnBox + (tile.Level - sizeBossZone) * increasingProbabilityLevels
-                    && !new Rectangle(tile.Point.X * GameSettings.TileSize, tile.Point.Y * GameSettings.TileSize, GameSettings.TileSize, GameSettings.TileSize).IntersectsWith(GameModel.Player.Collider.Transform))
+                    && !new Rectangle(tile.Point.X * GameSettings.TileSize, 
+                        tile.Point.Y * GameSettings.TileSize, 
+                        GameSettings.TileSize, GameSettings.TileSize).IntersectsWith(GameModel.Player.Collider.Transform))
                 {
-                    var box = new Box(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
+                    var box = new Box(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2,
+                        tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                     Tiles[tile.Point.X, tile.Point.Y] = box;
                     Physics.AddToTrackingCollisions(box.Collider);
                 }
                 else
-                {
-                   
-                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
+                {                  
+                    Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, 
+                        tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
+                    FreeTiles.Add(Tiles[tile.Point.X, tile.Point.Y]);
                 }
 
                 foreach (var neighbour in GetNeighbors(tile.Point, zone, visited))
@@ -97,6 +89,29 @@ namespace Top_Down_shooter.Scripts.Controllers
                     queue.Enqueue(new TileData(neighbour, tile.Level + 1));
                     visited.Add(neighbour);                   
                 }
+            }
+        }
+
+        private void CreateBlocks()
+        {
+            foreach (var x in Enumerable.Range(0, width))
+            {
+                Tiles[x, 0] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, GameSettings.TileSize / 2);
+                Tiles[x, height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2,
+                    (height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
+
+                Physics.AddToTrackingCollisions(Tiles[x, 0].Collider);
+                Physics.AddToTrackingCollisions(Tiles[x, height - 1].Collider);
+            }
+
+            foreach (var y in Enumerable.Range(1, height - 1))
+            {
+                Tiles[0, y] = new Block(GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
+                Tiles[width - 1, y] = new Block((width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2,
+                    y * GameSettings.TileSize + GameSettings.TileSize / 2);
+
+                Physics.AddToTrackingCollisions(Tiles[0, y].Collider);
+                Physics.AddToTrackingCollisions(Tiles[width - 1, y].Collider);
             }
         }
 

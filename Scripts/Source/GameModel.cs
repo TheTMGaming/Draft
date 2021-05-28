@@ -13,23 +13,47 @@ namespace Top_Down_shooter
     static class GameModel
     {
         public static readonly Player Player;
-        public static readonly Tank Tank;
+        public static readonly List<Tank> Enemies;
         public static readonly Map Map;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
 
+        private static readonly Random randGenerator = new Random();
 
         static GameModel()
         {
             Player = new Player(120, 120);
-            Tank = new Tank(200, 120);
-            Physics.AddToTrackingCollisions(Tank.HitBox);
-            HealthBar = new HealthBar(100);
             Map = new Map();
             NavMeshAgent.Bake(Map);
 
-            Bullets = new LinkedList<Bullet>();
-          
+            Enemies = new List<Tank>();
+            for (var i = 0; i < 6; i++)
+            {
+                SpawnEnemy();
+            }
+            
+            HealthBar = new HealthBar(100);
+
+
+            Bullets = new LinkedList<Bullet>();         
+        }
+
+        public static void SpawnEnemy()
+        {
+            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+            var enemy = new Tank(tile.X, tile.Y);
+
+            Enemies.Add(enemy);
+            Physics.AddToTrackingCollisions(enemy.HitBox);
+        }
+
+        public static void RespawnEnemy(Character character)
+        {
+            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+
+            character.X = tile.X;
+            character.Y = tile.Y;
+            character.Health = GameSettings.TankHealth;
         }
 
         public static Bullet Shoot()
@@ -38,10 +62,7 @@ namespace Top_Down_shooter
 
             return new Bullet(
                 Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
-                20, Player.Gun.Angle);
-
-            
-
+                20, Player.Gun.Angle);           
         }
 
         public static void ChangeBoxToGrass(Box box)
