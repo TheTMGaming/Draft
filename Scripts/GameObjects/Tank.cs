@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
-    class Tank : Character
+    class Tank : Enemy
     {
         public Stack<Point> path = new Stack<Point>();
         private Point nextCheckPoint;
@@ -37,30 +38,13 @@ namespace Top_Down_shooter.Scripts.GameObjects
                 nextCheckPoint = path.Pop();
 
             var q = MoveTowards(Transform, nextCheckPoint, Speed);
+            LookAt(GameModel.Player.Transform);
 
-            var s = new Point(GameModel.Player.X - X, GameModel.Player.Y - Y);
-            if (s.X > 0) ChangeDirection(DirectionX.Right);
-            else if (s.X < 0) ChangeDirection(DirectionX.Left);
-            else ChangeDirection(DirectionX.Idle);
-
-            if (s.Y > 0) ChangeDirection(DirectionY.Down);
-            else if (s.Y < 0) ChangeDirection(DirectionY.Up);
-            else ChangeDirection(DirectionY.Idle);
-
-            X = (int)q.X;
-            Y = (int)q.Y;
+            X = q.X;
+            Y = q.Y;
         }
 
 
-        public PointF MoveTowards(Point current, Point target, float maxDistanceDelta)
-        {
-            Point a = new Point(target.X - current.X, target.Y - current.Y);
-            float magnitude = (float)Math.Sqrt(a.X * a.X + a.Y * a.Y);
-            if (magnitude <= maxDistanceDelta || magnitude == 0f)
-            {
-                return target;
-            }
-            return new PointF(current.X + a.X / magnitude * maxDistanceDelta, current.Y + a.Y / magnitude * maxDistanceDelta);
-        }
+        
     }
 }

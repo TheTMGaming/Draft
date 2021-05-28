@@ -46,20 +46,19 @@ namespace Top_Down_shooter.Scripts.Components
 
                 var rect = tile.Collider.Transform;
 
-                var offsetX = distanceFromObstacle - distanceFromObstacle % stepAgent;
-                var offsetY = distanceFromObstacle - distanceFromObstacle % stepAgent;
+                var offset = distanceFromObstacle - distanceFromObstacle % stepAgent;
 
-                var xLeft = rect.X - offsetX;
+                var xLeft = rect.X - offset;
                 if (xLeft < 0) xLeft = 0;
 
-                var yTop = rect.Y - offsetY;
+                var yTop = rect.Y - offset;
                 if (yTop < 0) yTop = 0;
 
-                var xRight = rect.X + rect.Width + offsetX;
+                var xRight = rect.X + rect.Width + offset;
                 if (xRight >= GameSettings.MapWidth)
                     xRight = GameSettings.MapWidth - 1;
 
-                var yBottom = rect.Y + rect.Height + offsetY;
+                var yBottom = rect.Y + rect.Height + offset;
                 if (yBottom >= GameSettings.MapHeight)
                     yBottom = GameSettings.MapHeight - 1;
 
@@ -134,9 +133,7 @@ namespace Top_Down_shooter.Scripts.Components
 
         private static int GetH(Point point, Point target) =>
             (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
-            //(int)(Math.Sqrt((target.X - point.X) * (target.X - point.X) + (target.Y - point.Y)*(target.Y - point.Y)));
-
-        
+       
         private static IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
         {
             return Enumerable
