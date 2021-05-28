@@ -31,11 +31,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public override void Move(bool isReverse = false)
         {
-            if (path.Count == 0)
-            {
+            //if (path.Count == 0)
+            //{
                 path = NavMeshAgent.GetPath(Transform, GameModel.Player.Transform);;
-            }
-            if (path.Count > 0 && Transform == nextCheckPoint)
+            //}
+            //if (path.Count > 0 && Transform == nextCheckPoint)
+            if (path.Count > 0)
                 nextCheckPoint = path.Pop();
 
             var q = MoveTowards(Transform, nextCheckPoint, Speed);

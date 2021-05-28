@@ -57,9 +57,23 @@ namespace Top_Down_shooter
             Physics.Update();
 
             GameModel.Player.Move();
+            if (Physics.IsCollided(GameModel.Player, out var others))
+            {
+                foreach (var other in others)
+                {
+                    if (other is Box)
+                    {
+                        GameModel.Player.Move(isReverse: true);
+                        break;
+                    }
+                }
+            }
+
+
+            GameModel.MoveEnemies();
          
 
-            if (Physics.IsCollided(GameModel.Player, out var others))
+            if (Physics.IsCollided(GameModel.Player, out others))
             {
                 foreach (var collision in others)
                 {

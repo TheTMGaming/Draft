@@ -56,6 +56,12 @@ namespace Top_Down_shooter
             character.Health = GameSettings.TankHealth;
         }
 
+        public static void MoveEnemies()
+        {
+            foreach (var enemy in Enemies)
+                enemy.Move();
+        }
+
         public static Bullet Shoot()
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);

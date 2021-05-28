@@ -19,6 +19,8 @@ namespace Top_Down_shooter.Scripts.Components
 
         private static readonly int costOrthogonalPoint = 10;
 
+        private static readonly Random randGenerator = new Random();
+
         static NavMeshAgent()
         {
             width = GameSettings.MapWidth / stepAgent;
@@ -132,7 +134,7 @@ namespace Top_Down_shooter.Scripts.Components
             (int)(Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) * costOrthogonalPoint);
 
         private static int GetH(Point point, Point target) =>
-            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint;
+            (Math.Abs(target.X - point.X) + Math.Abs(target.Y - point.Y)) * costOrthogonalPoint + randGenerator.Next(0, 10);
        
         private static IEnumerable<Point> GetUnclosedNeighbours(Point point, HashSet<Point> closed)
         {
