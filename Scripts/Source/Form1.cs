@@ -59,17 +59,24 @@ namespace Top_Down_shooter
             GameModel.Player.Move();
          
 
-            if (Physics.IsCollided(GameModel.Player))
+            if (Physics.IsCollided(GameModel.Player, out var others))
             {
-                GameModel.Player.Move(isReverse: true);
+                foreach (var collision in others)
+                {
+                    if (collision is Block)
+                    {
+                        GameModel.Player.Move(isReverse: true);
+                        break;
+                    }
+                }
             }
 
 
-            for (var node = GameModel.Bullets.First; !(node is null); node = node.Next)
+            for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
             {
-                node.Value.Move();
+                bullet.Value.Move();
 
-                if (Physics.IsCollided(node.Value, out var others))
+                if (Physics.IsCollided(bullet.Value, out others))
                 {
                     foreach (var collision in others)
                     {
@@ -79,13 +86,19 @@ namespace Top_Down_shooter
                             if (box.Health == 0)
                             {
                                 GameModel.ChangeBoxToGrass(box);
-                                Physics.RemoveFromTrackingCollisions(box);
+                                Physics.RemoveFromTrackingCollisions(box.Collider);
                             }
+                        }
+
+                        if (collision is Character character)
+                        {
+                            character.Health -= 1;
+                            Console.WriteLine(character.Health);
                         }
                     }
 
-                    GameModel.Bullets.Remove(node);
-                    Physics.RemoveFromTrackingCollisions(node.Value);
+                    GameModel.Bullets.Remove(bullet);
+                    Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
                 }
             }
             GameModel.Tank.Move();

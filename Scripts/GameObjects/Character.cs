@@ -24,6 +24,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public int Speed { get; set; }
         public int Health { get; set; }
+        public Collider HitBox { get; set; }
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }

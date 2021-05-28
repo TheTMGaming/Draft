@@ -23,6 +23,7 @@ namespace Top_Down_shooter
         {
             Player = new Player(120, 120);
             Tank = new Tank(200, 120);
+            Physics.AddToTrackingCollisions(Tank.HitBox);
             HealthBar = new HealthBar(100);
             Map = new Map();
             NavMeshAgent.Bake(Map);

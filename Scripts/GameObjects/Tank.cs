@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -18,7 +19,11 @@ namespace Top_Down_shooter.Scripts.GameObjects
             X = x;
             Y = y;
             Speed = 6;
+            Health = GameSettings.
+
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
+            HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
+
             nextCheckPoint = GameModel.Player.Transform;
         }
 

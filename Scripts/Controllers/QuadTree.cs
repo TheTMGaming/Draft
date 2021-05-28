@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
 
 namespace Top_Down_shooter.Scripts.Controllers
@@ -10,7 +11,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         private readonly Rectangle bounds;
         private readonly int depth;
 
-        private List<GameObject> objects;
+        private List<Collider> objects;
         private readonly List<QuadTree> nodes;
 
         private readonly int maxObjectsCount = 10;
@@ -22,12 +23,12 @@ namespace Top_Down_shooter.Scripts.Controllers
             depth = nextDepth;
 
             nodes = new List<QuadTree>();
-            objects = new List<GameObject>();
+            objects = new List<Collider>();
         }
 
-        public List<GameObject> GetCandidateToCollision(GameObject gameObject)
+        public List<Collider> GetCandidateToCollision(Collider gameObject)
         {
-            var returnedList = new List<GameObject>(objects);
+            var returnedList = new List<Collider>(objects);
 
             if (nodes.Count > 0)
             return returnedList.Concat(
@@ -40,17 +41,17 @@ namespace Top_Down_shooter.Scripts.Controllers
             return returnedList;
         }
 
-        public void Insert(GameObject gameObject)
+        public void Insert(Collider collider)
         {
             if (nodes.Count > 0)
             {
-                foreach (var node in GetContainedNodes(gameObject))
-                    node.Insert(gameObject);
+                foreach (var node in GetContainedNodes(collider))
+                    node.Insert(collider);
 
                 return;
             }
 
-            objects.Add(gameObject);
+            objects.Add(collider);
 
             if (objects.Count > maxObjectsCount && depth < maxDepth)
             {
@@ -59,17 +60,17 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 foreach (var obj in objects)
                 {
-                    foreach (var node in GetContainedNodes(gameObject))
-                        node.Insert(gameObject);
+                    foreach (var node in GetContainedNodes(collider))
+                        node.Insert(collider);
                 }
 
-                objects = new List<GameObject>();
+                objects = new List<Collider>();
             }
         }
 
         public void Clear()
         {
-            objects = new List<GameObject>();
+            objects = new List<Collider>();
 
             foreach (var node in nodes)
                 node.Clear();
@@ -97,25 +98,28 @@ namespace Top_Down_shooter.Scripts.Controllers
                 depth + 1));
         }
 
-        private List<QuadTree> GetContainedNodes(GameObject gameObject)
+        private List<QuadTree> GetContainedNodes(Collider collider)
         {
             var list = new List<QuadTree>();
 
             var verticalMidpoint = bounds.X + bounds.Width / 2;
             var horizontalMidpoint = bounds.Y + bounds.Height / 2;
 
-            if (gameObject.Collider.Transform.Y < horizontalMidpoint && gameObject.Collider.Transform.X + gameObject.Collider.Transform.Width > verticalMidpoint)
+            if (collider.Transform.Y < horizontalMidpoint
+                && collider.Transform.X + collider.Transform.Width > verticalMidpoint)
+            {
                 list.Add(nodes[0]);
+            }
 
-            if (gameObject.Collider.Transform.X < verticalMidpoint && gameObject.Collider.Transform.Y < horizontalMidpoint)
+            if (collider.Transform.X < verticalMidpoint && collider.Transform.Y < horizontalMidpoint)
                 list.Add(nodes[1]);
 
-            if (gameObject.Collider.Transform.X < verticalMidpoint 
-                && gameObject.Collider.Y + gameObject.Collider.Transform.Height > horizontalMidpoint)
+            if (collider.Transform.X < verticalMidpoint 
+                && collider.Y + collider.Transform.Height > horizontalMidpoint)
                 list.Add(nodes[2]);
 
-            if (gameObject.Collider.Transform.X + gameObject.Collider.Transform.Width > verticalMidpoint 
-                && gameObject.Collider.Transform.Y + gameObject.Collider.Transform.Height > horizontalMidpoint)
+            if (collider.Transform.X + collider.Transform.Width > verticalMidpoint 
+                && collider.Transform.Y + collider.Transform.Height > horizontalMidpoint)
                 list.Add(nodes[3]);
 
             return list;

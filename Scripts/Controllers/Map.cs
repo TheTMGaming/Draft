@@ -51,16 +51,16 @@ namespace Top_Down_shooter.Scripts.Controllers
                 Tiles[x, 0] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, GameSettings.TileSize / 2);
                 Tiles[x, height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, (height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
 
-                Physics.AddToTrackingCollisions(Tiles[x, 0]);
-                Physics.AddToTrackingCollisions(Tiles[x, height - 1]);
+                Physics.AddToTrackingCollisions(Tiles[x, 0].Collider);
+                Physics.AddToTrackingCollisions(Tiles[x, height - 1].Collider);
             }
             foreach (var y in Enumerable.Range(1, height - 1))
             {
                 Tiles[0, y] = new Block(GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
                 Tiles[width - 1, y] = new Block((width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
-                Physics.AddToTrackingCollisions(Tiles[0, y]);
-                Physics.AddToTrackingCollisions(Tiles[width - 1, y]);
+                Physics.AddToTrackingCollisions(Tiles[0, y].Collider);
+                Physics.AddToTrackingCollisions(Tiles[width - 1, y].Collider);
             }
             var rand = new Random();
 
@@ -84,7 +84,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     var box = new Box(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                     Tiles[tile.Point.X, tile.Point.Y] = box;
-                    Physics.AddToTrackingCollisions(box);
+                    Physics.AddToTrackingCollisions(box.Collider);
                 }
                 else
                 {
