@@ -45,7 +45,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 if (!IsKeyPressed(Keys.LButton))
                     wasShot = false;
-                else if (!wasShot)
+                else if (!wasShot && GameModel.Player.Gun.CountBullets > 0)
                 {
                     wasShot = true;
 

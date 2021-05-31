@@ -7,6 +7,7 @@ using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Top_Down_shooter
 {
@@ -60,7 +61,11 @@ namespace Top_Down_shooter
 
         public static void RespawnEnemy(Tank tank)
         {
-            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+            var tiles = Map.FreeTiles
+                .Where(t =>
+                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
+                .ToList();
+            var tile = tiles[randGenerator.Next(0, tiles.Count)];
 
             tank.X = tile.X;
             tank.Y = tile.Y;

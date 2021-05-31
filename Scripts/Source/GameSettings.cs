@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Top_Down_shooter.Scripts.Source
 {
     static class GameSettings
@@ -11,8 +13,9 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int DelaySpawnNewMonster = 50000;
         public const int StartEnemiesCount = 3;
+        public const int DistancePlayerToSpawner = 700;
 
-        public const int TimeToEnd = 300000;
+        public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
         // Player
         public const int StartCountBullets = 15;

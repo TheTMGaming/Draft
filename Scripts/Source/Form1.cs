@@ -37,7 +37,7 @@ namespace Top_Down_shooter
 
            
             var gameTimer = new Timer();
-            var time = new TimeSpan(0, 5, 0);
+            var time = GameSettings.TimeToEnd;
             var timeLabel = new Label()
             {
                 Size = new Size(200, 200),
@@ -132,6 +132,9 @@ namespace Top_Down_shooter
 
                     foreach (var collision in others)
                     {
+                        if (collision is Block)
+                            willBeDestroyed = true;
+
                         if (collision is Box box)
                         {
                             box.Health -= 1;
