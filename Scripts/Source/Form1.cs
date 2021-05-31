@@ -8,6 +8,9 @@ using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
+using System.Drawing.Text;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Top_Down_shooter
 {
@@ -15,20 +18,43 @@ namespace Top_Down_shooter
     {
         private readonly int IntervalUpdateGameLoop = 30;
         private readonly int IntervalUpdateAnimations = 250;
-
+        private Label label;
+      
         public Form1()
-        {
+        { 
             DoubleBuffered = true;
             Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
             //FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
          
-            RunTimer(IntervalUpdateGameLoop, UpdateGameLoop);
-            RunTimer(IntervalUpdateAnimations, GameRender.PlayAnimations);
-            RunTimer(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
+            RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
+            RunTimeInvoker(IntervalUpdateAnimations, GameRender.PlayAnimations);
+            RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
 
             RunFunctionAsync(Controller.KeyboardHandler);
             RunFunctionAsync(Controller.MouseHandler);
+
+           
+            var gameTimer = new Timer();
+            var time = new TimeSpan(0, 5, 0);
+            label = new Label()
+            {
+                Size = new Size(200, 200),
+                Font = new Font("Arial Rounded MT Bold", 30),
+                BackColor = Color.Transparent,
+                Location = new Point(1100, 20)
+            };
+            
+
+
+            gameTimer.Tick += (sender, obj) =>
+            {
+                time -= TimeSpan.FromSeconds(1);
+                label.Text = time.ToString(@"m\:ss");
+            };
+            gameTimer.Interval = 1000;
+            gameTimer.Start();
+            Controls.Add(label);
             
         }
 
@@ -38,24 +64,7 @@ namespace Top_Down_shooter
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
-
             GameRender.DrawObjects(g);
-            //g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
-
-            foreach (var c in NavMeshAgent.navMesh)
-            {
-                var b = new SolidBrush(Color.Blue);
-                if (c.IsObstacle)
-                    b = new SolidBrush(Color.Red);
-
-
-                g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
-            }
-
-          
-
-            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
-            //g.FillRectangle(new SolidBrush(Color.Blue), GameModel.Player.Collider.X, GameModel.Player.Collider.Y, 5, 5);
         }
 
         private void UpdateGameLoop()
@@ -149,7 +158,7 @@ namespace Top_Down_shooter
            
         }
 
-        private void RunTimer(int interval, Action func)
+        private void RunTimeInvoker(int interval, Action func)
         {
             var timer = new System.Windows.Forms.Timer();
 

@@ -5,14 +5,14 @@ namespace Top_Down_shooter.Scripts.Source
     {
         public const int MapWidth = 1920;
         public const int MapHeight = 1920;
-
         public const int ScreenWidth = 1280;
         public const int ScreenHeight = 768;
-
         public const int TileSize = 64;
 
-        public const int DelaySpawnNewMonster = 25000;
-        public const int StartEnemiesCount = 4;
+        public const int DelaySpawnNewMonster = 50000;
+        public const int StartEnemiesCount = 3;
+
+        public const int TimeToEnd = 300000;
 
         // Player
         public const int PlayerSpeed = 8;
