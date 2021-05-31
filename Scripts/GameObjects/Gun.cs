@@ -1,10 +1,12 @@
 ﻿using System.Drawing;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Gun : GameObject
     {
         public int Cooldown { get; set; }
+        public int CountBullets { get; set; }
 
         public float Angle { get; set; }
 
@@ -12,7 +14,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public Gun(int x, int y)
         {
-            Cooldown = 30;
+            Cooldown = GameSettings.PlayerCooldown;
+            CountBullets = GameSettings.StartCountBullets;
+
             X = x;
             Y = y;
         }

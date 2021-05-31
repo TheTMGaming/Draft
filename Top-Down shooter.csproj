@@ -171,6 +171,7 @@
     <None Include="Resources\Block.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\BulletIcon.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

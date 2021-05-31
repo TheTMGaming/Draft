@@ -25,7 +25,7 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
             g.DrawImage(image,
-                X, Y,
+                X + GameRender.Camera.X, Y + GameRender.Camera.Y,
                 new Rectangle(startSlice, sizeSlice),
                 GraphicsUnit.Pixel);
         }

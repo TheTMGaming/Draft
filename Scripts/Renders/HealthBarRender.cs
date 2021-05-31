@@ -35,22 +35,11 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public void Draw(Graphics g)
         {
-            DrawPart(g, background, 
-                offsetBackground.X + GameRender.Camera.X, offsetBackground.Y + GameRender.Camera.Y,
-                background.Size.Width, background.Size.Height);
+            background.Draw(g);
 
-            DrawPart(g, bar,
-                offsetBar.X + GameRender.Camera.X, offsetBar.Y + GameRender.Camera.Y,
-                bar.Size.Width * healthBar.Percent / 100, bar.Size.Height);
+            bar.Draw(g, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
 
-            DrawPart(g, heart, GameRender.Camera.X, GameRender.Camera.Y, heart.Size.Width, heart.Size.Height);
-        }
-
-        private void DrawPart(Graphics g, ImageRender render, int offsetX, int offsetY, int widthSlice, int heighSlice)
-        {
-            render.X = X + offsetX;
-            render.Y = Y + offsetY;
-            render.Draw(g, new Point(0, 0), new Size(widthSlice, heighSlice));
+            heart.Draw(g);
         }
     }
 }

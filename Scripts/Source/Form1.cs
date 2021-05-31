@@ -18,8 +18,9 @@ namespace Top_Down_shooter
     {
         private readonly int IntervalUpdateGameLoop = 30;
         private readonly int IntervalUpdateAnimations = 250;
-        private Label label;
-      
+
+        private readonly Label countBulletsLabel;
+
         public Form1()
         { 
             DoubleBuffered = true;
@@ -37,7 +38,7 @@ namespace Top_Down_shooter
            
             var gameTimer = new Timer();
             var time = new TimeSpan(0, 5, 0);
-            label = new Label()
+            var timeLabel = new Label()
             {
                 Size = new Size(200, 200),
                 Font = new Font("Arial Rounded MT Bold", 30),
@@ -45,17 +46,23 @@ namespace Top_Down_shooter
                 Location = new Point(1100, 20)
             };
             
-
-
             gameTimer.Tick += (sender, obj) =>
             {
                 time -= TimeSpan.FromSeconds(1);
-                label.Text = time.ToString(@"m\:ss");
+                timeLabel.Text = time.ToString(@"m\:ss");
             };
             gameTimer.Interval = 1000;
             gameTimer.Start();
-            Controls.Add(label);
-            
+            Controls.Add(timeLabel);
+
+            countBulletsLabel = new Label()
+            {
+                Size = new Size(200, 200),
+                Font = new Font("Arial Rounded MT Bold", 30),
+                BackColor = Color.Transparent,
+                Location = new Point(1160, 666)
+            };
+            Controls.Add(countBulletsLabel);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -69,12 +76,13 @@ namespace Top_Down_shooter
 
         private void UpdateGameLoop()
         {
-            
+            GameModel.Player.Gun.CountBullets -= Controller.SpawnedBullets.Count;
             while (Controller.SpawnedBullets.Count > 0)
             {
                 var b = Controller.SpawnedBullets.Dequeue();
                 GameModel.Bullets.AddLast(b);
             }
+            countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
 
             var mousePosition = PointToClient(MousePosition);
             GameRender.Camera.Move(GameModel.Player);

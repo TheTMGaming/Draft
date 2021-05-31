@@ -15,6 +15,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TimeToEnd = 300000;
 
         // Player
+        public const int StartCountBullets = 15;
         public const int PlayerSpeed = 8;
         public const int PlayerHealth = 100;
         public const int PlayerDamage = 10;
