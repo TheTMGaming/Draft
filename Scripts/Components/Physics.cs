@@ -29,18 +29,6 @@ namespace Top_Down_shooter.Scripts.Controllers
             return others.Count > 0;
         }
 
-        public static bool IsCollidedWith(GameObject gameObject, GameObject other)
-        {
-            IsCollided(gameObject, out var others);
-            foreach (var collision in others)
-            {
-                if (collision == other)
-                    return true;
-            }
-
-            return false;
-        }
-
         public static void Update()
         {
             colliders.Clear();

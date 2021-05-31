@@ -11,14 +11,13 @@ namespace Top_Down_shooter.Scripts.Renders
         public Size Size => new Size(X + offsetBackground.X + background.Size.Width, heart.Size.Height);
 
         private readonly HealthBar healthBar;
-        private readonly Size sizeBar;
 
         private readonly ImageRender background;
         private readonly ImageRender bar;
         private readonly ImageRender heart;
 
-        private readonly Point offsetBackground = new Point(140, 20);
-        private readonly Point offsetBar = new Point(140, 20);
+        private readonly Point offsetBackground = new Point(45, 50);
+        private readonly Point offsetBar = new Point(48, 53);
 
         public HealthBarRender(HealthBar healthBar, int xLeft, int yTop)
         {
@@ -29,19 +28,29 @@ namespace Top_Down_shooter.Scripts.Renders
             heart = new ImageRender(X, Y, Resources.Heart);
 
             background = new ImageRender(
-                X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar
-                );
+                X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar);
 
             bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, Resources.HealthBar);
         }
 
         public void Draw(Graphics g)
         {
-            heart.Draw(g);
+            DrawPart(g, background, 
+                offsetBackground.X + GameRender.Camera.X, offsetBackground.Y + GameRender.Camera.Y,
+                background.Size.Width, background.Size.Height);
 
-            background.Draw(g);
+            DrawPart(g, bar,
+                offsetBar.X + GameRender.Camera.X, offsetBar.Y + GameRender.Camera.Y,
+                bar.Size.Width * healthBar.Percent / 100, bar.Size.Height);
 
-            bar.Draw(g, new Point(0, 0), new Size(sizeBar.Width * healthBar.Percent / 100, sizeBar.Height));
+            DrawPart(g, heart, GameRender.Camera.X, GameRender.Camera.Y, heart.Size.Width, heart.Size.Height);
+        }
+
+        private void DrawPart(Graphics g, ImageRender render, int offsetX, int offsetY, int widthSlice, int heighSlice)
+        {
+            render.X = X + offsetX;
+            render.Y = Y + offsetY;
+            render.Draw(g, new Point(0, 0), new Size(widthSlice, heighSlice));
         }
     }
 }

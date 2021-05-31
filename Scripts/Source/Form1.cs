@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
@@ -75,12 +76,11 @@ namespace Top_Down_shooter
             Physics.Update();
 
             GameModel.Player.Move();
-            Console.WriteLine(GameModel.Player.Transform);
             if (Physics.IsCollided(GameModel.Player, out var others))
             {
                 foreach (var other in others)
                 {
-                    if (other is Box)
+                    if (other is Box || other is Block)
                     {
                         GameModel.Player.Move(isReverse: true);
                         break;
@@ -90,20 +90,22 @@ namespace Top_Down_shooter
 
 
             GameModel.MoveEnemies();
-         
-
-            if (Physics.IsCollided(GameModel.Player, out others))
+            foreach (var enemy in GameModel.Enemies)
             {
-                foreach (var collision in others)
+                if (Physics.IsCollided(enemy, out others))
                 {
-                    if (collision is Block)
+                    foreach (var collision in others)
                     {
-                        GameModel.Player.Move(isReverse: true);
-                        break;
+                        if (collision is Player)
+                        {
+                            GameModel.Player.Health -= GameSettings.TankDamage;
+                            GameModel.HealthBar.Percent -= GameSettings.TankDamage;
+                        }
+
+
                     }
                 }
             }
-
 
             for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
             {
@@ -111,6 +113,8 @@ namespace Top_Down_shooter
 
                 if (Physics.IsCollided(bullet.Value, out others))
                 {
+                    var willBeDestroyed = false;
+
                     foreach (var collision in others)
                     {
                         if (collision is Box box)
@@ -121,18 +125,25 @@ namespace Top_Down_shooter
                                 GameModel.ChangeBoxToGrass(box);
                                 Physics.RemoveFromTrackingCollisions(box.Collider);
                             }
+
+                            willBeDestroyed = true;
                         }
 
-                        if (collision is Character character)
+                        if (collision is Tank tank)
                         {
-                            character.Health -= 1;
-                            if (character.Health < 1)
-                                GameModel.RespawnEnemy(character);
+                            tank.Health -= 1;
+                            if (tank.Health < 1)
+                                GameModel.RespawnEnemy(tank);
+
+                            willBeDestroyed = true;
                         }
                     }
 
-                    GameModel.Bullets.Remove(bullet);
-                    Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
+                    if (willBeDestroyed)
+                    {
+                        GameModel.Bullets.Remove(bullet);
+                        Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
+                    }
                 }
             }
 

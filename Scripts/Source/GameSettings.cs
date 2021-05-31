@@ -11,7 +11,8 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int TileSize = 64;
 
-        public const int DelaySpawnNewMonster = 300;
+        public const int DelaySpawnNewMonster = 25000;
+        public const int StartEnemiesCount = 4;
 
         // Player
         public const int PlayerSpeed = 8;
@@ -20,12 +21,16 @@ namespace Top_Down_shooter.Scripts.Source
         public const int PlayerCooldown = 30;
 
         // Enemy.Tank
-        public const int TankHealth = 7;
+        public const int TankHealthMax = 7;
+        public const int TankHealthMin = 3;
+
         public const int TankSpeedMin = 5;
-        public const int TankSpeedMax = 10;
-        public const float ProbabilitiSpeedMax = 0.2f;
+        public const int TankSpeedMax = 8;
+        public const float ProbabilitiSpeedMax = 0.15f;
+
         public const int TankResetPathMin = 5;
         public const int TankResetPathMax = 10;
+
         public const int TankDamage = 15;
         public const int TankCooldown = 300;
         public const int TankSizeCollider = 60;

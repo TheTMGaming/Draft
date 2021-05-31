@@ -20,6 +20,7 @@ namespace Top_Down_shooter
             gameObjects.Add(EnemiesRender);
             gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
+            gameObjects.Add(new HealthBarRender(GameModel.HealthBar, 60, 625));
 
         }
 

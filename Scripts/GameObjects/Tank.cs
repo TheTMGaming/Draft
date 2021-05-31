@@ -12,46 +12,48 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Tank : Enemy
     {
-        public Stack<Point> path = new Stack<Point>();
+        private Stack<Point> path = new Stack<Point>();
 
-        private Point nextCheckPoint;
+        private Point nextCheckpoint;
+        private Point prevCheckpoint;
         private int resetPath;
 
-        private static Random randGenerator = new Random();
-
-        public Tank(int x, int y)
+        public Tank(int x, int y, int health, int speed, int timeResetPath)
         {
             X = x;
             Y = y;
-
-            resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
-            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
-                Speed = randGenerator.Next(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax);
-            else
-                Speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
-            Health = GameSettings.TankHealth;
+            Health = health;
+            Speed = speed;
+            resetPath = timeResetPath;
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
 
-            nextCheckPoint = GameModel.Player.Transform;
+            nextCheckpoint = GameModel.Player.Transform;
         }
 
         public override void Move(bool isReverse = false)
         {
+            if (isReverse)
+            {
+                X = prevCheckpoint.X;
+                Y = prevCheckpoint.Y;
+            }
+
+            prevCheckpoint = nextCheckpoint;
+
             if (path.Count < resetPath)
             { 
                 path = NavMeshAgent.GetPath(Transform, GameModel.Player.Transform);
-                resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
             }
             if (path.Count > 0)
-                nextCheckPoint = path.Pop();
+                nextCheckpoint = path.Pop();
 
-            var q = MoveTowards(Transform, nextCheckPoint, Speed);
+            var direction = MoveTowards(Transform, nextCheckpoint, Speed);
             LookAt(GameModel.Player.Transform);
 
-            X = q.X;
-            Y = q.Y;
+            X = direction.X;
+            Y = direction.Y;
         }
 
 

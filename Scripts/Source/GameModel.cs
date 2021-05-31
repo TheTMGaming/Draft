@@ -23,11 +23,13 @@ namespace Top_Down_shooter
         static GameModel()
         {
             Player = new Player(120, 120);
+            Physics.AddToTrackingCollisions(Player.HitBox);
+
             Map = new Map();
             NavMeshAgent.Bake(Map);
 
             Enemies = new List<Tank>();
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
             {
                 SpawnEnemy();
             }
@@ -41,25 +43,39 @@ namespace Top_Down_shooter
         public static void SpawnEnemy()
         {
             var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
-            var enemy = new Tank(tile.X, tile.Y);
+
+            var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
+
+            var speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
+            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
+                speed = randGenerator.Next(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax);
+
+            var health = randGenerator.Next(GameSettings.TankHealthMin, GameSettings.TankHealthMax);
+
+            var enemy = new Tank(tile.X, tile.Y, health, speed, resetPath);
 
             Enemies.Add(enemy);
             Physics.AddToTrackingCollisions(enemy.HitBox);
         }
 
-        public static void RespawnEnemy(Character character)
+        public static void RespawnEnemy(Tank tank)
         {
             var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
 
-            character.X = tile.X;
-            character.Y = tile.Y;
-            character.Health = GameSettings.TankHealth;
+            tank.X = tile.X;
+            tank.Y = tile.Y;
+            tank.Health = GameSettings.TankHealthMax;
         }
 
         public static void MoveEnemies()
         {
             foreach (var enemy in Enemies)
                 enemy.Move();
+        }
+
+        public static void KickEnemies()
+        {
+
         }
 
         public static Bullet Shoot()
