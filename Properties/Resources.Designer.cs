@@ -73,6 +73,16 @@ namespace Top_Down_shooter.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap BigPowerup {
+            get {
+                object obj = ResourceManager.GetObject("BigPowerup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Block {
             get {
                 object obj = ResourceManager.GetObject("Block", resourceCulture);
@@ -166,6 +176,16 @@ namespace Top_Down_shooter.Properties {
         public static System.Drawing.Bitmap Player {
             get {
                 object obj = ResourceManager.GetObject("Player", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SmallLoot {
+            get {
+                object obj = ResourceManager.GetObject("SmallLoot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

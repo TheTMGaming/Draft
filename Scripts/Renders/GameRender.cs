@@ -17,6 +17,8 @@ namespace Top_Down_shooter
         {
             gameObjects.Add(new MapRender(GameModel.Map));
 
+            gameObjects.Add(new PowerupsRender(GameModel.Powerups));
+
             gameObjects.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
             gameObjects.Add(EnemiesRender);
 
@@ -25,7 +27,6 @@ namespace Top_Down_shooter
 
             gameObjects.Add(new HealthBarRender(GameModel.HealthBar, 60, 625));
             gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon));
-
         }
 
         public static void DrawObjects(Graphics g)

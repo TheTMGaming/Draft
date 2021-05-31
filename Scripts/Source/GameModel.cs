@@ -15,6 +15,7 @@ namespace Top_Down_shooter
     {
         public static readonly Player Player;
         public static readonly List<Tank> Enemies;
+        public static readonly HashSet<Powerup> Powerups;
         public static readonly Map Map;
         public static readonly HealthBar HealthBar;
         public static readonly LinkedList<Bullet> Bullets;
@@ -34,7 +35,10 @@ namespace Top_Down_shooter
             {
                 SpawnEnemy();
             }
-            
+
+            Powerups = new HashSet<Powerup>();
+            SpawnSmallLoot();
+
             HealthBar = new HealthBar(Player);
 
 
@@ -59,6 +63,27 @@ namespace Top_Down_shooter
             Physics.AddToTrackingCollisions(enemy.HitBox);
         }
 
+        public static void SpawnSmallLoot()
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+                Powerups.Add(new Powerup(tile.X, tile.Y, TypesPowerup.SmallLoot));
+                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
+            }
+        }
+
+        public static void RespawnSmallLoot(Powerup powerup)
+        {
+            var tiles = Map.FreeTiles
+                .Where(t =>
+                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
+                .ToList();
+            var tile = tiles[randGenerator.Next(0, tiles.Count)];
+            powerup.X = tile.X;
+            powerup.Y = tile.Y;
+        }
+
         public static void RespawnEnemy(Tank tank)
         {
             var tiles = Map.FreeTiles
@@ -66,6 +91,13 @@ namespace Top_Down_shooter
                     Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
                 .ToList();
             var tile = tiles[randGenerator.Next(0, tiles.Count)];
+
+            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilityBigLoot)
+            {
+                Powerups.Add(new Powerup(tank.X, tank.Y, TypesPowerup.BigLoot));
+                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
+            }
+
 
             tank.X = tile.X;
             tank.Y = tile.Y;

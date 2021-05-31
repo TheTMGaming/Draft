@@ -17,6 +17,10 @@ namespace Top_Down_shooter.Scripts.Source
 
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
+        public const int SmallLoot = 5;
+        public const int BigLoot = 10;
+        public const float ProbabilityBigLoot = 0.2f;
+
         // Player
         public const int StartCountBullets = 15;
         public const int PlayerSpeed = 8;
@@ -29,7 +33,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TankHealthMin = 3;
 
         public const int TankSpeedMin = 5;
-        public const int TankSpeedMax = 8;
+        public const int TankSpeedMax = 7;
         public const float ProbabilitiSpeedMax = 0.15f;
 
         public const int TankResetPathMin = 5;

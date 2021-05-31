@@ -97,6 +97,18 @@ namespace Top_Down_shooter
             {
                 foreach (var other in others)
                 {
+                    if (other is Powerup powerup)
+                    {
+                        GameModel.Player.Gun.CountBullets += powerup.Cost;
+
+                        if (powerup.Type == TypesPowerup.BigLoot)
+                        {
+                            Physics.RemoveFromTrackingCollisions(powerup.Collider);
+                            GameModel.Powerups.Remove(powerup);
+                        }
+                        else GameModel.RespawnSmallLoot(powerup);
+                    }
+
                     if (other is Box || other is Block)
                     {
                         GameModel.Player.Move(isReverse: true);
