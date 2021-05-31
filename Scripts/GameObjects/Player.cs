@@ -14,9 +14,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
         {
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
+
             X = x;
             Y = y;
             Speed = GameSettings.PlayerSpeed;
+            Health = GameSettings.PlayerHealth;
+
             Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);           
         }
 

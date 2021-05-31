@@ -96,13 +96,11 @@ namespace Top_Down_shooter
                 {
                     foreach (var collision in others)
                     {
-                        if (collision is Player)
+                        if (collision is Player && enemy.CanKick)
                         {
                             GameModel.Player.Health -= GameSettings.TankDamage;
-                            GameModel.HealthBar.Percent -= GameSettings.TankDamage;
+                            enemy.CanKick = false;
                         }
-
-
                     }
                 }
             }

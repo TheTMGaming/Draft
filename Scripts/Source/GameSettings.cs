@@ -31,7 +31,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TankResetPathMin = 5;
         public const int TankResetPathMax = 10;
 
-        public const int TankDamage = 15;
+        public const int TankDamage = 1;
         public const int TankCooldown = 300;
         public const int TankSizeCollider = 60;
 

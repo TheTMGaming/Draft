@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
@@ -12,24 +12,29 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Tank : Enemy
     {
-        private Stack<Point> path = new Stack<Point>();
+        public bool CanKick { get; set; }
+        private readonly Timer cooldown;
 
+        private Stack<Point> path = new Stack<Point>();
         private Point nextCheckpoint;
         private Point prevCheckpoint;
-        private int resetPath;
+        private readonly int resetPath;
 
-        public Tank(int x, int y, int health, int speed, int timeResetPath)
+        public Tank(int x, int y, int health, int speed, int timeResetPath, int delayCooldown)
         {
             X = x;
             Y = y;
             Health = health;
             Speed = speed;
+
             resetPath = timeResetPath;
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
 
             nextCheckpoint = GameModel.Player.Transform;
+
+            cooldown = new Timer(new TimerCallback((obj) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
         }
 
         public override void Move(bool isReverse = false)

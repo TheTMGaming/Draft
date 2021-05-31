@@ -1,10 +1,12 @@
-﻿namespace Top_Down_shooter.Scripts.UI
+﻿using Top_Down_shooter.Scripts.GameObjects;
+
+namespace Top_Down_shooter.Scripts.UI
 {
     class HealthBar
     {
         public int Percent
         {
-            get { return percent; }
+            get { return (int)(character.Health / startHealth * 100); }
             set
             {
                 percent = value;
@@ -15,8 +17,13 @@
 
         private int percent;
 
-        public HealthBar(int percent)
+        private readonly Character character;
+        private readonly float startHealth;
+
+        public HealthBar(Character character)
         {
+            this.character = character;
+            startHealth = character.Health;
             Percent = percent;
         }
     }

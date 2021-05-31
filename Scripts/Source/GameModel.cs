@@ -34,7 +34,7 @@ namespace Top_Down_shooter
                 SpawnEnemy();
             }
             
-            HealthBar = new HealthBar(100);
+            HealthBar = new HealthBar(Player);
 
 
             Bullets = new LinkedList<Bullet>();         
@@ -52,7 +52,7 @@ namespace Top_Down_shooter
 
             var health = randGenerator.Next(GameSettings.TankHealthMin, GameSettings.TankHealthMax);
 
-            var enemy = new Tank(tile.X, tile.Y, health, speed, resetPath);
+            var enemy = new Tank(tile.X, tile.Y, health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
             Physics.AddToTrackingCollisions(enemy.HitBox);
@@ -71,11 +71,6 @@ namespace Top_Down_shooter
         {
             foreach (var enemy in Enemies)
                 enemy.Move();
-        }
-
-        public static void KickEnemies()
-        {
-
         }
 
         public static Bullet Shoot()
