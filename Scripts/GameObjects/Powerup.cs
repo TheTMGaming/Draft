@@ -3,28 +3,49 @@ using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
-    enum TypesPowerup
-    { 
-        BigLoot, SmallLoot
-    }
-
     class Powerup : GameObject
     {
-        public readonly TypesPowerup Type;
-        public readonly int Cost;
+        public int Boost { get; set; }
 
-        public Powerup(int x, int y, TypesPowerup type)
+        public Powerup(int x, int y)
         {
             X = x;
             Y = y;
 
-            Type = type;
-            if (type == TypesPowerup.SmallLoot)
-                Cost = GameSettings.SmallLoot;
-            else
-                Cost = GameSettings.BigLoot;
-
             Collider = new Collider(this, 0, 0, 60, 60, isTrigger: true);
+        }
+    }
+
+    class BigLoot : Powerup
+    {
+        private readonly Powerup powerup;
+
+        public BigLoot(Powerup powerup) : base(powerup.X, powerup.Y)
+        {
+            this.powerup = powerup;
+            Boost = GameSettings.BigLoot;
+        }
+    }
+
+    class SmallLoot : Powerup
+    {
+        private readonly Powerup powerup;
+
+        public SmallLoot(Powerup powerup) : base(powerup.X, powerup.Y)
+        {
+            this.powerup = powerup;
+            Boost = GameSettings.SmallLoot;
+        }
+    }
+
+    class HP : Powerup
+    {
+        private readonly Powerup powerup;
+
+        public HP(Powerup powerup) : base(powerup.X, powerup.Y)
+        {
+            this.powerup = powerup;
+            Boost = GameSettings.HPUp;
         }
     }
 }

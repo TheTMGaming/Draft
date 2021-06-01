@@ -40,6 +40,13 @@ namespace Top_Down_shooter
             {
                 SpawnSmallLoot();
             }
+            for (var i = 0; i < GameSettings.CountHPPowerups; i++)
+            {
+                var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+
+                Powerups.Add(new HP(new Powerup(tile.X, tile.Y)));
+                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
+            }
 
             HealthBar = new HealthBar(Player);
 
@@ -70,11 +77,11 @@ namespace Top_Down_shooter
         {
             var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
 
-            Powerups.Add(new Powerup(tile.X, tile.Y, TypesPowerup.SmallLoot));
+            Powerups.Add(new SmallLoot(new Powerup(tile.X, tile.Y)));
             Physics.AddToTrackingCollisions(Powerups.Last().Collider);       
         }
 
-        public static void RespawnSmallLoot(Powerup powerup)
+        public static void RespawnStaticPowerup(Powerup powerup)
         {
             var tiles = Map.FreeTiles
                 .Where(t =>
@@ -106,8 +113,10 @@ namespace Top_Down_shooter
 
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilityBigLoot)
             {
-                Powerups.Add(new Powerup(tank.X, tank.Y, TypesPowerup.BigLoot));
-                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
+                var loot = new BigLoot(new Powerup(tank.X, tank.Y));
+
+                Powerups.Add(loot);
+                Physics.AddToTrackingCollisions(loot.Collider);
             }
 
             tank.X = GameSettings.MapWidth / 2;

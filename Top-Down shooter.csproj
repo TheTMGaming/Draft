@@ -176,6 +176,7 @@
     <None Include="Resources\BulletIcon.png" />
     <None Include="Resources\BigPowerup.png" />
     <None Include="Resources\SmallLoot.png" />
+    <None Include="Resources\Cross.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

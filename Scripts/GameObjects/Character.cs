@@ -23,7 +23,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     abstract class Character : GameObject
     {
         public int Speed { get; set; }
-        public int Health { get; set; }
+        public virtual int Health { get; set; }
         public Collider HitBox { get; set; }
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }

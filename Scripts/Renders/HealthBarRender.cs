@@ -25,7 +25,7 @@ namespace Top_Down_shooter.Scripts.Renders
             X = xLeft;
             Y = yTop;
 
-            heart = new ImageRender(X, Y, Resources.Heart);
+            heart = new ImageRender(X, Y, Resources.Cross);
 
             background = new ImageRender(
                 X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar);

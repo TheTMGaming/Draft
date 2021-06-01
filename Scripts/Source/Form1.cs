@@ -115,14 +115,25 @@ namespace Top_Down_shooter
                 {
                     if (other is Powerup powerup)
                     {
-                        GameModel.Player.Gun.CountBullets += powerup.Cost;
-
-                        if (powerup.Type == TypesPowerup.BigLoot)
+                        if (powerup is HP)
                         {
-                            Physics.RemoveFromTrackingCollisions(powerup.Collider);
-                            GameModel.Powerups.Remove(powerup);
+                            if (GameModel.Player.Health < GameSettings.PlayerHealth)
+                            {
+                                GameModel.Player.Health += powerup.Boost;
+                                GameModel.RespawnStaticPowerup(powerup);
+                            }
                         }
-                        else GameModel.RespawnSmallLoot(powerup);
+                        else
+                        {
+                            GameModel.Player.Gun.CountBullets += powerup.Boost;
+
+                            if (powerup is BigLoot)
+                            {
+                                Physics.RemoveFromTrackingCollisions(powerup.Collider);
+                                GameModel.Powerups.Remove(powerup);
+                            }
+                            else GameModel.RespawnStaticPowerup(powerup);
+                        }                      
                     }
 
                     if (other is Box || other is Block)

@@ -22,9 +22,12 @@ namespace Top_Down_shooter.Scripts.Source
         public const float ProbabilityBigLoot = 0.4f;
         public const int CountSmallLoots = 10;
 
+        public const int HPUp = 5;
+        public const int CountHPPowerups = 5;
+
         // Player
         public const int StartCountBullets = 15;
-        public const int PlayerSpeed = 8;
+        public const int PlayerSpeed = 10;
         public const int PlayerHealth = 100;
         public const int PlayerDamage = 10;
         public const int PlayerCooldown = 30;
@@ -34,8 +37,8 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TankHealthMin = 3;
 
         public const int TankSpeedMin = 5;
-        public const int TankSpeedMax = 7;
-        public const float ProbabilitiSpeedMax = 0.15f;
+        public const int TankSpeedMax = 12;
+        public const float ProbabilitiSpeedMax = 0.4f;
 
         public const int TankResetPathMin = 5;
         public const int TankResetPathMax = 10;

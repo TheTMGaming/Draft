@@ -24,10 +24,12 @@ namespace Top_Down_shooter.Scripts.Renders
             foreach (var powerup in powerups)
             {
                 var image = Resources.BigPowerup;
-                if (powerup.Type == TypesPowerup.SmallLoot)
-                {
+
+                if (powerup is SmallLoot)
                     image = Resources.SmallLoot;
-                }
+
+                if (powerup is HP)
+                    image = Resources.Heart;
 
                 g.DrawImage(image,
                     powerup.X - image.Width / 2, powerup.Y - image.Height / 2,

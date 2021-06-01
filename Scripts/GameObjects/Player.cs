@@ -8,6 +8,17 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public Gun Gun { get; set; }
 
+        public override int Health 
+        { 
+            get => base.Health; 
+            set 
+            {
+                base.Health = value;
+                if (value > GameSettings.PlayerHealth)
+                    base.Health = GameSettings.PlayerHealth;
+            }
+        }
+
         private readonly Point OffsetPositionGun = new Point(20, 38);
 
         public Player(int x, int y)
