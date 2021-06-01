@@ -20,22 +20,20 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly float multiSize;
         private readonly Point offsetBackground = new Point(45, 50);
         private readonly Point offsetBar = new Point(48, 53);
-        private readonly bool hasCross;
 
-        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop, int percentSize = 100, bool hasCross = true, bool followCamera = false)
+        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop, int percentSize = 100, bool followCamera = false)
         {
             this.healthBar = healthBar;
             X = xLeft;
             Y = yTop;
             multiSize = percentSize / 100f;
-            this.hasCross = hasCross;
 
             offsetBackground.X = (int)(offsetBackground.X * multiSize);
             offsetBackground.Y = (int)(offsetBackground.Y * multiSize);
             offsetBar.X = (int)(offsetBar.X * multiSize);
             offsetBar.Y = (int)(offsetBar.Y * multiSize);
 
-            if (hasCross)
+
                 cross = new ImageRender(X, Y, new Bitmap(Resources.Cross, new Size(
                     (int)(Resources.Cross.Width * multiSize), (int)(Resources.Cross.Height * multiSize))), followCamera);
 
@@ -47,14 +45,33 @@ namespace Top_Down_shooter.Scripts.Renders
                 (int)(Resources.HealthBar.Width * multiSize), (int)(Resources.HealthBar.Height * multiSize))), followCamera);
         }
 
+        public HealthBarRender(HealthBar healthBar, Character character, Point offset, int percentSize = 100)
+        {
+            this.healthBar = healthBar;
+            multiSize = percentSize / 100f;
+            offsetBar = new Point((int)(4 * multiSize), (int)(4 * multiSize));
+
+            var backgroundSize = new Size(
+                (int)(Resources.BackgroundHealthBar.Width * multiSize), (int)(Resources.BackgroundHealthBar.Height * multiSize));
+            var barSize = new Size(
+                (int)(Resources.HealthBar.Width * multiSize), (int)(Resources.HealthBar.Height * multiSize));
+
+            X = character.X - backgroundSize.Width / 2 + offset.X;
+            Y = character.Y - backgroundSize.Height / 2 + offset.Y;
+
+            background = new ImageRender(
+                X, Y, new Bitmap(Resources.BackgroundHealthBar, backgroundSize));
+
+            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(Resources.HealthBar, barSize));
+        }
+
         public void Draw(Graphics g)
         {
             background.Draw(g);
 
             bar.Draw(g, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
 
-            if (hasCross)
-                cross.Draw(g);
+            cross?.Draw(g);
         }
     }
 }
