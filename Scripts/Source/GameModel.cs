@@ -15,6 +15,8 @@ namespace Top_Down_shooter
     {
         public static readonly Player Player;
         public static readonly List<Tank> Enemies;
+        public static readonly Boss Boss;
+
         public static readonly HashSet<Powerup> Powerups;
         public static readonly Map Map;
         public static readonly HealthBar HealthBar;
@@ -26,6 +28,10 @@ namespace Top_Down_shooter
         {
             Player = new Player(120, 120);
             Physics.AddToTrackingCollisions(Player.HitBox);
+
+            Boss = new Boss(GameSettings.MapWidth / 2 , GameSettings.MapHeight / 2, GameSettings.BossHealth);
+            Physics.AddToTrackingCollisions(Boss.Collider);
+            Physics.AddToTrackingCollisions(Boss.HitBox);
 
             Map = new Map();
 
@@ -99,7 +105,7 @@ namespace Top_Down_shooter
             powerup.Y = tile.Y;
         }
 
-        public static void RespawnEnemy(Tank tank)
+        public static void RespawnEnemy(Enemy enemy)
         {
             var tiles = Map.FreeTiles
                 .Where(t =>
@@ -113,15 +119,15 @@ namespace Top_Down_shooter
 
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilityBigLoot)
             {
-                var loot = new BigLoot(new Powerup(tank.X, tank.Y));
+                var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
 
                 Powerups.Add(loot);
                 Physics.AddToTrackingCollisions(loot.Collider);
             }
 
-            tank.X = GameSettings.MapWidth / 2;
-            tank.Y = GameSettings.MapHeight / 2;
-            tank.Health = GameSettings.TankHealthMax;
+            enemy.X = GameSettings.MapWidth / 2;
+            enemy.Y = GameSettings.MapHeight / 2;
+            enemy.Health = GameSettings.TankHealthMax;
         }
 
         public static void MoveEnemies()

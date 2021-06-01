@@ -186,11 +186,11 @@ namespace Top_Down_shooter
                             willBeDestroyed = true;
                         }
 
-                        if (collision is Tank tank)
+                        if (collision is Enemy enemy)
                         {
-                            tank.Health -= 1;
-                            if (tank.Health < 1)
-                                GameModel.RespawnEnemy(tank);
+                            enemy.Health -= 1;
+                            if (!(enemy is Boss) && enemy.Health < 1)
+                                GameModel.RespawnEnemy(enemy);
 
                             willBeDestroyed = true;
                         }

@@ -66,6 +66,7 @@
     <Compile Include="Scripts\Components\NavMesh\NavMeshAgent.cs" />
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
+    <Compile Include="Scripts\GameObjects\Boss.cs" />
     <Compile Include="Scripts\GameObjects\Map.cs" />
     <Compile Include="Scripts\GameObjects\Enemy.cs" />
     <Compile Include="Scripts\GameObjects\Powerup.cs" />
@@ -177,6 +178,7 @@
     <None Include="Resources\BigPowerup.png" />
     <None Include="Resources\SmallLoot.png" />
     <None Include="Resources\Cross.png" />
+    <None Include="Resources\Boss.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

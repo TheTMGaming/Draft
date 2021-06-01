@@ -16,21 +16,31 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly ImageRender bar;
         private readonly ImageRender heart;
 
+        private readonly float multiSize;
         private readonly Point offsetBackground = new Point(45, 50);
         private readonly Point offsetBar = new Point(48, 53);
 
-        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop)
+        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop, int percentSize = 100)
         {
             this.healthBar = healthBar;
             X = xLeft;
             Y = yTop;
+            multiSize = percentSize / 100;
 
-            heart = new ImageRender(X, Y, Resources.Cross);
+            offsetBackground.X = (int)(offsetBackground.X * multiSize);
+            offsetBackground.Y = (int)(offsetBackground.Y * multiSize);
+            offsetBar.X = (int)(offsetBar.X * multiSize);
+            offsetBar.Y = (int)(offsetBar.Y * multiSize);
+
+            heart = new ImageRender(X, Y, new Bitmap(Resources.Cross, new Size(
+                (int)(Resources.Cross.Width * multiSize), (int)(Resources.Cross.Height * multiSize))));
 
             background = new ImageRender(
-                X + offsetBackground.X, Y + offsetBackground.Y, Resources.BackgroundHealthBar);
+                X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(Resources.BackgroundHealthBar, new Size(
+                (int)(Resources.BackgroundHealthBar.Width * multiSize), (int)(Resources.BackgroundHealthBar.Height * multiSize))));
 
-            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, Resources.HealthBar);
+            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(Resources.HealthBar, new Size(
+                (int)(Resources.HealthBar.Width * multiSize), (int)(Resources.HealthBar.Height * multiSize))));
         }
 
         public void Draw(Graphics g)

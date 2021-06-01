@@ -21,6 +21,7 @@ namespace Top_Down_shooter
 
             gameObjects.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
             gameObjects.Add(EnemiesRender);
+            gameObjects.Add(new CharacterRender(GameModel.Boss, Resources.Boss, 2, 2));
 
             gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));

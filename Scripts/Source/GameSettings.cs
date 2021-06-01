@@ -32,6 +32,9 @@ namespace Top_Down_shooter.Scripts.Source
         public const int PlayerDamage = 10;
         public const int PlayerCooldown = 30;
 
+        // Boss
+        public const int BossHealth = 300;
+
         // Enemy.Tank
         public const int TankHealthMax = 7;
         public const int TankHealthMin = 3;
