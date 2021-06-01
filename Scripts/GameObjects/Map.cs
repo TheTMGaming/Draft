@@ -25,8 +25,8 @@ namespace Top_Down_shooter.Scripts.Controllers
         public readonly GameObject[,] Tiles;
         public readonly List<GameObject> FreeTiles;
 
-        private readonly int width;
-        private readonly int height;
+        public readonly int Width;
+        public readonly int Height;
 
         private readonly Random randGenerator = new Random();
 
@@ -38,10 +38,10 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public Map()
         {
-            width = GameSettings.MapWidth / GameSettings.TileSize;
-            height = GameSettings.MapHeight / GameSettings.TileSize;
+            Width = GameSettings.MapWidth / GameSettings.TileSize;
+            Height = GameSettings.MapHeight / GameSettings.TileSize;
 
-            Tiles = new GameObject[width, height];
+            Tiles = new GameObject[Width, Height];
             FreeTiles = new List<GameObject>();
 
             CreateBlocks();
@@ -55,7 +55,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             var visited = new HashSet<Point>();
             var queue = new Queue<TileData>();
 
-            queue.Enqueue(new TileData(new Point(width / 2, height / 2), 0));
+            queue.Enqueue(new TileData(new Point(Width / 2, Height / 2), 0));
 
             while (queue.Count > 0)
             {
@@ -94,24 +94,24 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private void CreateBlocks()
         {
-            foreach (var x in Enumerable.Range(0, width))
+            foreach (var x in Enumerable.Range(0, Width))
             {
                 Tiles[x, 0] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2, GameSettings.TileSize / 2);
-                Tiles[x, height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2,
-                    (height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
+                Tiles[x, Height - 1] = new Block(x * GameSettings.TileSize + GameSettings.TileSize / 2,
+                    (Height - 1) * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                 Physics.AddToTrackingCollisions(Tiles[x, 0].Collider);
-                Physics.AddToTrackingCollisions(Tiles[x, height - 1].Collider);
+                Physics.AddToTrackingCollisions(Tiles[x, Height - 1].Collider);
             }
 
-            foreach (var y in Enumerable.Range(1, height - 1))
+            foreach (var y in Enumerable.Range(1, Height - 1))
             {
                 Tiles[0, y] = new Block(GameSettings.TileSize / 2, y * GameSettings.TileSize + GameSettings.TileSize / 2);
-                Tiles[width - 1, y] = new Block((width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2,
+                Tiles[Width - 1, y] = new Block((Width - 1) * GameSettings.TileSize + GameSettings.TileSize / 2,
                     y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                 Physics.AddToTrackingCollisions(Tiles[0, y].Collider);
-                Physics.AddToTrackingCollisions(Tiles[width - 1, y].Collider);
+                Physics.AddToTrackingCollisions(Tiles[Width - 1, y].Collider);
             }
         }
 
@@ -121,7 +121,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 .Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2)
                 .SelectMany(dx => Enumerable.Range(-sizeViewedZoneTile, 1 + sizeViewedZoneTile * 2),
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
-                .Where(p => p.X > 0 && p.X < width - 1 && p.Y > 0 && p.Y < height - 1 && p != point);
+                .Where(p => p.X > 0 && p.X < Width - 1 && p.Y > 0 && p.Y < Height - 1 && p != point);
         }
 
 

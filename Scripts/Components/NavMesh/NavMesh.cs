@@ -16,6 +16,7 @@ namespace Top_Down_shooter.Scripts.Components
     {
         public static readonly Node[,] Map;
         public static readonly List<NavMeshAgent> Agents = new List<NavMeshAgent>();
+        public static readonly Dictionary<GameObject, List<Node>> Obstacles = new Dictionary<GameObject, List<Node>>();
 
         public static readonly int Width;
         public static readonly int Height;
@@ -45,19 +46,14 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        public static void Bake(Map map)
+        public static void Bake()
         {
-            if (map is null)
-                return;
-            
-            tileMap = map;
+            foreach (var node in Map)
+                node.IsObstacle = false;
 
-            foreach (var tile in map.Tiles)
+            foreach (var collider in Physics.Colliders)
             {
-                if (tile is Grass)
-                    continue;
-
-                var rect = tile.Collider.Transform;
+                var rect = collider.Transform;
 
                 var offset = DistanceFromObstacle - DistanceFromObstacle % StepAgent;
 
@@ -89,7 +85,7 @@ namespace Top_Down_shooter.Scripts.Components
         {
             while (true)
             {
-                Bake(tileMap);
+                Bake();
 
                 foreach (var agent in Agents)
                     agent.ComputePath();
@@ -100,6 +96,24 @@ namespace Top_Down_shooter.Scripts.Components
         public static void AddAgent(NavMeshAgent agent)
         {
             Agents.Add(agent);
+        }
+
+        private static void Rebake()
+        {
+            foreach (var tile in Obstacles.Keys)
+            {
+                if (tile is Grass)
+                {
+                    foreach (var node in Obstacles[tile])
+                        node.IsObstacle = false;
+                    Obstacles.Remove(tile);
+                }
+                else
+                {
+                    foreach (var node in Obstacles[tile])
+                        node.IsObstacle = true;
+                }
+            }
         }
     }
 }

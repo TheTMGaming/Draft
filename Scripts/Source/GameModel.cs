@@ -29,7 +29,6 @@ namespace Top_Down_shooter
             Physics.AddToTrackingCollisions(Player.HitBox);
 
             Map = new Map();
-            NavMesh.Bake(Map);
 
             Enemies = new List<Tank>();
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)

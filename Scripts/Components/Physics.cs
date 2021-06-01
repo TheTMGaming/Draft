@@ -9,15 +9,16 @@ namespace Top_Down_shooter.Scripts.Controllers
 {
     static class Physics
     {
-        private static readonly QuadTree colliders;
+        public static HashSet<Collider> Colliders => new HashSet<Collider>(trackingColliders);
 
-        private static readonly HashSet<Collider> trackingCollisions;
+        private static readonly QuadTree colliders;
+        private static readonly HashSet<Collider> trackingColliders;
 
         static Physics()
         {
             colliders = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
 
-            trackingCollisions = new HashSet<Collider>();
+            trackingColliders = new HashSet<Collider>();
         }
 
         public static bool IsCollided(GameObject gameObject) => IsCollided(gameObject, out var other);
@@ -33,18 +34,18 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             colliders.Clear();
 
-            foreach (var obj in trackingCollisions)
+            foreach (var obj in trackingColliders)
                 colliders.Insert(obj);
         }
 
         public static void AddToTrackingCollisions(Collider collider)
         {
-            trackingCollisions.Add(collider);
+            trackingColliders.Add(collider);
         }
 
         public static void RemoveFromTrackingCollisions(Collider collider)
         {
-            trackingCollisions.Remove(collider);
+            trackingColliders.Remove(collider);
         }
 
         private static List<GameObject> GetCollisions(Collider collider)
