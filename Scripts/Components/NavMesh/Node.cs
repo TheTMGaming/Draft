@@ -4,6 +4,7 @@ namespace Top_Down_shooter.Scripts.Components
 {
     class Node
     {
+        public Collider Parent { get; set; }
         public Point Position { get; set; }
         public bool IsObstacle { get; set; }
         public int G { get; private set; }

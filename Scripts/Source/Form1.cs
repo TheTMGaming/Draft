@@ -70,9 +70,24 @@ namespace Top_Down_shooter
         {
             Graphics g = e.Graphics;
 
-            g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);           
+            g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+
 
             GameRender.DrawObjects(g);
+
+            //foreach (var a in GameModel.Enemies)
+            //    g.FillRectangle(new SolidBrush(Color.White), a.Collider.Transform);
+            //foreach (var c in NavMesh.Map)
+            //{
+            //    var b = new SolidBrush(Color.Blue);
+            //    if (c.IsObstacle)
+            //        b = new SolidBrush(Color.Red);
+
+
+            //    g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
+            //}
+            //foreach (var b in GameModel.Enemies[0].Agent.Path)
+            //    g.FillRectangle(new SolidBrush(Color.Yellow), b.X, b.Y, 5, 5);
         }
 
         private void UpdateGameLoop()

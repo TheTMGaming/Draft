@@ -96,7 +96,7 @@ namespace Top_Down_shooter.Scripts.Components
                             (dx, dy) => new Point(point.X + dx, point.Y + dy))
                 .Where(neighbor =>
                     neighbor.X > -1 && neighbor.X < NavMesh.Width && neighbor.Y > -1 && neighbor.Y < NavMesh.Height
-                    && !NavMesh.Map[neighbor.X, neighbor.Y].IsObstacle
+                    && (!NavMesh.Map[neighbor.X, neighbor.Y].IsObstacle || NavMesh.Map[neighbor.X, neighbor.Y].Parent == enemy.Collider)
                     && !closed.Contains(neighbor));
         }
 

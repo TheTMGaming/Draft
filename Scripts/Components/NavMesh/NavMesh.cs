@@ -20,8 +20,8 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static readonly int Width;
         public static readonly int Height;
-        public static readonly int DistanceFromObstacle;
-        public static readonly int StepAgent = 32;
+        public static readonly int DistanceFromObstacle = 30;
+        public static readonly int StepAgent = 16;
         public static readonly int TimeUpdate = 200;
 
         public static readonly int CostOrthogonalPoint = 10;
@@ -30,9 +30,6 @@ namespace Top_Down_shooter.Scripts.Components
         {
             Width = GameSettings.MapWidth / StepAgent;
             Height = GameSettings.MapHeight / StepAgent;
-
-            DistanceFromObstacle = Math.Max(
-                GameSettings.FiremanSizeCollider, Math.Max(GameSettings.TankSizeCollider, GameSettings.WatermanSizeCollider)) / 2;
 
             Map = new Node[Width, Height];
             for (var x = 0; x < Width; x++)
@@ -73,6 +70,7 @@ namespace Top_Down_shooter.Scripts.Components
                 {
                     for (var y = yTop; y <= yBottom; y += StepAgent)
                     {
+                        Map[x / StepAgent, y / StepAgent].Parent = collider;
                         Map[x / StepAgent, y / StepAgent].IsObstacle = true;
                     }
                 }
