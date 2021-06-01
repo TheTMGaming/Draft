@@ -107,13 +107,13 @@ namespace Top_Down_shooter.Scripts.Components
                 return pointInMesh;
       
             return Enumerable
-                .Range(-1, 3)
+                .Range(-1, NavMesh.DistanceFromObstacle)
                 .SelectMany(dx => Enumerable
-                                    .Range(-1, 3),
+                                    .Range(-1, NavMesh.DistanceFromObstacle),
                             (dx, dy) => new Point?(new Point(pointInMesh.X + dx, pointInMesh.Y + dy)))
                 .Where(neighbor =>
                     neighbor.Value.X > -1 && neighbor.Value.X < NavMesh.Width && neighbor.Value.Y > -1 && neighbor.Value.Y < NavMesh.Height
-                    && !NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].IsObstacle)
+                    && (!NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].IsObstacle || NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].Parent == enemy.Collider))
                 .FirstOrDefault();
         }
     }
