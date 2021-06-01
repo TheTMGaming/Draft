@@ -11,15 +11,13 @@ namespace Top_Down_shooter.Scripts.Components
     class NavMeshAgent
     {
         public Point Target { get; set; }
-        public readonly int PeriodUpdate;
         public Stack<Point> Path = new Stack<Point>();
 
         private readonly Enemy enemy;
 
-        public NavMeshAgent(Enemy enemy, int periodUpdate)
+        public NavMeshAgent(Enemy enemy)
         {
             this.enemy = enemy;
-            PeriodUpdate = periodUpdate;
             NavMesh.AddAgent(this);
         }
 

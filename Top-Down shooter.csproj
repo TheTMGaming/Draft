@@ -67,6 +67,7 @@
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\GameObjects\Boss.cs" />
+    <Compile Include="Scripts\GameObjects\Fire.cs" />
     <Compile Include="Scripts\GameObjects\Map.cs" />
     <Compile Include="Scripts\GameObjects\Enemy.cs" />
     <Compile Include="Scripts\GameObjects\Powerup.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
     <Compile Include="Scripts\Renders\EnemiesRender.cs" />
-    <Compile Include="Scripts\Renders\FireRender.cs" />
+    <Compile Include="Scripts\Renders\FiresRender.cs" />
     <Compile Include="Scripts\Renders\PowerupsRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>

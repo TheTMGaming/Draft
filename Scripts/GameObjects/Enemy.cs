@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Enemy : Character
     {
-        public int Damage { get; private set; }
+        public int Damage { get; set; }
 
         public virtual void LookAt(Point target)
         {
@@ -23,19 +23,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
             if (direction.Y > 0) ChangeDirection(DirectionY.Down);
             else if (direction.Y < 0) ChangeDirection(DirectionY.Up);
             else ChangeDirection(DirectionY.Idle);
-        }
-
-        public static Point MoveTowards(Point current, Point target, float maxDistanceDelta)
-        {
-            var direction = new Point(target.X - current.X, target.Y - current.Y);
-            var magnitude = (float)Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
-
-            if (magnitude <= maxDistanceDelta || magnitude == 0f)
-                return target;
-
-            return new Point(
-                (int)(current.X + direction.X / magnitude * maxDistanceDelta), 
-                (int)(current.Y + direction.Y / magnitude * maxDistanceDelta));
         }
     }
 }

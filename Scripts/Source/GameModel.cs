@@ -16,7 +16,7 @@ namespace Top_Down_shooter
         public static readonly Player Player;
         public static readonly List<Enemy> Enemies;
         public static readonly Boss Boss;
-
+        public static readonly List<Fire> Fires;
         public static readonly HashSet<Powerup> Powerups;
         public static readonly Map Map;
         public static readonly HealthBar HealthBarPlayer;
@@ -37,6 +37,8 @@ namespace Top_Down_shooter
             Physics.AddToTrackingCollisions(Boss.HitBox);
 
             Map = new Map();
+
+            Fires = new List<Fire>();
 
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
             {
@@ -86,6 +88,14 @@ namespace Top_Down_shooter
 
             Powerups.Add(new SmallLoot(new Powerup(tile.X, tile.Y)));
             Physics.AddToTrackingCollisions(Powerups.Last().Collider);       
+        }
+
+        public static void SpawnFire()
+        {
+            var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 
+                Player.X, Player.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
+            Fires.Add(fire);
+            Physics.AddToTrackingCollisions(fire.Collider);
         }
 
         public static void RespawnStaticPowerup(Powerup powerup)

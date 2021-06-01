@@ -32,7 +32,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90, isTrigger: true);
-            Agent = new NavMeshAgent(this, 10);
+            Agent = new NavMeshAgent(this);
 
             nextCheckpoint = GameModel.Player.Transform;
 
@@ -61,9 +61,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
             }
             LookAt(GameModel.Player.Transform);
 
-        }
-
-
-        
+        }       
     }
 }

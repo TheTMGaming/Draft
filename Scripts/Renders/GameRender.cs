@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
@@ -31,7 +32,7 @@ namespace Top_Down_shooter
             gameObjects.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
             gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
 
-            gameObjects.Add(new FireRender(200, 200));
+            gameObjects.Add(new FiresRender(GameModel.Fires));
         }
 
         public static void DrawObjects(Graphics g)

@@ -1,16 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
-using System.Drawing.Text;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Top_Down_shooter
 {
@@ -33,6 +28,7 @@ namespace Top_Down_shooter
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimeInvoker(IntervalUpdateAnimations, GameRender.PlayAnimations);
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
+            RunTimeInvoker(GameSettings.BosCooldown, GameModel.SpawnFire);
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
@@ -119,6 +115,11 @@ namespace Top_Down_shooter
             {
                 foreach (var other in others)
                 {
+                    if (other is Fire fire && fire.CanKick)
+                    {
+                        fire.CanKick = false;
+                        GameModel.Player.Health -= GameSettings.FireDamage;
+                    }
                     if (other is Powerup powerup)
                     {
                         if (powerup is HP)
@@ -159,6 +160,13 @@ namespace Top_Down_shooter
                 {
                     foreach (var collision in others)
                     {
+
+                        if (collision is Fire fire && fire.CanKick)
+                        {
+                            fire.CanKick = false;
+                            enemy.Health -= GameSettings.FireDamage;
+                        }
+
                         if (collision is Player && tank.CanKick)
                         {
                             GameModel.Player.Health -= GameSettings.TankDamage;
@@ -210,6 +218,9 @@ namespace Top_Down_shooter
                     }
                 }
             }
+
+            foreach (var fire in GameModel.Fires)
+                fire.Move();
 
             Invalidate();
            
