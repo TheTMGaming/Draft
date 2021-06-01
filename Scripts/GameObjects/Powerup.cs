@@ -24,7 +24,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             else
                 Cost = GameSettings.BigLoot;
 
-            Collider = new Collider(this, 0, 0, 60, 60);
+            Collider = new Collider(this, 0, 0, 60, 60, isTrigger: true);
         }
     }
 }

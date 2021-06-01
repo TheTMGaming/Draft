@@ -22,11 +22,9 @@ namespace Top_Down_shooter.Scripts.Components
         public static readonly int Height;
         public static readonly int DistanceFromObstacle;
         public static readonly int StepAgent = 32;
-        public static readonly int TimeUpdate = 300;
+        public static readonly int TimeUpdate = 200;
 
         public static readonly int CostOrthogonalPoint = 10;
-
-        private static Map tileMap;
 
         static NavMesh()
         {
@@ -51,7 +49,7 @@ namespace Top_Down_shooter.Scripts.Components
             foreach (var node in Map)
                 node.IsObstacle = false;
 
-            foreach (var collider in Physics.Colliders)
+            foreach (var collider in Physics.Colliders.Where(collider => !collider.IsTrigger))
             {
                 var rect = collider.Transform;
 
@@ -89,6 +87,7 @@ namespace Top_Down_shooter.Scripts.Components
 
                 foreach (var agent in Agents)
                     agent.ComputePath();
+
                 Thread.Sleep(TimeUpdate);
             }
         }
@@ -96,24 +95,6 @@ namespace Top_Down_shooter.Scripts.Components
         public static void AddAgent(NavMeshAgent agent)
         {
             Agents.Add(agent);
-        }
-
-        private static void Rebake()
-        {
-            foreach (var tile in Obstacles.Keys)
-            {
-                if (tile is Grass)
-                {
-                    foreach (var node in Obstacles[tile])
-                        node.IsObstacle = false;
-                    Obstacles.Remove(tile);
-                }
-                else
-                {
-                    foreach (var node in Obstacles[tile])
-                        node.IsObstacle = true;
-                }
-            }
         }
     }
 }

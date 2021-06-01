@@ -17,13 +17,14 @@ namespace Top_Down_shooter.Scripts.Components
         private readonly int localX;
         private readonly int localY;
 
-        public Collider(GameObject parent, int localX, int localY, int width, int height)
+        public Collider(GameObject parent, int localX, int localY, int width, int height, bool isTrigger = false)
         {
             this.parent = parent;
             this.localX = localX;
             this.localY = localY;
             Width = width;
             Height = height;
+            IsTrigger = isTrigger;
         }
 
         public bool IntersectsWith(Collider other) => Transform.IntersectsWith(other.Transform);
