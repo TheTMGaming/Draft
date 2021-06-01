@@ -27,6 +27,8 @@ namespace Top_Down_shooter
             Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
             //FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
+
+            GameRender.Initialize();
          
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimeInvoker(IntervalUpdateAnimations, GameRender.PlayAnimations);

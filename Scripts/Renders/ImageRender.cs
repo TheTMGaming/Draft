@@ -9,12 +9,14 @@ namespace Top_Down_shooter.Scripts.Renders
         public Size Size => image.Size;
 
         private readonly Bitmap image;
+        private readonly bool followCamera;
 
-        public ImageRender(int xLeft, int yTop, Bitmap image)
+        public ImageRender(int xLeft, int yTop, Bitmap image, bool followCamera = false)
         {
             X = xLeft;
             Y = yTop;
             this.image = image;
+            this.followCamera = followCamera;
         }
 
         public void Draw(Graphics g)
@@ -25,7 +27,7 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(Graphics g, Point startSlice, Size sizeSlice)
         {
             g.DrawImage(image,
-                X + GameRender.Camera.X, Y + GameRender.Camera.Y,
+                X + (followCamera ? GameRender.Camera.X : 0), Y + (followCamera ? GameRender.Camera.Y : 0),
                 new Rectangle(startSlice, sizeSlice),
                 GraphicsUnit.Pixel);
         }

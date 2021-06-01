@@ -3,6 +3,7 @@ using System.Drawing;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter
 {
@@ -13,7 +14,7 @@ namespace Top_Down_shooter
 
         private static readonly List<IRender> gameObjects = new List<IRender>();
 
-        static GameRender()
+        public static void Initialize()
         {
             gameObjects.Add(new MapRender(GameModel.Map));
 
@@ -26,8 +27,9 @@ namespace Top_Down_shooter
             gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
 
-            gameObjects.Add(new HealthBarRender(GameModel.HealthBar, 60, 625));
-            gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon));
+            gameObjects.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
+            gameObjects.Add(new HealthBarRender(GameModel.HealthBarBoss, GameSettings.MapWidth / 2 , GameSettings.MapHeight / 2 - 100, 44, false, false));
+            gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
         }
 
         public static void DrawObjects(Graphics g)

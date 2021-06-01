@@ -19,7 +19,8 @@ namespace Top_Down_shooter
 
         public static readonly HashSet<Powerup> Powerups;
         public static readonly Map Map;
-        public static readonly HealthBar HealthBar;
+        public static readonly HealthBar HealthBarPlayer;
+        public static readonly HealthBar HealthBarBoss;
         public static readonly LinkedList<Bullet> Bullets;
 
         private static readonly Random randGenerator = new Random();
@@ -27,9 +28,11 @@ namespace Top_Down_shooter
         static GameModel()
         {
             Player = new Player(120, 120);
+            HealthBarPlayer = new HealthBar(Player);
             Physics.AddToTrackingCollisions(Player.HitBox);
 
             Boss = new Boss(GameSettings.MapWidth / 2 , GameSettings.MapHeight / 2, GameSettings.BossHealth);
+            HealthBarBoss = new HealthBar(Boss);
             Physics.AddToTrackingCollisions(Boss.Collider);
             Physics.AddToTrackingCollisions(Boss.HitBox);
 
@@ -54,7 +57,6 @@ namespace Top_Down_shooter
                 Physics.AddToTrackingCollisions(Powerups.Last().Collider);
             }
 
-            HealthBar = new HealthBar(Player);
 
 
             Bullets = new LinkedList<Bullet>();         
