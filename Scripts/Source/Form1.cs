@@ -148,16 +148,17 @@ namespace Top_Down_shooter
 
 
             GameModel.MoveEnemies();
+            GameModel.Boss.Update();
             foreach (var enemy in GameModel.Enemies)
             {
-                if (Physics.IsCollided(enemy, out others))
+                if (enemy is Tank tank && Physics.IsCollided(enemy, out others))
                 {
                     foreach (var collision in others)
                     {
-                        if (collision is Player && enemy.CanKick)
+                        if (collision is Player && tank.CanKick)
                         {
                             GameModel.Player.Health -= GameSettings.TankDamage;
-                            enemy.CanKick = false;
+                            tank.CanKick = false;
                         }
                     }
                 }

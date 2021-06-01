@@ -14,7 +14,7 @@ namespace Top_Down_shooter
     static class GameModel
     {
         public static readonly Player Player;
-        public static readonly List<Tank> Enemies;
+        public static readonly List<Enemy> Enemies;
         public static readonly Boss Boss;
 
         public static readonly HashSet<Powerup> Powerups;
@@ -27,6 +27,7 @@ namespace Top_Down_shooter
 
         static GameModel()
         {
+            Enemies = new List<Enemy>();
             Player = new Player(120, 120);
             HealthBarPlayer = new HealthBar(Player);
             Physics.AddToTrackingCollisions(Player.HitBox);
@@ -38,7 +39,6 @@ namespace Top_Down_shooter
 
             Map = new Map();
 
-            Enemies = new List<Tank>();
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
             {
                 SpawnEnemy();

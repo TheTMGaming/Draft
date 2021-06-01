@@ -15,10 +15,10 @@ namespace Top_Down_shooter.Scripts.Renders
         public Size Size => throw new NotImplementedException();
 
         private readonly List<CharacterRender> renders = new List<CharacterRender>();
-        private readonly List<Tank> enemies;
+        private readonly List<Enemy> enemies;
         private readonly Bitmap atlas;
 
-        public EnemiesRender(List<Tank> enemies, Bitmap atlas)
+        public EnemiesRender(List<Enemy> enemies, Bitmap atlas)
         {
             this.enemies = enemies;
             this.atlas = atlas;

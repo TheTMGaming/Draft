@@ -12,7 +12,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public int Damage { get; private set; }
 
-        public void LookAt(Point target)
+        public virtual void LookAt(Point target)
         {
             var direction = new Point(target.X - X, target.Y - Y);
 
