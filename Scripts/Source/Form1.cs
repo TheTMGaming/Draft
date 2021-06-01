@@ -34,7 +34,7 @@ namespace Top_Down_shooter
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
-            //RunFunctionAsync(NavMesh.Update);
+            RunFunctionAsync(NavMesh.Update);
 
            
             var gameTimer = new System.Windows.Forms.Timer();
@@ -71,9 +71,10 @@ namespace Top_Down_shooter
             Graphics g = e.Graphics;
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
-            // g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
+            
 
             GameRender.DrawObjects(g);
+
             foreach (var c in NavMesh.Map)
             {
                 var b = new SolidBrush(Color.Blue);
@@ -85,6 +86,10 @@ namespace Top_Down_shooter
             }
 
 
+            foreach (var a in GameModel.Tank.Agent.Path)
+            {
+                g.FillRectangle(new SolidBrush(Color.Yellow), a.X, a.Y, 5, 5);
+            }
 
             g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
         }

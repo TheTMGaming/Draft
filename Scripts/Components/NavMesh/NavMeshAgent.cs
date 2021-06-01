@@ -12,7 +12,7 @@ namespace Top_Down_shooter.Scripts.Components
     {
         public Point Target { get; set; }
         public readonly int PeriodUpdate;
-        public readonly Stack<Point> Path = new Stack<Point>();
+        public Stack<Point> Path = new Stack<Point>();
 
         private readonly Enemy enemy;
 
@@ -25,8 +25,6 @@ namespace Top_Down_shooter.Scripts.Components
 
         public void ComputePath()
         {
-            Path.Clear();
-
             var startInMesh = new Point(enemy.X / NavMesh.StepAgent, enemy.Y / NavMesh.StepAgent);
             var targetInMesh = GetEmptyPoint(Target);
             if (targetInMesh is null) return;
@@ -69,14 +67,18 @@ namespace Top_Down_shooter.Scripts.Components
 
         private void BuildPath(Point target, Dictionary<Point, Point?> track)
         {
+            var path = new Stack<Point>();
+
             Point? end = target;
 
             while (!(end is null))
             {
                 if (!(track[end.Value] is null))
-                    Path.Push(NavMesh.Map[end.Value.X, end.Value.Y].Position);
+                    path.Push(NavMesh.Map[end.Value.X, end.Value.Y].Position);
                 end = track[end.Value];
             }
+
+            Path = path;
         }
 
         private int GetDistance(Point pos1, Point pos2) =>

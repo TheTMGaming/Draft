@@ -91,6 +91,8 @@ namespace Top_Down_shooter.Scripts.Components
             {
                 Bake(tileMap);
 
+                foreach (var agent in Agents)
+                    agent.ComputePath();
                 Thread.Sleep(TimeUpdate);
             }
         }
@@ -98,13 +100,6 @@ namespace Top_Down_shooter.Scripts.Components
         public static void AddAgent(NavMeshAgent agent)
         {
             Agents.Add(agent);
-
-            var timer = new Timer((e) => UpdatePath(agent), null, 0, agent.PeriodUpdate);
-        }
-
-        private static void UpdatePath(NavMeshAgent agent)
-        {
-            agent.ComputePath();
         }
     }
 }

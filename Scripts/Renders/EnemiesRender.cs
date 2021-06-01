@@ -17,7 +17,6 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly List<CharacterRender> renders = new List<CharacterRender>();
         private readonly List<Tank> enemies;
         private readonly Bitmap atlas;
-        private int currentEnemiesCount;
 
         public EnemiesRender(List<Tank> enemies, Bitmap atlas)
         {
@@ -33,7 +32,6 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(Graphics g)
         {
             Update();
-            Console.WriteLine(renders.Count);
             foreach (var render in renders)
                 render.Draw(g);
         }

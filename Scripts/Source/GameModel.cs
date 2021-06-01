@@ -14,6 +14,7 @@ namespace Top_Down_shooter
     static class GameModel
     {
         public static readonly Player Player;
+        public static readonly Tank Tank;
         public static readonly List<Tank> Enemies;
         public static readonly HashSet<Powerup> Powerups;
         public static readonly Map Map;
@@ -35,6 +36,8 @@ namespace Top_Down_shooter
             {
                 SpawnEnemy();
             }
+            Tank = new Tank(100, 100, 5, 5, 5, 5);
+            Enemies.Add(Tank);
 
             Powerups = new HashSet<Powerup>();
             for (var i = 0; i < GameSettings.CountSmallLoots; i++)

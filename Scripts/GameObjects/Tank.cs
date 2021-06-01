@@ -14,7 +14,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public bool CanKick { get; set; }
 
-        private readonly NavMeshAgent Agent;
+        public readonly NavMeshAgent Agent;
         private readonly Timer cooldown;
 
         private Point nextCheckpoint;
@@ -32,16 +32,16 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
-           // Agent = new NavMeshAgent(this, 3000);
+            Agent = new NavMeshAgent(this, 10);
 
             nextCheckpoint = GameModel.Player.Transform;
 
-            cooldown = new Timer(new TimerCallback((obj) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
+            cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
         }
 
         public override void Move(bool isReverse = false)
         {
-           // Agent.Target = GameModel.Player.Transform;
+            Agent.Target = GameModel.Player.Transform;
             if (isReverse)
             {
                 X = prevCheckpoint.X;
@@ -51,9 +51,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
             prevCheckpoint = nextCheckpoint;
 
 
-            //if (Agent.Path.Count > 0)
+            if (Agent.Path.Count > 0)
             {
-               // nextCheckpoint = Agent.Path.Pop();
+                nextCheckpoint = Agent.Path.Pop();
 
                 var direction = MoveTowards(Transform, nextCheckpoint, Speed);
                 X = direction.X;
