@@ -34,9 +34,10 @@ namespace Top_Down_shooter
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
+            //RunFunctionAsync(NavMesh.Update);
 
            
-            var gameTimer = new Timer();
+            var gameTimer = new System.Windows.Forms.Timer();
             var time = GameSettings.TimeToEnd;
             var timeLabel = new Label()
             {
@@ -70,8 +71,22 @@ namespace Top_Down_shooter
             Graphics g = e.Graphics;
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+            // g.FillRectangle(new SolidBrush(Color.Red), GameModel.Player.Collider.Transform);
 
             GameRender.DrawObjects(g);
+            foreach (var c in NavMesh.Map)
+            {
+                var b = new SolidBrush(Color.Blue);
+                if (c.IsObstacle)
+                    b = new SolidBrush(Color.Red);
+
+
+                g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
+            }
+
+
+
+            g.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 50, 50));
         }
 
         private void UpdateGameLoop()

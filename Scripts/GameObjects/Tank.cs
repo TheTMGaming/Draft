@@ -32,7 +32,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
-            Agent = new NavMeshAgent(this, 10);
+           // Agent = new NavMeshAgent(this, 3000);
 
             nextCheckpoint = GameModel.Player.Transform;
 
@@ -41,6 +41,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public override void Move(bool isReverse = false)
         {
+           // Agent.Target = GameModel.Player.Transform;
             if (isReverse)
             {
                 X = prevCheckpoint.X;
@@ -49,18 +50,17 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             prevCheckpoint = nextCheckpoint;
 
-            if (Agent.Path.Count < resetPath)
-            { 
-                Agent.SetDestination(GameModel.Player.Transform);
-            }
-            if (Agent.Path.Count > 0)
-                nextCheckpoint = Agent.Path.Pop();
 
-            var direction = MoveTowards(Transform, nextCheckpoint, Speed);
+            //if (Agent.Path.Count > 0)
+            {
+               // nextCheckpoint = Agent.Path.Pop();
+
+                var direction = MoveTowards(Transform, nextCheckpoint, Speed);
+                X = direction.X;
+                Y = direction.Y;
+            }
             LookAt(GameModel.Player.Transform);
 
-            X = direction.X;
-            Y = direction.Y;
         }
 
 

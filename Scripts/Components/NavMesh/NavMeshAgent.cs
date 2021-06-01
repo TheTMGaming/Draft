@@ -8,15 +8,10 @@ using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Components
 {
-    interface INavMeshAgent
-    {
-        
-    }
-
     class NavMeshAgent
     {
+        public Point Target { get; set; }
         public readonly int PeriodUpdate;
-
         public readonly Stack<Point> Path = new Stack<Point>();
 
         private readonly Enemy enemy;
@@ -25,14 +20,15 @@ namespace Top_Down_shooter.Scripts.Components
         {
             this.enemy = enemy;
             PeriodUpdate = periodUpdate;
+            NavMesh.AddAgent(this);
         }
 
-        public void SetDestination(Point target)
+        public void ComputePath()
         {
             Path.Clear();
 
             var startInMesh = new Point(enemy.X / NavMesh.StepAgent, enemy.Y / NavMesh.StepAgent);
-            var targetInMesh = GetEmptyPoint(target);
+            var targetInMesh = GetEmptyPoint(Target);
             if (targetInMesh is null) return;
 
             var closed = new HashSet<Point>();

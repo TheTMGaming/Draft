@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
@@ -13,13 +15,17 @@ namespace Top_Down_shooter.Scripts.Components
     static class NavMesh
     {
         public static readonly Node[,] Map;
+        public static readonly List<NavMeshAgent> Agents = new List<NavMeshAgent>();
 
         public static readonly int Width;
         public static readonly int Height;
         public static readonly int DistanceFromObstacle;
         public static readonly int StepAgent = 32;
+        public static readonly int TimeUpdate = 300;
 
         public static readonly int CostOrthogonalPoint = 10;
+
+        private static Map tileMap;
 
         static NavMesh()
         {
@@ -41,6 +47,11 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static void Bake(Map map)
         {
+            if (map is null)
+                return;
+            
+            tileMap = map;
+
             foreach (var tile in map.Tiles)
             {
                 if (tile is Grass)
@@ -72,6 +83,28 @@ namespace Top_Down_shooter.Scripts.Components
                     }
                 }
             }
+        }
+
+        public static void Update()
+        {
+            while (true)
+            {
+                Bake(tileMap);
+
+                Thread.Sleep(TimeUpdate);
+            }
+        }
+
+        public static void AddAgent(NavMeshAgent agent)
+        {
+            Agents.Add(agent);
+
+            var timer = new Timer((e) => UpdatePath(agent), null, 0, agent.PeriodUpdate);
+        }
+
+        private static void UpdatePath(NavMeshAgent agent)
+        {
+            agent.ComputePath();
         }
     }
 }
