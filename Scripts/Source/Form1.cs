@@ -12,7 +12,7 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private readonly int IntervalUpdateGameLoop = 30;
-        private readonly int IntervalUpdateAnimations = 250;
+
 
         private readonly Label countBulletsLabel;
 
@@ -26,13 +26,13 @@ namespace Top_Down_shooter
             GameRender.Initialize();
          
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
-            RunTimeInvoker(IntervalUpdateAnimations, GameRender.PlayAnimations);
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
             RunTimeInvoker(GameSettings.BosCooldown, GameModel.SpawnFire);
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
             RunFunctionAsync(NavMesh.Update);
+            RunFunctionAsync(GameRender.PlayAnimations);
 
            
             var gameTimer = new System.Windows.Forms.Timer();

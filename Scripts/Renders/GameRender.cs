@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
@@ -12,6 +13,8 @@ namespace Top_Down_shooter
     {
         public static readonly Camera Camera = new Camera();
         public static readonly EnemiesRender EnemiesRender = new EnemiesRender(GameModel.Enemies, Resources.Tank);
+
+        private static readonly int IntervalUpdateAnimations = 250;
 
         private static readonly List<IRender> gameObjects = new List<IRender>();
 
@@ -45,13 +48,18 @@ namespace Top_Down_shooter
 
         public static void PlayAnimations()
         {
-            foreach (var obj in gameObjects)
+            while (true)
             {
-                if (obj is IAnimationRender render)
+                foreach (var obj in gameObjects)
                 {
-                    render.ChangeTypeAnimation();
-                    render.PlayAnimation();
+                    if (obj is IAnimationRender render)
+                    {
+                        render.ChangeTypeAnimation();
+                        render.PlayAnimation();
+                    }
                 }
+
+                Thread.Sleep(IntervalUpdateAnimations);
             }
         }
     }
