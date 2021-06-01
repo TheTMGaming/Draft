@@ -30,9 +30,9 @@ namespace Top_Down_shooter.Scripts.Renders
                 }
 
                 g.DrawImage(image,
-                powerup.X - image.Width / 2, powerup.Y - image.Height / 2,
-                new Rectangle(0, 0, image.Width, image.Width),
-                GraphicsUnit.Pixel);              
+                    powerup.X - image.Width / 2, powerup.Y - image.Height / 2,
+                    new Rectangle(0, 0, image.Width, image.Width),
+                    GraphicsUnit.Pixel);              
             }
         }
     }

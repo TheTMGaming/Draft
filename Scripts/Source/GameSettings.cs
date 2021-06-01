@@ -19,7 +19,8 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int SmallLoot = 5;
         public const int BigLoot = 10;
-        public const float ProbabilityBigLoot = 0.2f;
+        public const float ProbabilityBigLoot = 0.4f;
+        public const int CountSmallLoots = 10;
 
         // Player
         public const int StartCountBullets = 15;

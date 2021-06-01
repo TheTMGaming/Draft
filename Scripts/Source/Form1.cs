@@ -32,8 +32,8 @@ namespace Top_Down_shooter
             RunTimeInvoker(IntervalUpdateAnimations, GameRender.PlayAnimations);
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
 
-            RunFunctionAsync(Controller.KeyboardHandler);
-            RunFunctionAsync(Controller.MouseHandler);
+            RunFunctionAsync(Controller.UpdateKeyboardHandler);
+            RunFunctionAsync(Controller.UpdateMouseHandler);
 
            
             var gameTimer = new Timer();

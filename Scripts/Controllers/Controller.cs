@@ -16,7 +16,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private static bool wasShot;
 
-        public static void KeyboardHandler()
+        public static void UpdateKeyboardHandler()
         {
             while (true)
             {
@@ -39,7 +39,7 @@ namespace Top_Down_shooter.Scripts.Controllers
             }
         }
 
-        public static void MouseHandler()
+        public static void UpdateMouseHandler()
         {
             while (true)
             {

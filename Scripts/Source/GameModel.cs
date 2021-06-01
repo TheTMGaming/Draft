@@ -28,7 +28,7 @@ namespace Top_Down_shooter
             Physics.AddToTrackingCollisions(Player.HitBox);
 
             Map = new Map();
-            NavMeshAgent.Bake(Map);
+            NavMesh.Bake(Map);
 
             Enemies = new List<Tank>();
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
@@ -37,7 +37,10 @@ namespace Top_Down_shooter
             }
 
             Powerups = new HashSet<Powerup>();
-            SpawnSmallLoot();
+            for (var i = 0; i < GameSettings.CountSmallLoots; i++)
+            {
+                SpawnSmallLoot();
+            }
 
             HealthBar = new HealthBar(Player);
 
@@ -47,17 +50,17 @@ namespace Top_Down_shooter
 
         public static void SpawnEnemy()
         {
-            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+           // var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
 
             var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
 
             var speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
-                speed = randGenerator.Next(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax);
+                speed = randGenerator.Next(Math.Min(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax), Math.Max(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax));
 
             var health = randGenerator.Next(GameSettings.TankHealthMin, GameSettings.TankHealthMax);
 
-            var enemy = new Tank(tile.X, tile.Y, health, speed, resetPath, randGenerator.Next(0, 5));
+            var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
             Physics.AddToTrackingCollisions(enemy.HitBox);
@@ -65,12 +68,10 @@ namespace Top_Down_shooter
 
         public static void SpawnSmallLoot()
         {
-            for (var i = 0; i < 3; i++)
-            {
-                var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
-                Powerups.Add(new Powerup(tile.X, tile.Y, TypesPowerup.SmallLoot));
-                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
-            }
+            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+
+            Powerups.Add(new Powerup(tile.X, tile.Y, TypesPowerup.SmallLoot));
+            Physics.AddToTrackingCollisions(Powerups.Last().Collider);       
         }
 
         public static void RespawnSmallLoot(Powerup powerup)
@@ -79,7 +80,14 @@ namespace Top_Down_shooter
                 .Where(t =>
                     Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
                 .ToList();
-            var tile = tiles[randGenerator.Next(0, tiles.Count)];
+
+            GameObject tile;
+            if (tiles.Count == 0)
+                tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+            else
+                tile = tiles[randGenerator.Next(0, tiles.Count)];
+            
+
             powerup.X = tile.X;
             powerup.Y = tile.Y;
         }
@@ -90,7 +98,11 @@ namespace Top_Down_shooter
                 .Where(t =>
                     Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
                 .ToList();
-            var tile = tiles[randGenerator.Next(0, tiles.Count)];
+            GameObject tile;
+            if (tiles.Count == 0)
+                tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+            else
+                tile = tiles[randGenerator.Next(0, tiles.Count)];
 
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilityBigLoot)
             {
@@ -98,9 +110,8 @@ namespace Top_Down_shooter
                 Physics.AddToTrackingCollisions(Powerups.Last().Collider);
             }
 
-
-            tank.X = tile.X;
-            tank.Y = tile.Y;
+            tank.X = GameSettings.MapWidth / 2;
+            tank.Y = GameSettings.MapHeight / 2;
             tank.Health = GameSettings.TankHealthMax;
         }
 
@@ -121,7 +132,8 @@ namespace Top_Down_shooter
 
         public static void ChangeBoxToGrass(Box box)
         {
-            Map.Tiles[(box.X - 64 / 2) / 64, (box.Y - 64 / 2) / 64] = new Grass(box.X, box.Y);
+            Map.Tiles[(box.X - GameSettings.TileSize / 2) / GameSettings.TileSize, 
+                (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = new Grass(box.X, box.Y);
         }
 
         private static Point RotatePoint(Point point, float angleInRadian)

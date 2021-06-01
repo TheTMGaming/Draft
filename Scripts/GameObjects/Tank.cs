@@ -13,9 +13,10 @@ namespace Top_Down_shooter.Scripts.GameObjects
     class Tank : Enemy
     {
         public bool CanKick { get; set; }
+
+        private readonly NavMeshAgent Agent;
         private readonly Timer cooldown;
 
-        private Stack<Point> path = new Stack<Point>();
         private Point nextCheckpoint;
         private Point prevCheckpoint;
         private readonly int resetPath;
@@ -31,6 +32,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             Collider = new Collider(this, localX: 0, localY: 30, width: 60, height: 60);
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
+            Agent = new NavMeshAgent(this, 10);
 
             nextCheckpoint = GameModel.Player.Transform;
 
@@ -47,12 +49,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             prevCheckpoint = nextCheckpoint;
 
-            if (path.Count < resetPath)
+            if (Agent.Path.Count < resetPath)
             { 
-                path = NavMeshAgent.GetPath(Transform, GameModel.Player.Transform);
+                Agent.SetDestination(GameModel.Player.Transform);
             }
-            if (path.Count > 0)
-                nextCheckpoint = path.Pop();
+            if (Agent.Path.Count > 0)
+                nextCheckpoint = Agent.Path.Pop();
 
             var direction = MoveTowards(Transform, nextCheckpoint, Speed);
             LookAt(GameModel.Player.Transform);
