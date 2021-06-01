@@ -16,9 +16,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Y = y;
             Health = health;
 
-            Collider = new Collider(this, localX: 0, localY: 30, width: 30, height: 30);
-
-            HitBox = new Collider(this, localX: 0, localY: 0, width: 256, height: 128, isTrigger: true);
+            HitBox = new Collider(this, localX: 0, localY: 0, width: 110, height: 256, isTrigger: true);
         }
 
         public void Update()

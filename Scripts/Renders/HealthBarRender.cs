@@ -49,7 +49,7 @@ namespace Top_Down_shooter.Scripts.Renders
         {
             this.healthBar = healthBar;
             multiSize = percentSize / 100f;
-            offsetBar = new Point((int)(4 * multiSize), (int)(4 * multiSize));
+            offsetBar = new Point((int)(3 * multiSize), (int)(4 * multiSize));
 
             var backgroundSize = new Size(
                 (int)(Resources.BackgroundHealthBar.Width * multiSize), (int)(Resources.BackgroundHealthBar.Height * multiSize));
@@ -67,7 +67,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public void Draw(Graphics g)
         {
-            background.Draw(g);
+            background?.Draw(g);
 
             bar.Draw(g, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
 

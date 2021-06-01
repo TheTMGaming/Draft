@@ -28,7 +28,7 @@ namespace Top_Down_shooter
             gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
 
             gameObjects.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
-            gameObjects.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -100), 80));
+            gameObjects.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
             gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
         }
 

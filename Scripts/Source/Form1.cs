@@ -77,6 +77,10 @@ namespace Top_Down_shooter
 
             GameRender.DrawObjects(g);
 
+            //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
+
+            //g.FillRectangle(new SolidBrush(Color.White), GameModel.Player.Collider.Transform);
+
             //foreach (var a in GameModel.Enemies)
             //    g.FillRectangle(new SolidBrush(Color.White), a.Collider.Transform);
             //foreach (var c in NavMesh.Map)
@@ -138,7 +142,7 @@ namespace Top_Down_shooter
                         }                      
                     }
 
-                    if (other is Box || other is Block)
+                    if (other is Box || other is Block || other is Boss)
                     {
                         GameModel.Player.Move(isReverse: true);
                         break;
