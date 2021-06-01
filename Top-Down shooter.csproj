@@ -76,6 +76,7 @@
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletsRender.cs" />
     <Compile Include="Scripts\Renders\EnemiesRender.cs" />
+    <Compile Include="Scripts\Renders\FireRender.cs" />
     <Compile Include="Scripts\Renders\PowerupsRender.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
@@ -179,6 +180,7 @@
     <None Include="Resources\SmallLoot.png" />
     <None Include="Resources\Cross.png" />
     <None Include="Resources\Boss.png" />
+    <None Include="Resources\Fire.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
