@@ -153,6 +153,8 @@ namespace Top_Down_shooter
                         {
                             fire.CanKick = false;
                             enemy.Health -= GameSettings.FireDamage;
+                            if (enemy.Health < 1)
+                                GameModel.RespawnEnemy(enemy);
                         }
 
                         if (other is Player && tank.CanKick)
@@ -190,7 +192,7 @@ namespace Top_Down_shooter
 
                         if (other is Box box)
                         {
-                            box.Health -= 1;
+                            box.Health -= bullet.Value.Damage;
                             if (box.Health == 0)
                             {
                                 GameModel.ChangeBoxToGrass(box);
@@ -202,7 +204,7 @@ namespace Top_Down_shooter
 
                         if (other is Enemy enemy)
                         {
-                            enemy.Health -= 1;
+                            enemy.Health -= bullet.Value.Damage;
                             if (!(enemy is Boss) && enemy.Health < 1)
                                 GameModel.RespawnEnemy(enemy);
 

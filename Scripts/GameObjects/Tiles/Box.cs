@@ -15,7 +15,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public Box(int x, int y)
         {
-            Health = 10;
+            Health = GameSettings.BoxHealth;
             Collider = new Collider(this, 0, 0, GameSettings.TileSize, GameSettings.TileSize);
             X = x;
             Y = y;

@@ -6,12 +6,14 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Bullet : GameObject
     {
+        public int Damage{ get; set; }
         public int Speed { get; set; }
         public float Angle { get; set; }
 
-        public Bullet(int x, int y, int speed, float angle)
+        public Bullet(int x, int y, int speed, float angle, int damage)
         {
             Collider = new Collider(this, 0, 0, 10, 10);
+            Damage = damage;
             Speed = speed;
             X = x;
             Y = y;

@@ -10,7 +10,6 @@ namespace Top_Down_shooter
     static class GameRender
     {
         public static readonly Camera Camera = new Camera();
-        public static readonly EnemiesRender EnemiesRender = new EnemiesRender(GameModel.Enemies, Resources.Tank);
 
         private static readonly int IntervalUpdateAnimations = 250;
 
@@ -24,7 +23,7 @@ namespace Top_Down_shooter
 
             renders.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
             renders.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
-            renders.Add(EnemiesRender);
+            renders.Add(new EnemiesRender(GameModel.Enemies, Resources.Tank));
             renders.Add(new CharacterRender(GameModel.Boss, Resources.Boss, 2, 2));
             renders.Add(new FiresRender(GameModel.Fires));
 

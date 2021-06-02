@@ -31,12 +31,13 @@ namespace Top_Down_shooter.Scripts.Controllers
             var returnedList = new List<Collider>(objects);
 
             if (nodes.Count > 0)
-            return returnedList.Concat(
-                GetContainedNodes(gameObject)
-                 .SelectMany(node => node.GetCandidateToCollision(gameObject))
-                )
-                .Distinct()
-                .ToList();
+                return returnedList.Concat(
+                    GetContainedNodes(gameObject)
+                     .SelectMany(node => node.GetCandidateToCollision(gameObject))
+                    )
+                    .ToList()
+                    .Distinct()
+                    .ToList();
 
             return returnedList;
         }
