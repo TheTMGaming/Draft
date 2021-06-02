@@ -11,6 +11,10 @@ namespace Top_Down_shooter.Scripts.Renders
     {
         private readonly HashSet<Powerup> powerups;
 
+        private readonly Bitmap bigLoot = Resources.BigPowerup;
+        private readonly Bitmap smallLoot = Resources.SmallLoot;
+        private readonly Bitmap hp = Resources.Heart;
+
         public PowerupsRender(HashSet<Powerup> powerups)
         {
             this.powerups = powerups;
@@ -25,13 +29,13 @@ namespace Top_Down_shooter.Scripts.Renders
         {
             foreach (var powerup in powerups)
             {
-                var image = Resources.BigPowerup;
+                var image = bigLoot;
 
                 if (powerup is SmallLoot)
-                    image = Resources.SmallLoot;
+                    image = smallLoot;
 
                 if (powerup is HP)
-                    image = Resources.Heart;
+                    image = hp;
 
                 device.Graphics.DrawBitmap(device.CreateBitmap(image),
                     new D2DRect(powerup.X - image.Width / 2, powerup.Y - image.Height / 2, image.Width, image.Height));

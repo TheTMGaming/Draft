@@ -22,8 +22,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public FiresRender(List<Fire> fires)
         {
             this.fires = fires;
+
             Size = new Size(Resources.Fire.Width / frameCount, Resources.Fire.Height);
-            frame = 0;
         }
 
         public void ChangeTypeAnimation()
