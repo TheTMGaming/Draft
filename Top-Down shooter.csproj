@@ -81,9 +81,8 @@
     <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
-    <Compile Include="Scripts\Renders\BulletsRender.cs" />
-    <Compile Include="Scripts\Renders\EnemiesRender.cs" />
-    <Compile Include="Scripts\Renders\FiresRender.cs" />
+    <Compile Include="Scripts\Renders\BulletRender.cs" />
+    <Compile Include="Scripts\Renders\FireRender.cs" />
     <Compile Include="Scripts\Renders\PowerupsRender.cs" />
     <Compile Include="Scripts\Renders\D2DGraphicsDevice.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
@@ -99,7 +98,6 @@
     <Compile Include="Scripts\GameObjects\Player.cs" />
     <Compile Include="Scripts\Renders\GameRender.cs" />
     <Compile Include="Scripts\Source\GameSettings.cs" />
-    <Compile Include="Scripts\Source\Profiler.cs" />
     <Compile Include="Scripts\Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Components\QuadTree.cs" />

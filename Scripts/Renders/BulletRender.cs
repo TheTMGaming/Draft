@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
@@ -6,19 +7,18 @@ using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
-    class GunRender : IRender
+    class BulletRender : IRender
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X => bullet.X - image.Width / 2;
+        public int Y => bullet.Y - image.Height / 2;
         public Size Size => image.Size;
 
-        private readonly Gun gun;
+        private readonly Bullet bullet;
         private readonly Bitmap image;
 
-        public GunRender(Gun gun, Bitmap image)
+        public BulletRender(Bullet bullet, Bitmap image)
         {
-            
-            this.gun = gun;
+            this.bullet = bullet;
             this.image = image;
         }
 
@@ -26,12 +26,9 @@ namespace Top_Down_shooter.Scripts.Renders
         {
             var g = device.Graphics;
 
-            X = gun.X - image.Width / 2;
-            Y = gun.Y - image.Height / 2;
-
             var t = g.GetTransform();
 
-            g.RotateTransform((float)(gun.Angle * 180 / Math.PI), new D2DPoint(gun.X, gun.Y));
+            g.RotateTransform((float)(bullet.Angle * 180 / Math.PI), new D2DPoint(bullet.X, bullet.Y));
 
             g.DrawBitmap(device.CreateBitmap(image),
                 new D2DRect(X, Y, image.Width, image.Height));
@@ -39,5 +36,4 @@ namespace Top_Down_shooter.Scripts.Renders
             g.SetTransform(t);
         }
     }
-
 }

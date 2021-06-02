@@ -6,7 +6,6 @@ using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
-using Top_Down_shooter.Scripts.Source.GameProject.CoreEngine;
 using unvell.D2DLib;
 
 namespace Top_Down_shooter
