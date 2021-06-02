@@ -32,10 +32,9 @@ namespace Top_Down_shooter.Scripts.Renders
                 Y = bullet.Y - image.Height / 2;
 
                 var t = g.GetTransform();
-                g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
-                g.TranslateTransform(X, Y);
+                g.RotateTransform((float)(bullet.Angle * 180 / Math.PI), new D2DPoint(bullet.X, bullet.Y));
                 g.DrawBitmap(device.CreateBitmap(image),
-                    new D2DRect(0, 0, image.Width, image.Height));
+                    new D2DRect(X, Y, image.Width, image.Height));
                 g.SetTransform(t);
             }
 

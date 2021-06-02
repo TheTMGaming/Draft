@@ -27,6 +27,12 @@ namespace Top_Down_shooter.Scripts.Components
             IsTrigger = isTrigger;
         }
 
-        public bool IntersectsWith(Collider other) => Transform.IntersectsWith(other.Transform);
+        public bool IntersectsWith(Collider other)
+        {
+            if (other is null)
+                return false;
+
+            return Transform.IntersectsWith(other.Transform);
+        }
     }
 }

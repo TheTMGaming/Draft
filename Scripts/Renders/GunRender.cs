@@ -16,7 +16,8 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly Bitmap image;
 
         public GunRender(Gun gun, Bitmap image)
-        {          
+        {
+            
             this.gun = gun;
             this.image = image;
         }
@@ -29,10 +30,9 @@ namespace Top_Down_shooter.Scripts.Renders
             Y = gun.Y - image.Height / 2;
 
             var t = g.GetTransform();
-            g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(X, Y);
+            g.RotateTransform((float)(gun.Angle * 180 / Math.PI), new D2DPoint(gun.X, gun.Y));
             g.DrawBitmap(device.CreateBitmap(image),
-                new D2DRect(0, 0, image.Width, image.Height));
+                new D2DRect(X, Y, image.Width, image.Height));
             g.SetTransform(t);
         }
     }
