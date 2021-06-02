@@ -49,7 +49,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                 {
                     wasShot = true;
 
-                    SpawnedBullets.Enqueue(GameModel.Shoot());
+                    SpawnedBullets.Enqueue(GameModel.ShootPlayer());
                     Thread.Sleep(GameModel.Player.Gun.Cooldown);
                 }
             }

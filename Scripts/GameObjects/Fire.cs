@@ -13,6 +13,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
     class Fire : GameObject
     {
         public bool CanKick { get; set; } = true;
+        public bool IsCompleteMoving = false;
 
         private readonly int speed;
         private readonly int targetX;
@@ -38,6 +39,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             X = step.X;
             Y = step.Y;
+
+            if (X == targetX && Y == targetY)
+                IsCompleteMoving = true;
         }
     }
 }

@@ -16,31 +16,31 @@ namespace Top_Down_shooter
 
         private static readonly int IntervalUpdateAnimations = 250;
 
-        private static readonly List<IRender> gameObjects = new List<IRender>();
+        private static readonly List<IRender> renders = new List<IRender>();
 
         public static void Initialize()
         {
-            gameObjects.Add(new MapRender(GameModel.Map));
+            renders.Add(new MapRender(GameModel.Map));
 
-            gameObjects.Add(new PowerupsRender(GameModel.Powerups));
+            renders.Add(new PowerupsRender(GameModel.Powerups));
 
-            gameObjects.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
-            gameObjects.Add(EnemiesRender);
-            gameObjects.Add(new CharacterRender(GameModel.Boss, Resources.Boss, 2, 2));
+            renders.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
+            renders.Add(EnemiesRender);
+            renders.Add(new CharacterRender(GameModel.Boss, Resources.Boss, 2, 2));
 
-            gameObjects.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
-            gameObjects.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
+            renders.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
+            renders.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
 
-            gameObjects.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
-            gameObjects.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
-            gameObjects.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
+            renders.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
+            renders.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
+            renders.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
 
-            gameObjects.Add(new FiresRender(GameModel.Fires));
+            renders.Add(new FiresRender(GameModel.Fires));
         }
 
-        public static void DrawObjects(Graphics g)
+        public static void DrawScene(Graphics g)
         {
-            foreach (var obj in gameObjects)
+            foreach (var obj in renders)
             {
                 obj.Draw(g);
             }
@@ -50,7 +50,7 @@ namespace Top_Down_shooter
         {
             while (true)
             {
-                foreach (var obj in gameObjects)
+                foreach (var obj in renders)
                 {
                     if (obj is IAnimationRender render)
                     {

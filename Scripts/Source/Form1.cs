@@ -45,7 +45,7 @@ namespace Top_Down_shooter
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
 
-            GameRender.DrawObjects(g);
+            GameRender.DrawScene(g);
 
             //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
 
@@ -69,14 +69,18 @@ namespace Top_Down_shooter
         private void UpdateGameLoop()
         {
             UpdatePlayer();
-            //Physics.Update();
 
             UpdateEnemies();
 
             UpdateBullets();
 
-            foreach (var fire in GameModel.Fires)
-                fire.Move();
+            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
+            {
+                fire.Value.Move();
+
+                if (fire.Value.IsCompleteMoving)
+                    GameModel.MovingFires.Remove(fire);
+            }
 
             Invalidate();         
         }
@@ -84,7 +88,9 @@ namespace Top_Down_shooter
         private void UpdatePlayer()
         {
             var mousePosition = PointToClient(MousePosition);
+
             GameRender.Camera.Move(GameModel.Player);
+
             GameModel.Player.Gun.Angle = (float)Math.Atan2(
                 mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
                 mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
@@ -133,10 +139,11 @@ namespace Top_Down_shooter
 
         private void UpdateEnemies()
         {
-            GameModel.MoveEnemies();
             GameModel.Boss.Update();
             foreach (var enemy in GameModel.Enemies)
             {
+                enemy.Move();
+
                 if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))
                 {
                     foreach (var other in collisions)

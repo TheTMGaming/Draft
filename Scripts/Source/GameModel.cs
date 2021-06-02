@@ -15,7 +15,10 @@ namespace Top_Down_shooter
         public static Boss Boss;
 
         public static List<Enemy> Enemies;
+
         public static List<Fire> Fires;
+        public static LinkedList<Fire> MovingFires;
+
         public static HashSet<Powerup> Powerups;
         public static LinkedList<Bullet> Bullets;
 
@@ -27,7 +30,6 @@ namespace Top_Down_shooter
 
         public static void Initialize()
         {
-            Enemies = new List<Enemy>();
             Player = new Player(120, 120);
             HealthBarPlayer = new HealthBar(Player);
             Physics.AddToTrackingCollisions(Player.HitBox);
@@ -39,7 +41,9 @@ namespace Top_Down_shooter
             Map = new Map();
 
             Fires = new List<Fire>();
+            MovingFires = new LinkedList<Fire>();
 
+            Enemies = new List<Enemy>();
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
                 SpawnEnemy();
 
@@ -90,7 +94,9 @@ namespace Top_Down_shooter
         {
             var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 
                 Player.X, Player.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
+
             Fires.Add(fire);
+            MovingFires.AddLast(fire);
             Physics.AddToTrackingCollisions(fire.Collider);
         }
 
@@ -137,13 +143,7 @@ namespace Top_Down_shooter
             enemy.Health = GameSettings.TankHealthMax;
         }
 
-        public static void MoveEnemies()
-        {
-            foreach (var enemy in Enemies)
-                enemy.Move();
-        }
-
-        public static Bullet Shoot()
+        public static Bullet ShootPlayer()
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
 
