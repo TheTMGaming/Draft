@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -27,14 +28,14 @@ namespace Top_Down_shooter.Scripts.Renders
             }
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
             Update();
             foreach (var render in renders)
-                render.Draw(g);
+                render.Draw(device);
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -35,20 +37,23 @@ namespace Top_Down_shooter.Scripts.Renders
             frame = randGenerator.Next(0, FrameCount);
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
-            Draw(g, new Point(Size.Width * frame, Size.Height * state), Size);
+            Draw(device, new Point(Size.Width * frame, Size.Height * state), Size);
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
         {
+            var g = device.Graphics;
+
             X = character.X - Size.Width / 2;
             Y = character.Y - Size.Height / 2;
-            
-            g.DrawImage(atlasAnimation,
-               X, Y,
-               new Rectangle(startSlice, sizeSlice),
-               GraphicsUnit.Pixel);
+           
+
+            g.DrawBitmap(device.CreateBitmap(atlasAnimation),
+                new D2DRect(X, Y, sizeSlice.Width, sizeSlice.Height),
+                new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
+
         }
 
         public void PlayAnimation() => frame = (frame + 1) % FrameCount;

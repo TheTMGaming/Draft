@@ -4,6 +4,8 @@ using System.Threading;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
+using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter
 {
@@ -35,11 +37,11 @@ namespace Top_Down_shooter
 
         }
 
-        public static void DrawScene(Graphics g)
+        public static void DrawScene(D2DGraphicsDevice device)
         {
             foreach (var obj in renders)
             {
-                obj.Draw(g);
+                obj.Draw(device);
             }
         }
 

@@ -2,6 +2,8 @@
 using Top_Down_shooter.Scripts.GameObjects;
 using System.Drawing;
 using Top_Down_shooter.Properties;
+using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -19,7 +21,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public Size Size => throw new System.NotImplementedException();
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
             foreach (var powerup in powerups)
             {
@@ -31,10 +33,8 @@ namespace Top_Down_shooter.Scripts.Renders
                 if (powerup is HP)
                     image = Resources.Heart;
 
-                g.DrawImage(image,
-                    powerup.X - image.Width / 2, powerup.Y - image.Height / 2,
-                    new Rectangle(0, 0, image.Width, image.Width),
-                    GraphicsUnit.Pixel);              
+                device.Graphics.DrawBitmap(device.CreateBitmap(image),
+                    new D2DRect(powerup.X - image.Width / 2, powerup.Y - image.Height / 2, image.Width, image.Height));
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.Renders
@@ -65,13 +66,13 @@ namespace Top_Down_shooter.Scripts.Renders
             bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(Resources.HealthBar, barSize));
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
-            background?.Draw(g);
+            background?.Draw(device);
 
-            bar.Draw(g, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
+            bar.Draw(device, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
 
-            cross?.Draw(g);
+            cross?.Draw(device);
         }
     }
 }

@@ -11,58 +11,10 @@ using unvell.D2DLib;
 
 namespace Top_Down_shooter
 {
-   
-
- 
-        internal class D2DGraphicsDevice
-        {
-            public D2DGraphics Graphics { get; }
-
-            private D2DDevice D2DDevice { get; }
-
-            private Form Form { get; }
-
-
-
-            public D2DGraphicsDevice(Form form)
-            {
-                Form = form;
-                D2DDevice = D2DDevice.FromHwnd(Form.Handle);
-                D2DDevice.Resize();
-                Form.Resize += (sender, args) => D2DDevice.Resize();
-                Form.HandleDestroyed += (sender, args) => D2DDevice.Dispose();
-                Graphics = new D2DGraphics(D2DDevice);
-                Graphics.SetDPI(96, 96);
-            }
-
-            public D2DBitmap CreateBitmap(Bitmap bitmap)
-            {
-                return D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
-            }
-
-     
-
-            public void BeginRender()
-            {
-                Graphics.BeginRender(D2DColor.FromGDIColor(Form.BackColor));
-            }
-
-            public void EndRender()
-            {
-                Graphics.EndRender();
-            }
-
-            public void DrawBitmap(D2DBitmap bitmap, Point location, Size scale, float opacity)
-            {
-                var rect = new D2DRect(location, scale);
-                Graphics.DrawBitmap(bitmap, rect);
-            }
-        
-        }
     public class Form1 : Form
     {
         private readonly int IntervalUpdateGameLoop = 30;
-        private D2DGraphicsDevice a;
+        private D2DGraphicsDevice device;
 
         private Label countBulletsLabel;
 
@@ -91,7 +43,7 @@ namespace Top_Down_shooter
         }
         protected override void OnLoad(EventArgs e)
         {
-            a = new D2DGraphicsDevice(this);
+            device = new D2DGraphicsDevice(this);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -106,7 +58,7 @@ namespace Top_Down_shooter
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
             using (new GameProfiler("DrawScene"))
-                GameRender.DrawScene(a);
+                GameRender.DrawScene(device);
 
             //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
 

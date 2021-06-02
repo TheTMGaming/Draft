@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -20,18 +22,20 @@ namespace Top_Down_shooter.Scripts.Renders
             this.image = image;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
+            var g = device.Graphics;
+
             X = gun.X - image.Width / 2;
             Y = gun.Y - image.Height / 2;
+
             g.TranslateTransform(gun.X, gun.Y);
             g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
             g.TranslateTransform(-gun.X, -gun.Y);
 
-            g.DrawImage(image,
-                X, Y,
-                new Rectangle(0, 0, image.Width, image.Height),
-                GraphicsUnit.Pixel);
+            g.DrawBitmap(device.CreateBitmap(image),
+                new D2DRect(X, Y, image.Width, image.Height));
+
 
             g.TranslateTransform(gun.X, gun.Y);
             g.RotateTransform(-(float)(gun.Angle * 180 / Math.PI));

@@ -2,6 +2,8 @@
 using System.Drawing;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -28,21 +30,21 @@ namespace Top_Down_shooter.Scripts.Renders
             return;
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
         {
+            var g = device.Graphics;
 
             foreach (var fire in fires)
             {
-                g.DrawImage(Resources.Fire,
-                   fire.X - Size.Width / 2, fire.Y - Size.Height / 2,
-                   new Rectangle(startSlice, sizeSlice),
-                   GraphicsUnit.Pixel);
+                g.DrawBitmap(device.CreateBitmap(Resources.Fire),
+                   new D2DRect(fire.X - Size.Width / 2, fire.Y - Size.Height / 2, sizeSlice.Width, sizeSlice.Height),
+                   new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
             }
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphicsDevice device)
         {
-            Draw(g, new Point(Size.Width * frame, 0), Size);
+            Draw(device, new Point(Size.Width * frame, 0), Size);
         }
 
         public void PlayAnimation() => frame = (frame + 1) % frameCount;

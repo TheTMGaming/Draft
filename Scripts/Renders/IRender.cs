@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -8,6 +9,6 @@ namespace Top_Down_shooter.Scripts.Renders
         int Y { get; set; }
         Size Size { get; }
 
-        void Draw(Graphics g);
+        void Draw(D2DGraphicsDevice g);
     }
 }
