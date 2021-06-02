@@ -13,19 +13,21 @@ namespace Top_Down_shooter
 {
     static class GameModel
     {
-        public static readonly Player Player;
-        public static readonly List<Enemy> Enemies;
-        public static readonly Boss Boss;
-        public static readonly List<Fire> Fires;
-        public static readonly HashSet<Powerup> Powerups;
-        public static readonly Map Map;
-        public static readonly HealthBar HealthBarPlayer;
-        public static readonly HealthBar HealthBarBoss;
-        public static readonly LinkedList<Bullet> Bullets;
+        public static Player Player;
+        public static Boss Boss;
+
+        public static List<Enemy> Enemies;
+        public static List<Fire> Fires;
+        public static HashSet<Powerup> Powerups;
+        public static HashSet<Bullet> Bullets;
+
+        public static Map Map;
+        public static HealthBar HealthBarPlayer;
+        public static HealthBar HealthBarBoss;
 
         private static readonly Random randGenerator = new Random();
 
-        static GameModel()
+        public static void Initialize()
         {
             Enemies = new List<Enemy>();
             Player = new Player(120, 120);
@@ -41,15 +43,12 @@ namespace Top_Down_shooter
             Fires = new List<Fire>();
 
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
-            {
                 SpawnEnemy();
-            }
 
             Powerups = new HashSet<Powerup>();
             for (var i = 0; i < GameSettings.CountSmallLoots; i++)
-            {
                 SpawnSmallLoot();
-            }
+
             for (var i = 0; i < GameSettings.CountHPPowerups; i++)
             {
                 var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
@@ -58,20 +57,19 @@ namespace Top_Down_shooter
                 Physics.AddToTrackingCollisions(Powerups.Last().Collider);
             }
 
-
-
-            Bullets = new LinkedList<Bullet>();         
+            Bullets = new HashSet<Bullet>();         
         }
 
         public static void SpawnEnemy()
         {
-           // var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
-
             var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
 
             var speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
-                speed = randGenerator.Next(Math.Min(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax), Math.Max(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax));
+            {
+                speed = randGenerator.Next(
+                    Math.Min(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax), Math.Max(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax));
+            }
 
             var health = randGenerator.Next(GameSettings.TankHealthMin, GameSettings.TankHealthMax);
 
@@ -102,7 +100,7 @@ namespace Top_Down_shooter
         {
             var tiles = Map.FreeTiles
                 .Where(t =>
-                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
+                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistanceBossToSpawnerPowerup)
                 .ToList();
 
             GameObject tile;
@@ -111,7 +109,6 @@ namespace Top_Down_shooter
             else
                 tile = tiles[randGenerator.Next(0, tiles.Count)];
             
-
             powerup.X = tile.X;
             powerup.Y = tile.Y;
         }
@@ -120,8 +117,9 @@ namespace Top_Down_shooter
         {
             var tiles = Map.FreeTiles
                 .Where(t =>
-                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawner)
+                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawnerMonster)
                 .ToList();
+
             GameObject tile;
             if (tiles.Count == 0)
                 tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
@@ -153,7 +151,7 @@ namespace Top_Down_shooter
 
             return new Bullet(
                 Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
-                20, Player.Gun.Angle);           
+                GameSettings.PlayerBulletSpeed, Player.Gun.Angle);           
         }
 
         public static void ChangeBoxToGrass(Box box)

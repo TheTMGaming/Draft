@@ -13,7 +13,8 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int DelaySpawnNewMonster = 50000;
         public const int StartEnemiesCount = 3;
-        public const int DistancePlayerToSpawner = 700;
+        public const int DistanceBossToSpawnerPowerup = 200;
+        public const int DistancePlayerToSpawnerMonster = 700;
 
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
@@ -31,6 +32,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int PlayerHealth = 100;
         public const int PlayerDamage = 10;
         public const int PlayerCooldown = 30;
+        public const int PlayerBulletSpeed = 20;
 
         // Boss
         public const int BossHealth = 300;
