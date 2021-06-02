@@ -13,8 +13,7 @@ namespace Top_Down_shooter
     {
         private readonly int IntervalUpdateGameLoop = 30;
 
-
-        private readonly Label countBulletsLabel;
+        private Label countBulletsLabel;
 
         public Form1()
         { 
@@ -23,6 +22,7 @@ namespace Top_Down_shooter
             //FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
 
+            GameModel.Initialize();
             GameRender.Initialize();
          
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
@@ -33,35 +33,9 @@ namespace Top_Down_shooter
             RunFunctionAsync(Controller.UpdateMouseHandler);
             RunFunctionAsync(NavMesh.Update);
             RunFunctionAsync(GameRender.PlayAnimations);
+            RunFunctionAsync(Physics.Update);
 
-           
-            var gameTimer = new System.Windows.Forms.Timer();
-            var time = GameSettings.TimeToEnd;
-            var timeLabel = new Label()
-            {
-                Size = new Size(200, 200),
-                Font = new Font("Arial Rounded MT Bold", 30),
-                BackColor = Color.Transparent,
-                Location = new Point(1100, 20)
-            };
-            
-            gameTimer.Tick += (sender, obj) =>
-            {
-                time -= TimeSpan.FromSeconds(1);
-                timeLabel.Text = time.ToString(@"m\:ss");
-            };
-            gameTimer.Interval = 1000;
-            gameTimer.Start();
-            Controls.Add(timeLabel);
-
-            countBulletsLabel = new Label()
-            {
-                Size = new Size(200, 200),
-                Font = new Font("Arial Rounded MT Bold", 30),
-                BackColor = Color.Transparent,
-                Location = new Point(1160, 666)
-            };
-            Controls.Add(countBulletsLabel);
+            AddControls();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -94,26 +68,31 @@ namespace Top_Down_shooter
 
         private void UpdateGameLoop()
         {
-            GameModel.Player.Gun.CountBullets -= Controller.SpawnedBullets.Count;
-            while (Controller.SpawnedBullets.Count > 0)
-            {
-                var b = Controller.SpawnedBullets.Dequeue();
-                GameModel.Bullets.AddLast(b);
-            }
-            countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
+            UpdatePlayer();
+            //Physics.Update();
 
+            UpdateEnemies();
+
+            UpdateBullets();
+
+            foreach (var fire in GameModel.Fires)
+                fire.Move();
+
+            Invalidate();         
+        }
+
+        private void UpdatePlayer()
+        {
             var mousePosition = PointToClient(MousePosition);
             GameRender.Camera.Move(GameModel.Player);
             GameModel.Player.Gun.Angle = (float)Math.Atan2(
                 mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
                 mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
-            
-            Physics.Update();
 
             GameModel.Player.Move();
-            if (Physics.IsCollided(GameModel.Player, out var others))
+            if (Physics.IsCollided(GameModel.Player, out var collisions))
             {
-                foreach (var other in others)
+                foreach (var other in collisions)
                 {
                     if (other is Fire fire && fire.CanKick)
                     {
@@ -140,7 +119,7 @@ namespace Top_Down_shooter
                                 GameModel.Powerups.Remove(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
-                        }                      
+                        }
                     }
 
                     if (other is Box || other is Block || other is Boss)
@@ -150,24 +129,26 @@ namespace Top_Down_shooter
                     }
                 }
             }
+        }
 
-
+        private void UpdateEnemies()
+        {
             GameModel.MoveEnemies();
             GameModel.Boss.Update();
             foreach (var enemy in GameModel.Enemies)
             {
-                if (enemy is Tank tank && Physics.IsCollided(enemy, out others))
+                if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))
                 {
-                    foreach (var collision in others)
+                    foreach (var other in collisions)
                     {
 
-                        if (collision is Fire fire && fire.CanKick)
+                        if (other is Fire fire && fire.CanKick)
                         {
                             fire.CanKick = false;
                             enemy.Health -= GameSettings.FireDamage;
                         }
 
-                        if (collision is Player && tank.CanKick)
+                        if (other is Player && tank.CanKick)
                         {
                             GameModel.Player.Health -= GameSettings.TankDamage;
                             tank.CanKick = false;
@@ -175,21 +156,32 @@ namespace Top_Down_shooter
                     }
                 }
             }
+        }
+
+        private void UpdateBullets()
+        {
+            GameModel.Player.Gun.CountBullets -= Controller.SpawnedBullets.Count;
+            while (Controller.SpawnedBullets.Count > 0)
+            {
+                var b = Controller.SpawnedBullets.Dequeue();
+                GameModel.Bullets.AddLast(b);
+            }
+            countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
 
             for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
             {
                 bullet.Value.Move();
 
-                if (Physics.IsCollided(bullet.Value, out others))
+                if (Physics.IsCollided(bullet.Value, out var collisions))
                 {
                     var willBeDestroyed = false;
 
-                    foreach (var collision in others)
+                    foreach (var other in collisions)
                     {
-                        if (collision is Block)
+                        if (other is Block)
                             willBeDestroyed = true;
 
-                        if (collision is Box box)
+                        if (other is Box box)
                         {
                             box.Health -= 1;
                             if (box.Health == 0)
@@ -201,7 +193,7 @@ namespace Top_Down_shooter
                             willBeDestroyed = true;
                         }
 
-                        if (collision is Enemy enemy)
+                        if (other is Enemy enemy)
                         {
                             enemy.Health -= 1;
                             if (!(enemy is Boss) && enemy.Health < 1)
@@ -218,12 +210,6 @@ namespace Top_Down_shooter
                     }
                 }
             }
-
-            foreach (var fire in GameModel.Fires)
-                fire.Move();
-
-            Invalidate();
-           
         }
 
         private void RunTimeInvoker(int interval, Action func)
@@ -241,6 +227,37 @@ namespace Top_Down_shooter
             var worker = new BackgroundWorker();
             worker.DoWork += (sender, args) => func();
             worker.RunWorkerAsync();
+        }
+
+        private void AddControls()
+        {
+            var gameTimer = new System.Windows.Forms.Timer();
+            var time = GameSettings.TimeToEnd;
+            var timeLabel = new Label()
+            {
+                Size = new Size(200, 200),
+                Font = new Font("Arial Rounded MT Bold", 30),
+                BackColor = Color.Transparent,
+                Location = new Point(1100, 20)
+            };
+
+            gameTimer.Tick += (sender, obj) =>
+            {
+                time -= TimeSpan.FromSeconds(1);
+                timeLabel.Text = time.ToString(@"m\:ss");
+            };
+            gameTimer.Interval = 1000;
+            gameTimer.Start();
+            Controls.Add(timeLabel);
+
+            countBulletsLabel = new Label()
+            {
+                Size = new Size(200, 200),
+                Font = new Font("Arial Rounded MT Bold", 30),
+                BackColor = Color.Transparent,
+                Location = new Point(1160, 666)
+            };
+            Controls.Add(countBulletsLabel);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Scripts.UI;
-using Top_Down_shooter.Scripts.Controllers;
-using Top_Down_shooter.Scripts.Components;
-using Top_Down_shooter.Scripts.Source;
-using System.ComponentModel;
 using System.Linq;
+using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
+using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter
 {
@@ -19,7 +17,7 @@ namespace Top_Down_shooter
         public static List<Enemy> Enemies;
         public static List<Fire> Fires;
         public static HashSet<Powerup> Powerups;
-        public static HashSet<Bullet> Bullets;
+        public static LinkedList<Bullet> Bullets;
 
         public static Map Map;
         public static HealthBar HealthBarPlayer;
@@ -57,7 +55,7 @@ namespace Top_Down_shooter
                 Physics.AddToTrackingCollisions(Powerups.Last().Collider);
             }
 
-            Bullets = new HashSet<Bullet>();         
+            Bullets = new LinkedList<Bullet>();         
         }
 
         public static void SpawnEnemy()

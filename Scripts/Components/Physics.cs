@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
@@ -13,6 +14,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private static readonly QuadTree colliders;
         private static readonly HashSet<Collider> trackingColliders;
+
+        private static readonly int TimeUpdate = 300;
 
         static Physics()
         {
@@ -32,10 +35,15 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static void Update()
         {
-            colliders.Clear();
+            while (true)
+            {
+                colliders.Clear();
 
-            foreach (var obj in trackingColliders)
-                colliders.Insert(obj);
+                foreach (var obj in trackingColliders)
+                    colliders.Insert(obj);
+
+                Thread.Sleep(TimeUpdate);
+            }
         }
 
         public static void AddToTrackingCollisions(Collider collider)
