@@ -118,7 +118,7 @@ namespace Top_Down_shooter
                             {
                                 Physics.RemoveFromTrackingCollisions(powerup.Collider);
                                 GameModel.Powerups.Remove(powerup);
-                                GameRender.RemoveRenderFrom(powerup);
+                                GameRender.RemoveDynamicRenderFrom(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
                         }
@@ -180,8 +180,9 @@ namespace Top_Down_shooter
 
                 GameModel.Bullets.AddLast(bullet);
 
-                GameRender.AddRenderFor(bullet);
+                GameRender.AddDynamicRenderFor(bullet);
             }
+
             countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
 
             for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
@@ -204,6 +205,7 @@ namespace Top_Down_shooter
                             {
                                 GameModel.ChangeBoxToGrass(box);
                                 Physics.RemoveFromTrackingCollisions(box.Collider);
+                                GameRender.RemoveDynamicRenderFrom(box);
                             }
 
                             willBeDestroyed = true;
@@ -222,7 +224,7 @@ namespace Top_Down_shooter
                     if (willBeDestroyed)
                     {
                         GameModel.Bullets.Remove(bullet);
-                        GameRender.RemoveRenderFrom(bullet.Value);
+                        GameRender.RemoveDynamicRenderFrom(bullet.Value);
                         Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
                     }
                 }

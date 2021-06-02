@@ -8,6 +8,9 @@ namespace Top_Down_shooter.Scripts.Controllers
         public int X { get; set; }
         public int Y { get; set; }
 
+        public int Width => GameSettings.ScreenWidth;
+        public int Height => GameSettings.ScreenHeight;
+
         public void Move(Player player)
         {
             if (player.X > GameSettings.ScreenWidth / 2 && player.X < GameSettings.MapWidth - GameSettings.ScreenWidth / 2)

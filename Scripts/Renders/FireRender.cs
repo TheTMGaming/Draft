@@ -11,6 +11,7 @@ namespace Top_Down_shooter.Scripts.Renders
     {
         public int X => fire.X - Size.Width / 2;
         public int Y => fire.Y - Size.Height / 2;
+        public Size Size { get; private set; } 
 
         public static readonly int FrameCount = 8;
 
@@ -20,7 +21,6 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private int frame;
 
-        public Size Size { get; set; } 
 
         public FireRender(Fire fire, Bitmap image, int frame = 0)
         {

@@ -78,8 +78,11 @@ namespace Top_Down_shooter
             var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
-            GameRender.AddRenderFor(enemy);
+
+            GameRender.AddDynamicRenderFor(enemy);
+
             Physics.AddToTrackingCollisions(enemy.Collider);
+
             Physics.AddToTrackingCollisions(enemy.HitBox);
         }
 
@@ -89,7 +92,9 @@ namespace Top_Down_shooter
             var loot = new SmallLoot(new Powerup(tile.X, tile.Y));
 
             Powerups.Add(loot);
-            GameRender.AddRenderFor(loot);
+
+            GameRender.AddDynamicRenderFor(loot);
+
             Physics.AddToTrackingCollisions(loot.Collider);       
         }
 
@@ -99,8 +104,11 @@ namespace Top_Down_shooter
                 Player.X, Player.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
 
             Fires.Add(fire);
+
             MovingFires.AddLast(fire);
-            GameRender.AddRenderFor(fire);
+
+            GameRender.AddDynamicRenderFor(fire);
+
             Physics.AddToTrackingCollisions(fire.Collider);
         }
 
@@ -139,7 +147,7 @@ namespace Top_Down_shooter
                 var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
 
                 Powerups.Add(loot);
-                GameRender.AddRenderFor(loot);
+                GameRender.AddDynamicRenderFor(loot);
                 Physics.AddToTrackingCollisions(loot.Collider);
             }
 
@@ -159,8 +167,12 @@ namespace Top_Down_shooter
 
         public static void ChangeBoxToGrass(Box box)
         {
-            Map.Tiles[(box.X - GameSettings.TileSize / 2) / GameSettings.TileSize, 
-                (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = new Grass(box.X, box.Y);
+            var grass = new Grass(box.X, box.Y);
+
+            Map.Tiles[(box.X - GameSettings.TileSize / 2) / GameSettings.TileSize,
+                (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = grass;
+
+            GameRender.AddTIleRender(grass);
         }
 
         private static Point RotatePoint(Point point, float angleInRadian)

@@ -13,9 +13,9 @@ namespace Top_Down_shooter.Scripts.Renders
 
     class CharacterRender : IAnimationRender
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Size Size => new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
+        public int X => character.X - Size.Width / 2;
+        public int Y => character.Y - Size.Height / 2;
+        public Size Size { get; private set; }
 
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
@@ -34,6 +34,7 @@ namespace Top_Down_shooter.Scripts.Renders
             StateCount = stateCount;
             FrameCount = frameCount;
 
+            Size = new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
             frame = randGenerator.Next(0, FrameCount);
         }
 
@@ -45,10 +46,6 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
         {
             var g = device.Graphics;
-
-            X = character.X - Size.Width / 2;
-            Y = character.Y - Size.Height / 2;
-           
 
             g.DrawBitmap(device.CreateBitmap(atlasAnimation),
                 new D2DRect(X, Y, sizeSlice.Width, sizeSlice.Height),

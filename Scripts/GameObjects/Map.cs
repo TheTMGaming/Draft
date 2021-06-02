@@ -5,6 +5,7 @@ using Top_Down_shooter.Scripts.Source;
 using Top_Down_shooter.Properties;
 using System.Collections.Generic;
 using System.Linq;
+using Top_Down_shooter.Scripts.Renders;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
@@ -75,13 +76,17 @@ namespace Top_Down_shooter.Scripts.Controllers
                         tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
 
                     Tiles[tile.Point.X, tile.Point.Y] = box;
+                    GameRender.AddDynamicRenderFor(box);
                     Physics.AddToTrackingCollisions(box.Collider);
                 }
                 else
                 {                  
                     Tiles[tile.Point.X, tile.Point.Y] = new Grass(tile.Point.X * GameSettings.TileSize + GameSettings.TileSize / 2, 
                         tile.Point.Y * GameSettings.TileSize + GameSettings.TileSize / 2);
+
                     FreeTiles.Add(Tiles[tile.Point.X, tile.Point.Y]);
+
+                    GameRender.AddTIleRender(Tiles[tile.Point.X, tile.Point.Y]);
                 }
 
                 foreach (var neighbour in GetNeighbors(tile.Point, zone, visited))
@@ -102,6 +107,9 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 Physics.AddToTrackingCollisions(Tiles[x, 0].Collider);
                 Physics.AddToTrackingCollisions(Tiles[x, Height - 1].Collider);
+
+                GameRender.AddTIleRender(Tiles[x, 0]);
+                GameRender.AddTIleRender(Tiles[x, Height - 1]);
             }
 
             foreach (var y in Enumerable.Range(1, Height - 1))
@@ -112,6 +120,9 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 Physics.AddToTrackingCollisions(Tiles[0, y].Collider);
                 Physics.AddToTrackingCollisions(Tiles[Width - 1, y].Collider);
+
+                GameRender.AddTIleRender(Tiles[0, y]);
+                GameRender.AddTIleRender(Tiles[Width - 1, y]);
             }
         }
 

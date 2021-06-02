@@ -8,16 +8,15 @@ namespace Top_Down_shooter.Scripts.Renders
 {
     class GunRender : IRender
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X => gun.X - Size.Width / 2;
+        public int Y => gun.Y - Size.Height / 2;
         public Size Size => image.Size;
 
         private readonly Gun gun;
         private readonly Bitmap image;
 
         public GunRender(Gun gun, Bitmap image)
-        {
-            
+        {           
             this.gun = gun;
             this.image = image;
         }
@@ -25,9 +24,6 @@ namespace Top_Down_shooter.Scripts.Renders
         public void Draw(D2DGraphicsDevice device)
         {
             var g = device.Graphics;
-
-            X = gun.X - image.Width / 2;
-            Y = gun.Y - image.Height / 2;
 
             var t = g.GetTransform();
 

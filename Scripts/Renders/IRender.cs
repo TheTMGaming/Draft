@@ -7,8 +7,9 @@ namespace Top_Down_shooter.Scripts.Renders
     {
         int X { get; }
         int Y { get; }
+
         Size Size { get; }
 
-        void Draw(D2DGraphicsDevice g);
+        void Draw(D2DGraphicsDevice device);
     }
 }

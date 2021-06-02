@@ -24,6 +24,14 @@ namespace Top_Down_shooter
 
         private static readonly Random randGenerator = new Random();
 
+        static GameRender()
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                grassImage.Add(Resources.Grass.Extract(new Rectangle(64 * i, 0, 64, 64)));
+            }
+        }
+
         #region
         private static readonly Bitmap playerImage = Resources.Player;
         private static readonly Bitmap gunImage = Resources.Gun;
@@ -34,12 +42,13 @@ namespace Top_Down_shooter
         private static readonly Bitmap heartImage = Resources.Heart;
         private static readonly Bitmap bigLootImage = Resources.BigPowerup;
         private static readonly Bitmap smallLootImage = Resources.SmallLoot;
+        private static readonly List<Bitmap> grassImage = new List<Bitmap>();
+        private static readonly Bitmap boxImage = Resources.Box;
+        private static readonly Bitmap blockImage = Resources.Block;
         #endregion
 
         public static void Initialize()
         {
-            renders.Add(new MapRender(GameModel.Map));
-
             renders.Add(new CharacterRender(GameModel.Player, playerImage, 4, 2));
             renders.Add(new GunRender(GameModel.Player.Gun, gunImage));
             renders.Add(new CharacterRender(GameModel.Boss, bossImage, 2, 2));
@@ -48,17 +57,26 @@ namespace Top_Down_shooter
             renders.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
             renders.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
             renders.Add(new ImageRender(1100, 660, bulletImage, true));
-
         }
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            foreach (var render in renders.Where(x => x is MapRender)
+            var flag = false;
+            foreach (var render in renders
+                .Where(render => IsInCameraFocus(render))
+                .Where(x => x is TileRender)
                 .Concat(renders.Where(x => x is ImageRender))
                 .Concat(renders.Where(x => x is CharacterRender))
                 .Concat(renders.Where(x => x is BulletRender || x is FireRender || x is GunRender))
-                .Concat(renders.Where(x => x is HealthBarRender)))
+                .Concat(renders.Where(x => x is HealthBarRender))
+                )
             {
+                if (render is FireRender fire && !flag)
+                {
+                    Console.WriteLine(Camera.X + " " + Camera.Y);
+                    Console.WriteLine(fire.X + " " + fire.Y + " " + fire.Size);
+                    flag = true;
+                }
                 render.Draw(device);
             }
         }
@@ -80,7 +98,22 @@ namespace Top_Down_shooter
             }
         }
 
-        public static void AddRenderFor(Enemy enemy)
+        public static void AddTIleRender(GameObject tile)
+        {
+            if (tile is Box box)
+            {
+                AddDynamicRenderFor(box);
+                return;
+            }
+
+            var image = blockImage;
+            if (tile is Grass grass)
+                image = grassImage[grass.ID];
+
+            renders.Add(new TileRender(tile, image));
+        }
+
+        public static void AddDynamicRenderFor(Enemy enemy)
         {
             var image = tankImage;
             // if (enemy is)
@@ -91,7 +124,7 @@ namespace Top_Down_shooter
             renders.Add(render);
         }
 
-        public static void AddRenderFor(Bullet bullet)
+        public static void AddDynamicRenderFor(Bullet bullet)
         {
             var image = bulletImage;
             // if (enemy is)
@@ -102,7 +135,7 @@ namespace Top_Down_shooter
             renders.Add(render);
         }
 
-        public static void AddRenderFor(Fire fire)
+        public static void AddDynamicRenderFor(Fire fire)
         {
             var render = new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount));
 
@@ -110,7 +143,7 @@ namespace Top_Down_shooter
             renders.Add(render);
         }
 
-        public static void AddRenderFor(Powerup powerup)
+        public static void AddDynamicRenderFor(Powerup powerup)
         {
             var image = bigLootImage;
 
@@ -126,13 +159,27 @@ namespace Top_Down_shooter
             renders.Add(render);
         }
 
-        public static void RemoveRenderFrom(GameObject gameObject)
+        public static void AddDynamicRenderFor(Box box)
+        {
+            var render = new TileRender(box, boxImage);
+
+            dynamicRender.Add(box, render);
+            renders.Add(render);
+        }
+
+        public static void RemoveDynamicRenderFrom(GameObject gameObject)
         {
             if (dynamicRender.TryGetValue(gameObject, out var render))
             {
                 renders.Remove(render);
                 dynamicRender.Remove(gameObject);
             }
+        }
+
+        private static bool IsInCameraFocus(IRender render)
+        {
+            return render.X + render.Size.Width > Camera.X && render.X < Camera.X + Camera.Width
+                && render.Y + render.Size.Height > Camera.Y && render.Y < Camera.Y + Camera.Height;
         }
     }
 }
