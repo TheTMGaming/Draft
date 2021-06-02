@@ -14,7 +14,9 @@ namespace Top_Down_shooter
     public class Form1 : Form
     {
         private readonly int IntervalUpdateGameLoop = 30;
+
         private D2DGraphicsDevice device;
+        private D2DMatrix3x2 defaultTransform;
 
         private Label countBulletsLabel;
 
@@ -43,6 +45,7 @@ namespace Top_Down_shooter
         protected override void OnLoad(EventArgs e)
         {
             device = new D2DGraphicsDevice(this);
+            defaultTransform = device.Graphics.GetTransform();
         }
 
         protected override void OnPaintBackground(PaintEventArgs e) { }
@@ -51,7 +54,8 @@ namespace Top_Down_shooter
         {
             device.BeginRender();
 
-            //device.Graphics.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+            device.Graphics.SetTransform(defaultTransform);
+            device.Graphics.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
             GameRender.DrawScene(device);
 
             device.EndRender();

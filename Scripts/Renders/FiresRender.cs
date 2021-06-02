@@ -17,11 +17,12 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private int frame;
 
-        public Size Size => new Size(Resources.Fire.Width / frameCount, Resources.Fire.Height);
+        public Size Size { get; set; } 
 
         public FiresRender(List<Fire> fires)
         {
             this.fires = fires;
+            Size = new Size(Resources.Fire.Width / frameCount, Resources.Fire.Height);
             frame = 0;
         }
 

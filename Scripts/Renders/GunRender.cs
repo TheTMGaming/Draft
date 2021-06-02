@@ -16,8 +16,7 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly Bitmap image;
 
         public GunRender(Gun gun, Bitmap image)
-        {
-            
+        {          
             this.gun = gun;
             this.image = image;
         }
