@@ -83,7 +83,6 @@
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletRender.cs" />
     <Compile Include="Scripts\Renders\FireRender.cs" />
-    <Compile Include="Scripts\Renders\PowerupsRender.cs" />
     <Compile Include="Scripts\Renders\D2DGraphicsDevice.cs" />
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>

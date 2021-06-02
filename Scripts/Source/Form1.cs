@@ -118,6 +118,7 @@ namespace Top_Down_shooter
                             {
                                 Physics.RemoveFromTrackingCollisions(powerup.Collider);
                                 GameModel.Powerups.Remove(powerup);
+                                GameRender.RemoveRenderFrom(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
                         }
@@ -175,8 +176,11 @@ namespace Top_Down_shooter
             GameModel.Player.Gun.CountBullets -= Controller.SpawnedBullets.Count;
             while (Controller.SpawnedBullets.Count > 0)
             {
-                var b = Controller.SpawnedBullets.Dequeue();
-                GameModel.Bullets.AddLast(b);
+                var bullet = Controller.SpawnedBullets.Dequeue();
+
+                GameModel.Bullets.AddLast(bullet);
+
+                GameRender.AddRenderFor(bullet);
             }
             countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
 
@@ -218,6 +222,7 @@ namespace Top_Down_shooter
                     if (willBeDestroyed)
                     {
                         GameModel.Bullets.Remove(bullet);
+                        GameRender.RemoveRenderFrom(bullet.Value);
                         Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
                     }
                 }

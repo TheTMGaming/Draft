@@ -78,6 +78,7 @@ namespace Top_Down_shooter
             var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
+            GameRender.AddRenderFor(enemy);
             Physics.AddToTrackingCollisions(enemy.Collider);
             Physics.AddToTrackingCollisions(enemy.HitBox);
         }
@@ -85,9 +86,11 @@ namespace Top_Down_shooter
         public static void SpawnSmallLoot()
         {
             var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+            var loot = new SmallLoot(new Powerup(tile.X, tile.Y));
 
-            Powerups.Add(new SmallLoot(new Powerup(tile.X, tile.Y)));
-            Physics.AddToTrackingCollisions(Powerups.Last().Collider);       
+            Powerups.Add(loot);
+            GameRender.AddRenderFor(loot);
+            Physics.AddToTrackingCollisions(loot.Collider);       
         }
 
         public static void SpawnFire()
@@ -97,6 +100,7 @@ namespace Top_Down_shooter
 
             Fires.Add(fire);
             MovingFires.AddLast(fire);
+            GameRender.AddRenderFor(fire);
             Physics.AddToTrackingCollisions(fire.Collider);
         }
 
@@ -135,6 +139,7 @@ namespace Top_Down_shooter
                 var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
 
                 Powerups.Add(loot);
+                GameRender.AddRenderFor(loot);
                 Physics.AddToTrackingCollisions(loot.Collider);
             }
 
@@ -149,7 +154,7 @@ namespace Top_Down_shooter
 
             return new Bullet(
                 Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
-                GameSettings.PlayerBulletSpeed, Player.Gun.Angle, GameSettings.PlayerDamage);           
+                GameSettings.PlayerBulletSpeed, Player.Gun.Angle, GameSettings.PlayerDamage);
         }
 
         public static void ChangeBoxToGrass(Box box)

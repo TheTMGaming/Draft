@@ -31,13 +31,14 @@ namespace Top_Down_shooter
         private static readonly Bitmap bossImage = Resources.Boss;
         private static readonly Bitmap fireImage = Resources.Fire;
         private static readonly Bitmap bulletImage = Resources.Bullet;
+        private static readonly Bitmap heartImage = Resources.Heart;
+        private static readonly Bitmap bigLootImage = Resources.BigPowerup;
+        private static readonly Bitmap smallLootImage = Resources.SmallLoot;
         #endregion
 
         public static void Initialize()
         {
             renders.Add(new MapRender(GameModel.Map));
-
-            renders.Add(new PowerupsRender(GameModel.Powerups));
 
             renders.Add(new CharacterRender(GameModel.Player, playerImage, 4, 2));
             renders.Add(new GunRender(GameModel.Player.Gun, gunImage));
@@ -52,7 +53,8 @@ namespace Top_Down_shooter
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            foreach (var render in renders.Where(x => x is MapRender || x is ImageRender)
+            foreach (var render in renders.Where(x => x is MapRender)
+                .Concat(renders.Where(x => x is ImageRender))
                 .Concat(renders.Where(x => x is CharacterRender))
                 .Concat(renders.Where(x => x is BulletRender || x is FireRender || x is GunRender))
                 .Concat(renders.Where(x => x is HealthBarRender)))
@@ -105,6 +107,22 @@ namespace Top_Down_shooter
             var render = new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount));
 
             dynamicRender.Add(fire, render);
+            renders.Add(render);
+        }
+
+        public static void AddRenderFor(Powerup powerup)
+        {
+            var image = bigLootImage;
+
+            if (powerup is SmallLoot)
+                image = smallLootImage;
+
+            if (powerup is HP)
+                image = heartImage;
+
+            var render = new ImageRender(0, 0, image, parent: powerup);
+
+            dynamicRender.Add(powerup, render);
             renders.Add(render);
         }
 
