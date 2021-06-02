@@ -15,6 +15,8 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly List<Fire> fires;
         private readonly int frameCount = 8;
 
+        private readonly Bitmap image = Resources.Fire;
+
         private int frame;
 
         public Size Size { get; set; } 
@@ -37,7 +39,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
             foreach (var fire in fires)
             {
-                g.DrawBitmap(device.CreateBitmap(Resources.Fire),
+                g.DrawBitmap(device.CreateBitmap(image),
                    new D2DRect(fire.X - Size.Width / 2, fire.Y - Size.Height / 2, sizeSlice.Width, sizeSlice.Height),
                    new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
             }

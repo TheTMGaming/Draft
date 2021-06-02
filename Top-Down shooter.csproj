@@ -133,30 +133,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Sprites\BackgroundHealthBar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Box.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Bullet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Grass.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Gun.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Heart.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\Player.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Sprites\HealthBar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BackgroundHealthBar.png" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +167,9 @@
     <None Include="Resources\Boss.png" />
     <None Include="Resources\Fire.png" />
     <Content Include="Resources\Tank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
