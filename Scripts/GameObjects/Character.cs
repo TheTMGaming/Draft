@@ -31,7 +31,17 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public virtual void Move(bool isReverse = false)
         {
+            MoveX(isReverse);
+            MoveY(isReverse);
+        }
+
+        public virtual void MoveX(bool isReverse = false)
+        {
             X += GetRoundSpeedX() * (isReverse ? -1 : 1);
+        }
+
+        public virtual void MoveY(bool isReverse = false)
+        {
             Y += GetRoundSpeedY() * (isReverse ? -1 : 1);
         }
 

@@ -49,7 +49,7 @@ namespace Top_Down_shooter
 
             //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
 
-            //g.FillRectangle(new SolidBrush(Color.White), GameModel.Player.Collider.Transform);
+            g.FillRectangle(new SolidBrush(Color.White), GameModel.Player.Collider.Transform);
 
             //foreach (var a in GameModel.Enemies)
             //    g.FillRectangle(new SolidBrush(Color.White), a.Collider.Transform);
@@ -131,7 +131,15 @@ namespace Top_Down_shooter
                     if (other is Box || other is Block || other is Boss)
                     {
                         GameModel.Player.Move(isReverse: true);
-                        break;
+
+                        GameModel.Player.MoveX();
+                        if (GameModel.Player.Collider.IntersectsWith(other.Collider))
+                            GameModel.Player.MoveX(isReverse: true);
+
+                        GameModel.Player.MoveY();
+                        if (GameModel.Player.Collider.IntersectsWith(other.Collider))
+                            GameModel.Player.MoveY(isReverse: true);
+
                     }
                 }
             }

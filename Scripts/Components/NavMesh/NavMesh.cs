@@ -15,7 +15,7 @@ namespace Top_Down_shooter.Scripts.Components
     static class NavMesh
     {
         public static readonly Node[,] Map;
-        public static readonly List<NavMeshAgent> Agents = new List<NavMeshAgent>();
+        public static readonly LinkedList<NavMeshAgent> Agents = new LinkedList<NavMeshAgent>();
         public static readonly Dictionary<GameObject, List<Node>> Obstacles = new Dictionary<GameObject, List<Node>>();
 
         public static readonly int Width;
@@ -83,8 +83,8 @@ namespace Top_Down_shooter.Scripts.Components
             {
                 Bake();
 
-                foreach (var agent in Agents)
-                    agent.ComputePath();
+                for (var agent = Agents.First; !(agent is null); agent = agent.Next)
+                    agent.Value.ComputePath();
 
                 Thread.Sleep(TimeUpdate);
             }
@@ -92,7 +92,7 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static void AddAgent(NavMeshAgent agent)
         {
-            Agents.Add(agent);
+            Agents.AddLast(agent);
         }
     }
 }
