@@ -29,17 +29,12 @@ namespace Top_Down_shooter.Scripts.Renders
             X = gun.X - image.Width / 2;
             Y = gun.Y - image.Height / 2;
 
-            g.TranslateTransform(gun.X, gun.Y);
+            var t = g.GetTransform();
             g.RotateTransform((float)(gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(-gun.X, -gun.Y);
-
+            g.TranslateTransform(X, Y);
             g.DrawBitmap(device.CreateBitmap(image),
-                new D2DRect(X, Y, image.Width, image.Height));
-
-
-            g.TranslateTransform(gun.X, gun.Y);
-            g.RotateTransform(-(float)(gun.Angle * 180 / Math.PI));
-            g.TranslateTransform(-gun.X, -gun.Y);
+                new D2DRect(0, 0, image.Width, image.Height));
+            g.SetTransform(t);
         }
     }
 

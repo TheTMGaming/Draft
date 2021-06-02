@@ -20,8 +20,7 @@ namespace Top_Down_shooter
 
         public Form1()
         { 
-
-            DoubleBuffered = true;
+            DoubleBuffered = false;
             Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
             //FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
@@ -46,59 +45,37 @@ namespace Top_Down_shooter
             device = new D2DGraphicsDevice(this);
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            GameProfiler.Save("abs.json");
-        }
+        protected override void OnPaintBackground(PaintEventArgs e) { }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            device.BeginRender();
 
-            g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+            //device.Graphics.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+            GameRender.DrawScene(device);
 
-            using (new GameProfiler("DrawScene"))
-                GameRender.DrawScene(device);
-
-            //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
-
-            g.FillRectangle(new SolidBrush(Color.White), GameModel.Player.Collider.Transform);
-
-            //foreach (var a in GameModel.Enemies)
-            //    g.FillRectangle(new SolidBrush(Color.White), a.Collider.Transform);
-            //foreach (var c in NavMesh.Map)
-            //{
-            //    var b = new SolidBrush(Color.Blue);
-            //    if (c.IsObstacle)
-            //        b = new SolidBrush(Color.Red);
-
-
-            //    g.FillRectangle(b, c.Position.X, c.Position.Y, 3, 3);
-            //}
-            //foreach (var b in GameModel.Enemies[0].Agent.Path)
-            //    g.FillRectangle(new SolidBrush(Color.Yellow), b.X, b.Y, 5, 5);
+            device.EndRender();
         }
 
         private void UpdateGameLoop()
         {
-            using (new GameProfiler("UpdateGameLoop"))
+           
+            UpdatePlayer();
+
+            UpdateEnemies();
+
+            UpdateBullets();
+
+            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
             {
-                UpdatePlayer();
+                fire.Value.Move();
 
-                UpdateEnemies();
-
-                UpdateBullets();
-
-                for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
-                {
-                    fire.Value.Move();
-
-                    if (fire.Value.IsCompleteMoving)
-                        GameModel.MovingFires.Remove(fire);
-                }
-
-                Invalidate();
+                if (fire.Value.IsCompleteMoving)
+                    GameModel.MovingFires.Remove(fire);
             }
+
+            Invalidate();
+            
         }
 
         private void UpdatePlayer()

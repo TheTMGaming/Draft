@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using unvell.D2DLib;
 
@@ -12,20 +13,25 @@ namespace Top_Down_shooter.Scripts.Source
 
         private Form Form { get; }
 
+        private readonly Dictionary<Bitmap, D2DBitmap> cache = new Dictionary<Bitmap, D2DBitmap>();
+
         public D2DGraphicsDevice(Form form)
         {
             Form = form;
             D2DDevice = D2DDevice.FromHwnd(Form.Handle);
+
             D2DDevice.Resize();
             Form.Resize += (sender, args) => D2DDevice.Resize();
             Form.HandleDestroyed += (sender, args) => D2DDevice.Dispose();
             Graphics = new D2DGraphics(D2DDevice);
-            Graphics.SetDPI(96, 96);
         }
 
         public D2DBitmap CreateBitmap(Bitmap bitmap)
         {
-            return D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
+            if (cache.TryGetValue(bitmap, out var result))
+                return result;
+
+            return cache[bitmap] = D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
         }
 
         public void BeginRender()
@@ -38,7 +44,7 @@ namespace Top_Down_shooter.Scripts.Source
             Graphics.EndRender();
         }
 
-        public void DrawBitmap(D2DBitmap bitmap, Point location, Size scale, float opacity)
+        public void DrawBitmap(D2DBitmap bitmap, Point location, Size scale)
         {
             var rect = new D2DRect(location, scale);
             Graphics.DrawBitmap(bitmap, rect);

@@ -31,16 +31,12 @@ namespace Top_Down_shooter.Scripts.Renders
                 X = bullet.X - image.Width / 2;
                 Y = bullet.Y - image.Height / 2;
 
-                g.TranslateTransform(bullet.X, bullet.Y);
+                var t = g.GetTransform();
                 g.RotateTransform((float)(bullet.Angle * 180 / Math.PI));
-                g.TranslateTransform(-bullet.X, -bullet.Y);
-
+                g.TranslateTransform(X, Y);
                 g.DrawBitmap(device.CreateBitmap(image),
-                    new D2DRect(X, Y, image.Width, image.Height));
-
-                g.TranslateTransform(bullet.X, bullet.Y);
-                g.RotateTransform(-(float)(bullet.Angle * 180 / Math.PI));
-                g.TranslateTransform(-bullet.X, -bullet.Y);
+                    new D2DRect(0, 0, image.Width, image.Height));
+                g.SetTransform(t);
             }
 
         }

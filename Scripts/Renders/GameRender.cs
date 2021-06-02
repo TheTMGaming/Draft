@@ -39,9 +39,9 @@ namespace Top_Down_shooter
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            foreach (var obj in renders)
+            foreach (var render in renders)
             {
-                obj.Draw(device);
+                render.Draw(device);
             }
         }
 

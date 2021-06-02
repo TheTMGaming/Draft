@@ -29,7 +29,8 @@ namespace Top_Down_shooter.Scripts.Renders
             {
                 if (tile is Box box)
                 {
-                    g.DrawBitmap(device.CreateBitmap(box.Image.Blackout((1 - (float)box.Health / Box.MaxHealth) / 2)),
+                    // box.Image.Blackout((1 - (float)box.Health / Box.MaxHealth) / 2
+                    g.DrawBitmap(device.CreateBitmap(box.Image),
                         new D2DRect(box.X - box.Image.Width / 2, box.Y - box.Image.Height / 2, box.Image.Width, box.Image.Height));
                     continue;
                 }
