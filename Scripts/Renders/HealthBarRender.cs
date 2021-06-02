@@ -34,8 +34,8 @@ namespace Top_Down_shooter.Scripts.Renders
             offsetBar.Y = (int)(offsetBar.Y * multiSize);
 
 
-                cross = new ImageRender(X, Y, new Bitmap(Resources.Cross, new Size(
-                    (int)(Resources.Cross.Width * multiSize), (int)(Resources.Cross.Height * multiSize))), followCamera);
+            cross = new ImageRender(X, Y, new Bitmap(Resources.Cross, new Size(
+                (int)(Resources.Cross.Width * multiSize), (int)(Resources.Cross.Height * multiSize))), followCamera);
 
             background = new ImageRender(
                 X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(Resources.BackgroundHealthBar, new Size(

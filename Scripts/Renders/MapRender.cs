@@ -1,9 +1,6 @@
 ﻿using System.Drawing;
-using System;
 using Top_Down_shooter.Scripts.Controllers;
-using System.Collections.Generic;
 using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Renders
@@ -35,7 +32,7 @@ namespace Top_Down_shooter.Scripts.Renders
                         GraphicsUnit.Pixel);
                     continue;
                 }
-
+       
                 if (tile is Grass grass)
                 {
                     g.DrawImage(grass.Image,

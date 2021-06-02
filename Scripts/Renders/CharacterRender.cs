@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
-using Top_Down_shooter.Scripts.Controllers;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -24,6 +23,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private int frame;
         private int state;
+        private static Random randGenerator = new Random();
 
         public CharacterRender(Character character, Bitmap atlasAnimation, int stateCount, int frameCount)
         {
@@ -31,6 +31,8 @@ namespace Top_Down_shooter.Scripts.Renders
             this.atlasAnimation = atlasAnimation;
             StateCount = stateCount;
             FrameCount = frameCount;
+
+            frame = randGenerator.Next(0, FrameCount);
         }
 
         public void Draw(Graphics g)
