@@ -6,17 +6,69 @@ using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
+using Top_Down_shooter.Scripts.Source.GameProject.CoreEngine;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter
 {
+   
+
+ 
+        internal class D2DGraphicsDevice
+        {
+            public D2DGraphics Graphics { get; }
+
+            private D2DDevice D2DDevice { get; }
+
+            private Form Form { get; }
+
+
+
+            public D2DGraphicsDevice(Form form)
+            {
+                Form = form;
+                D2DDevice = D2DDevice.FromHwnd(Form.Handle);
+                D2DDevice.Resize();
+                Form.Resize += (sender, args) => D2DDevice.Resize();
+                Form.HandleDestroyed += (sender, args) => D2DDevice.Dispose();
+                Graphics = new D2DGraphics(D2DDevice);
+                Graphics.SetDPI(96, 96);
+            }
+
+            public D2DBitmap CreateBitmap(Bitmap bitmap)
+            {
+                return D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
+            }
+
+     
+
+            public void BeginRender()
+            {
+                Graphics.BeginRender(D2DColor.FromGDIColor(Form.BackColor));
+            }
+
+            public void EndRender()
+            {
+                Graphics.EndRender();
+            }
+
+            public void DrawBitmap(D2DBitmap bitmap, Point location, Size scale, float opacity)
+            {
+                var rect = new D2DRect(location, scale);
+                Graphics.DrawBitmap(bitmap, rect);
+            }
+        
+        }
     public class Form1 : Form
     {
         private readonly int IntervalUpdateGameLoop = 30;
+        private D2DGraphicsDevice a;
 
         private Label countBulletsLabel;
 
         public Form1()
         { 
+
             DoubleBuffered = true;
             Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
             //FormBorderStyle = FormBorderStyle.None;
@@ -37,6 +89,15 @@ namespace Top_Down_shooter
 
             AddControls();
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            a = new D2DGraphicsDevice(this);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            GameProfiler.Save("abs.json");
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -44,8 +105,8 @@ namespace Top_Down_shooter
 
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
-
-            GameRender.DrawScene(g);
+            using (new GameProfiler("DrawScene"))
+                GameRender.DrawScene(a);
 
             //g.FillRectangle(new SolidBrush(Color.White), GameModel.Boss.HitBox.Transform);
 
@@ -68,21 +129,24 @@ namespace Top_Down_shooter
 
         private void UpdateGameLoop()
         {
-            UpdatePlayer();
-
-            UpdateEnemies();
-
-            UpdateBullets();
-
-            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
+            using (new GameProfiler("UpdateGameLoop"))
             {
-                fire.Value.Move();
+                UpdatePlayer();
 
-                if (fire.Value.IsCompleteMoving)
-                    GameModel.MovingFires.Remove(fire);
+                UpdateEnemies();
+
+                UpdateBullets();
+
+                for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
+                {
+                    fire.Value.Move();
+
+                    if (fire.Value.IsCompleteMoving)
+                        GameModel.MovingFires.Remove(fire);
+                }
+
+                Invalidate();
             }
-
-            Invalidate();         
         }
 
         private void UpdatePlayer()
