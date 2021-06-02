@@ -62,8 +62,7 @@ namespace Top_Down_shooter
         }
 
         private void UpdateGameLoop()
-        {
-           
+        {           
             UpdatePlayer();
 
             UpdateEnemies();

@@ -13,7 +13,7 @@ namespace Top_Down_shooter.Scripts.Source
 
         private Form Form { get; }
 
-        private readonly Dictionary<Bitmap, D2DBitmap> cache = new Dictionary<Bitmap, D2DBitmap>();
+        private readonly Dictionary<int, D2DBitmap> cache = new Dictionary<int, D2DBitmap>();
 
         public D2DGraphicsDevice(Form form)
         {
@@ -28,10 +28,10 @@ namespace Top_Down_shooter.Scripts.Source
 
         public D2DBitmap CreateBitmap(Bitmap bitmap)
         {
-            if (cache.TryGetValue(bitmap, out var result))
+            if (cache.TryGetValue(bitmap.GetHashCode(), out var result))
                 return result;
 
-            return cache[bitmap] = D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
+            return cache[bitmap.GetHashCode()] = D2DDevice.CreateBitmapFromGDIBitmap(bitmap);
         }
 
         public void BeginRender()
