@@ -15,15 +15,16 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly List<Fire> fires;
         private readonly int frameCount = 8;
 
-        private readonly Bitmap image = Resources.Fire;
+        private readonly Bitmap image;
 
         private int frame;
 
         public Size Size { get; set; } 
 
-        public FiresRender(List<Fire> fires)
+        public FiresRender(List<Fire> fires, Bitmap image)
         {
             this.fires = fires;
+            this.image = image;
 
             Size = new Size(Resources.Fire.Width / frameCount, Resources.Fire.Height);
         }

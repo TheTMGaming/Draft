@@ -7,8 +7,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Block : GameObject
     {
-        public readonly Bitmap Image = Resources.Block;
-
         public Block(int x, int y)
         {
             Collider = new Collider(this, 0, 0, GameSettings.TileSize, GameSettings.TileSize);

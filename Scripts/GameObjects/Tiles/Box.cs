@@ -7,8 +7,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Box : GameObject
     {
-        public readonly Bitmap Image = new Bitmap(Resources.Box);
-
         public int Health { get; set; }
 
         public static readonly int MaxHealth = 10;

@@ -17,23 +17,30 @@ namespace Top_Down_shooter
 
         private static readonly List<IRender> renders = new List<IRender>();
 
+        private static readonly Bitmap playerImage = Resources.Player;
+        private static readonly Bitmap gunImage = Resources.Gun;
+        private static readonly Bitmap tankImage = Resources.Tank;
+        private static readonly Bitmap bossImage = Resources.Boss;
+        private static readonly Bitmap fireImage = Resources.Fire;
+        private static readonly Bitmap bulletImage = Resources.Bullet;
+
         public static void Initialize()
         {
             renders.Add(new MapRender(GameModel.Map));
 
             renders.Add(new PowerupsRender(GameModel.Powerups));
 
-            renders.Add(new CharacterRender(GameModel.Player, Resources.Player, 4, 2));
-            renders.Add(new GunRender(GameModel.Player.Gun, Resources.Gun));
-            renders.Add(new EnemiesRender(GameModel.Enemies, Resources.Tank));
-            renders.Add(new CharacterRender(GameModel.Boss, Resources.Boss, 2, 2));
-            renders.Add(new FiresRender(GameModel.Fires));
+            renders.Add(new CharacterRender(GameModel.Player, playerImage, 4, 2));
+            renders.Add(new GunRender(GameModel.Player.Gun, gunImage));
+            renders.Add(new EnemiesRender(GameModel.Enemies, tankImage));
+            renders.Add(new CharacterRender(GameModel.Boss, bossImage, 2, 2));
+            renders.Add(new FiresRender(GameModel.Fires, fireImage));
 
-            renders.Add(new BulletsRender(GameModel.Bullets, Resources.Bullet));
+            renders.Add(new BulletsRender(GameModel.Bullets, bulletImage));
 
             renders.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
             renders.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
-            renders.Add(new ImageRender(1100, 660, Resources.BulletIcon, true));
+            renders.Add(new ImageRender(1100, 660, bulletImage, true));
 
         }
 

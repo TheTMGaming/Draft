@@ -10,7 +10,7 @@ namespace Top_Down_shooter.Scripts.Renders
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public Size Size => new Size(X + offsetBackground.X + background.Size.Width, cross.Size.Height);
+        public Size Size { get; set; }
 
         private readonly HealthBar healthBar;
 
@@ -21,6 +21,17 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly float multiSize;
         private readonly Point offsetBackground = new Point(45, 50);
         private readonly Point offsetBar = new Point(48, 53);
+
+        private static readonly Bitmap crossImage;
+        private static readonly Bitmap barImage;
+        private static readonly Bitmap backgroundImage;
+
+        static HealthBarRender()
+        {
+            crossImage = Resources.Cross;
+            barImage = Resources.HealthBar;
+            backgroundImage = Resources.BackgroundHealthBar;
+        }
 
         public HealthBarRender(HealthBar healthBar, int xLeft, int yTop, int percentSize = 100, bool followCamera = false)
         {
@@ -35,15 +46,17 @@ namespace Top_Down_shooter.Scripts.Renders
             offsetBar.Y = (int)(offsetBar.Y * multiSize);
 
 
-            cross = new ImageRender(X, Y, new Bitmap(Resources.Cross, new Size(
+            cross = new ImageRender(X, Y, new Bitmap(crossImage, new Size(
                 (int)(Resources.Cross.Width * multiSize), (int)(Resources.Cross.Height * multiSize))), followCamera);
 
             background = new ImageRender(
-                X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(Resources.BackgroundHealthBar, new Size(
+                X + offsetBackground.X, Y + offsetBackground.Y, new Bitmap(backgroundImage, new Size(
                 (int)(Resources.BackgroundHealthBar.Width * multiSize), (int)(Resources.BackgroundHealthBar.Height * multiSize))), followCamera);
 
-            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(Resources.HealthBar, new Size(
+            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(barImage, new Size(
                 (int)(Resources.HealthBar.Width * multiSize), (int)(Resources.HealthBar.Height * multiSize))), followCamera);
+            
+            Size = new Size(X + offsetBackground.X + background.Size.Width, cross.Size.Height);
         }
 
         public HealthBarRender(HealthBar healthBar, Character character, Point offset, int percentSize = 100)

@@ -8,15 +8,14 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Grass : GameObject
     {
-        public readonly Bitmap Image;
+        public int ID { get; set; }
 
-        private readonly static Random randGenerator = new Random();
+        private static Random randGenerator = new Random();
 
         public Grass(int x, int y)
         {
-            Image = Resources.Grass.Extract(new Rectangle(64 * randGenerator.Next(0, 4), 0, 64, 64));
             Collider = new Collider(this, 0, 0, GameSettings.TileSize, GameSettings.TileSize);
-
+            ID = randGenerator.Next(0, 4);
             X = x;
             Y = y;
         }
