@@ -2,6 +2,7 @@
 using System.Drawing;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Controllers;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -21,6 +22,7 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private readonly Character character;
         private readonly Bitmap atlasAnimation;
+        private D2DBitmap dAtlas;
 
         private int frame;
         private int state;
@@ -33,20 +35,22 @@ namespace Top_Down_shooter.Scripts.Renders
             FrameCount = frameCount;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphics g)
         {
             Draw(g, new Point(Size.Width * frame, Size.Height * state), Size);
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphics g, Point startSlice, Size sizeSlice)
         {
             X = character.X - Size.Width / 2;
             Y = character.Y - Size.Height / 2;
-            
-            g.DrawImage(atlasAnimation,
-               X, Y,
-               new Rectangle(startSlice, sizeSlice),
-               GraphicsUnit.Pixel);
+            if (dAtlas is null)
+                dAtlas = g.Device.CreateBitmapFromGDIBitmap(atlasAnimation);
+
+            g.DrawBitmap(dAtlas,
+                new D2DRect(X, Y, sizeSlice.Width, sizeSlice.Height),
+                new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
+              
         }
 
         public void PlayAnimation() => frame = (frame + 1) % FrameCount;

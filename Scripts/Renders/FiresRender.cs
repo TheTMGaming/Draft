@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.GameObjects;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -33,19 +34,19 @@ namespace Top_Down_shooter.Scripts.Renders
             return;
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphics g, Point startSlice, Size sizeSlice)
         {
+            
 
             foreach (var fire in fires)
             {
-                g.DrawImage(Resources.Fire,
-                   fire.X - Size.Width / 2, fire.Y - Size.Height / 2,
-                   new Rectangle(startSlice, sizeSlice),
-                   GraphicsUnit.Pixel);
+                g.DrawBitmap(g.Device.CreateBitmapFromGDIBitmap(Resources.Fire),
+                   new D2DRect(fire.X - Size.Width / 2, fire.Y - Size.Height / 2, sizeSlice.Width, sizeSlice.Height),
+                   new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
             }
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphics g)
         {
             Draw(g, new Point(Size.Width * frame, 0), Size);
         }

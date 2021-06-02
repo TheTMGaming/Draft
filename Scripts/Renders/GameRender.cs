@@ -6,6 +6,7 @@ using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Renders;
 using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter
 {
@@ -38,7 +39,7 @@ namespace Top_Down_shooter
             gameObjects.Add(new FiresRender(GameModel.Fires));
         }
 
-        public static void DrawObjects(Graphics g)
+        public static void DrawObjects(D2DGraphics g)
         {
             foreach (var obj in gameObjects)
             {

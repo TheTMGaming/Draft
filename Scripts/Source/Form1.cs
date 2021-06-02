@@ -6,10 +6,12 @@ using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
+using unvell.D2DLib;
+using unvell.D2DLib.WinForm;
 
 namespace Top_Down_shooter
 {
-    public class Form1 : Form
+    public class Form1 : D2DForm
     {
         private readonly int IntervalUpdateGameLoop = 30;
 
@@ -64,10 +66,8 @@ namespace Top_Down_shooter
             Controls.Add(countBulletsLabel);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnRender(D2DGraphics g)
         {
-            Graphics g = e.Graphics;
-
             g.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
 
 

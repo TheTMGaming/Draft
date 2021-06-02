@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.GameObjects;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -29,14 +30,14 @@ namespace Top_Down_shooter.Scripts.Renders
             }
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphics g)
         {
             Update();
             foreach (var render in renders)
                 render.Draw(g);
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphics g, Point startSlice, Size sizeSlice)
         {
             throw new NotImplementedException();
         }

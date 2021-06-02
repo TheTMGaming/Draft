@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -19,17 +20,16 @@ namespace Top_Down_shooter.Scripts.Renders
             this.followCamera = followCamera;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphics g)
         {
             Draw(g, new Point(0, 0), new Size(image.Width, image.Height));
         }
 
-        public void Draw(Graphics g, Point startSlice, Size sizeSlice)
+        public void Draw(D2DGraphics g, Point startSlice, Size sizeSlice)
         {
-            g.DrawImage(image,
-                X + (followCamera ? GameRender.Camera.X : 0), Y + (followCamera ? GameRender.Camera.Y : 0),
-                new Rectangle(startSlice, sizeSlice),
-                GraphicsUnit.Pixel);
+            g.DrawBitmap(g.Device.CreateBitmapFromGDIBitmap(image),
+                new D2DRect(X + (followCamera ? GameRender.Camera.X : 0), Y + (followCamera ? GameRender.Camera.Y : 0), sizeSlice.Width, sizeSlice.Height),
+                new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
         }
     }
 

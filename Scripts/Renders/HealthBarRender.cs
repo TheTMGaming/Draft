@@ -2,6 +2,7 @@
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.UI;
+using unvell.D2DLib;
 
 namespace Top_Down_shooter.Scripts.Renders
 {
@@ -65,7 +66,7 @@ namespace Top_Down_shooter.Scripts.Renders
             bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, new Bitmap(Resources.HealthBar, barSize));
         }
 
-        public void Draw(Graphics g)
+        public void Draw(D2DGraphics g)
         {
             background?.Draw(g);
 
