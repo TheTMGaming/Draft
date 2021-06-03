@@ -56,7 +56,7 @@ namespace Top_Down_shooter
             device.Graphics.SetTransform(defaultTransform);
             device.Graphics.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
             GameRender.DrawScene(device);
-
+            
             device.EndRender();
         }
 

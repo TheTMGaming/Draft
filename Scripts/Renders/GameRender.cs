@@ -24,6 +24,8 @@ namespace Top_Down_shooter
 
         private static readonly Random randGenerator = new Random();
 
+        private static bool flag;
+
         static GameRender()
         {
             for (var i = 0; i < 4; i++)
@@ -61,22 +63,15 @@ namespace Top_Down_shooter
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            var flag = false;
+            flag = false;
             foreach (var render in renders
-                .Where(render => IsInCameraFocus(render))
-                .Where(x => x is TileRender)
-                .Concat(renders.Where(x => x is ImageRender))
-                .Concat(renders.Where(x => x is CharacterRender))
-                .Concat(renders.Where(x => x is BulletRender || x is FireRender || x is GunRender))
+                .Where(x => x is TileRender && IsInCameraFocus(x))
+                .Concat(renders.Where(x => x is ImageRender && IsInCameraFocus(x)))
+                .Concat(renders.Where(x => x is CharacterRender && IsInCameraFocus(x)))
+                .Concat(renders.Where(x => (x is BulletRender || x is FireRender || x is GunRender) && IsInCameraFocus(x)))
                 .Concat(renders.Where(x => x is HealthBarRender))
                 )
             {
-                if (render is FireRender fire && !flag)
-                {
-                    Console.WriteLine(Camera.X + " " + Camera.Y);
-                    Console.WriteLine(fire.X + " " + fire.Y + " " + fire.Size);
-                    flag = true;
-                }
                 render.Draw(device);
             }
         }
@@ -178,8 +173,8 @@ namespace Top_Down_shooter
 
         private static bool IsInCameraFocus(IRender render)
         {
-            return render.X + render.Size.Width > Camera.X && render.X < Camera.X + Camera.Width
-                && render.Y + render.Size.Height > Camera.Y && render.Y < Camera.Y + Camera.Height;
+            return render.X + render.Size.Width > Camera.X && render.X < Camera.X + Camera.Size.Width
+                && render.Y + render.Size.Height > Camera.Y && render.Y < Camera.Y + Camera.Size.Height;
         }
     }
 }

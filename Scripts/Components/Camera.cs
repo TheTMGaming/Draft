@@ -1,4 +1,5 @@
-﻿using Top_Down_shooter.Scripts.GameObjects;
+﻿using System.Drawing;
+using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Controllers
@@ -8,8 +9,12 @@ namespace Top_Down_shooter.Scripts.Controllers
         public int X { get; set; }
         public int Y { get; set; }
 
-        public int Width => GameSettings.ScreenWidth;
-        public int Height => GameSettings.ScreenHeight;
+        public Size Size { get; private set; }
+
+        public Camera()
+        {
+            Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
+        }
 
         public void Move(Player player)
         {
