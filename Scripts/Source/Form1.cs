@@ -19,8 +19,8 @@ namespace Top_Down_shooter
         private D2DMatrix3x2 defaultTransform;
 
         private D2DBitmap bulletIcon;
-        private readonly Point positionLableCountBullets = new Point(1000, 670);
-        private readonly Point positionBulletIcon = new Point(930, 660);
+        private readonly Point positionLableCountBullets = new Point(980, 670);
+        private readonly Point positionBulletIcon = new Point(910, 660);
 
         public Form1()
         { 
