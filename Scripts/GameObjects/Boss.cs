@@ -15,11 +15,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
             HitBox = new Collider(this, localX: 0, localY: 0, width: 110, height: 256, isTrigger: true, isIgnoreNavMesh: true);
         }
 
-        public void Update()
-        {
-            LookAt(GameModel.Player.Transform);
-        }
-
         public override void LookAt(Point target)
         {
             var direction = new Point(target.X - X, target.Y - Y);

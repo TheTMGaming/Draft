@@ -59,9 +59,11 @@ namespace Top_Down_shooter.Scripts.GameObjects
             if (Math.Sqrt((X - GameModel.Player.X) * (X - GameModel.Player.X) 
                 + (Y - GameModel.Player.Y) * (Y - GameModel.Player.Y)) <= GameSettings.FiremanDistanceFire)
             {
-                var angle = (float)Math.Atan2(GameModel.Player.X - X, GameModel.Player.Y - Y);
+                var angle = (float)Math.Atan2(GameModel.Player.Y - Y, GameModel.Player.X - X);
+                var bullet = new Bullet(this, X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
 
-                GameModel.Bullets.AddLast(new Bullet(X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage));
+                GameModel.Bullets.AddLast(bullet);
+                GameRender.AddDynamicRenderFor(bullet);
             }
         }
     }

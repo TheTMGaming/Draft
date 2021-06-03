@@ -164,7 +164,7 @@ namespace Top_Down_shooter
         {
             var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
 
-            return new Bullet(
+            return new Bullet(Player,
                 Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
                 GameSettings.PlayerBulletSpeed, Player.Gun.Angle, GameSettings.PlayerDamage);
         }

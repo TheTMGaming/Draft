@@ -164,7 +164,7 @@ namespace Top_Down_shooter
 
         private void UpdateEnemies()
         {
-            GameModel.Boss.Update();
+            GameModel.Boss.LookAt(GameModel.Player.Transform);
             foreach (var enemy in GameModel.Enemies)
             {
                 enemy.Move();
@@ -173,7 +173,6 @@ namespace Top_Down_shooter
                 {
                     foreach (var other in collisions)
                     {
-
                         if (other is Fire fire && fire.CanKick)
                         {
                             fire.CanKick = false;
@@ -232,8 +231,11 @@ namespace Top_Down_shooter
 
                         if (other is Enemy enemy)
                         {
+                            if (other is Fireman && bullet.Value.Parent is Fireman)
+                                continue;
+
                             enemy.Health -= bullet.Value.Damage;
-                            if (!(enemy is Boss) && enemy.Health < 1)
+                            if (!(enemy is Boss && enemy is Fireman) && enemy.Health < 1)
                                 GameModel.RespawnEnemy(enemy);
 
                             willBeDestroyed = true;
