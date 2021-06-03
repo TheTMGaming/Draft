@@ -35,6 +35,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     GetContainedNodes(gameObject)
                      .SelectMany(node => node.GetCandidateToCollision(gameObject))
                     )
+                    .Distinct()
                     .ToList();
 
             return returnedList;

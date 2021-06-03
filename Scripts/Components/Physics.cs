@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using Top_Down_shooter.Properties;
@@ -15,7 +16,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         private static readonly QuadTree colliders;
         private static readonly LinkedList<Collider> trackingColliders;
 
-        private static readonly int TimeUpdate = 300;
+        private static readonly int TimeUpdate = 20;
 
         static Physics()
         {

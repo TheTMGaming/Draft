@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
@@ -113,6 +114,8 @@ namespace Top_Down_shooter
                     {
                         fire.CanKick = false;
                         GameModel.Player.Health -= GameSettings.FireDamage;
+
+                        continue;
                     }
                     if (other is Powerup powerup)
                     {
@@ -130,12 +133,14 @@ namespace Top_Down_shooter
 
                             if (powerup is BigLoot)
                             {
-                                Physics.RemoveFromTrackingCollisions(powerup.Collider);
                                 GameModel.Powerups.Remove(powerup);
+                                Physics.RemoveFromTrackingCollisions(powerup.Collider);
                                 GameRender.RemoveDynamicRenderFrom(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
                         }
+
+                        continue;
                     }
 
                     if (other is Box || other is Block || other is Boss)
