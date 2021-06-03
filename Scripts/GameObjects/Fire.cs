@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
@@ -19,6 +20,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         private readonly int targetX;
         private readonly int targetY;
         private readonly Timer cooldown;
+        private readonly Timer spawnFireman;
 
         public Fire(int x, int y, int targetX, int targetY, int speed)
         {
@@ -30,7 +32,9 @@ namespace Top_Down_shooter.Scripts.GameObjects
             this.speed = speed;
 
             Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isTrigger: true, isIgnoreNavMesh: true);
+
             cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, 0, GameSettings.FireCooldown);
+            spawnFireman = new Timer(new TimerCallback(e => SpawnFireman()), null, 0, GameSettings.FireSpawnEnemy);
         }
 
         public void Move()
@@ -42,6 +46,21 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             if (X == targetX && Y == targetY)
                 IsCompleteMoving = true;
+        }
+
+        private void SpawnFireman()
+        {
+            if (!IsCompleteMoving)
+                return;
+
+            var fireman = new Fireman(X, Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);
+
+            GameModel.Enemies.Add(fireman);
+
+            Physics.AddToTrackingCollisions(fireman.Collider);
+            Physics.AddToTrackingCollisions(fireman.HitBox);
+
+            GameRender.AddDynamicRenderFor(fireman);
         }
     }
 }
