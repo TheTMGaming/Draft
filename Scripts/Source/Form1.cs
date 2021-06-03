@@ -167,6 +167,9 @@ namespace Top_Down_shooter
             GameModel.Boss.LookAt(GameModel.Player.Transform);
             foreach (var enemy in GameModel.Enemies)
             {
+                if (enemy is Fireman fireman)
+                    GameModel.UpdateTargetFireman(fireman);
+
                 enemy.Move();
 
                 if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))

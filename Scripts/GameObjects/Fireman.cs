@@ -8,6 +8,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Fireman : Enemy
     {
+        public bool IsCompleteMovingToTarget { get; private set; }
+
         public readonly NavMeshAgent Agent;
         private readonly Timer fire;
 
@@ -32,7 +34,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public override void Move(bool isReverse = false)
         {
-            Agent.Target = GameModel.Player.Transform;
             if (isReverse)
             {
                 X = prevCheckpoint.X;
@@ -44,12 +45,17 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             if (Agent.Path.Count > 0)
             {
+                IsCompleteMovingToTarget = false;
+
                 nextCheckpoint = Agent.Path.Pop();
 
                 var direction = MoveTowards(Transform, nextCheckpoint, Speed);
                 X = direction.X;
                 Y = direction.Y;
             }
+            else
+                IsCompleteMovingToTarget = true;
+
             LookAt(GameModel.Player.Transform);
 
         }

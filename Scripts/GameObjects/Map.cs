@@ -49,6 +49,8 @@ namespace Top_Down_shooter.Scripts.Controllers
             CreateMap();
         }
 
+        public GameObject GetTileIn(int x, int y) => Tiles[x / GameSettings.TileSize, y / GameSettings.TileSize];
+
         private void CreateMap()
         {
             var rand = new Random();

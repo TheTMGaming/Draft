@@ -16,10 +16,12 @@ namespace Top_Down_shooter
 
         public static List<Enemy> Enemies;
 
+
         public static List<Fire> Fires;
         public static LinkedList<Fire> MovingFires;
 
         public static HashSet<Powerup> Powerups;
+
         public static LinkedList<Bullet> Bullets;
 
         public static Map Map;
@@ -104,8 +106,10 @@ namespace Top_Down_shooter
 
         public static void SpawnFire()
         {
+            var tile = Map.GetTileIn(Player.X, Player.Y);
+
             var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 
-                Player.X, Player.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
+                tile.X, tile.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
 
             Fires.Add(fire);
 
@@ -158,6 +162,33 @@ namespace Top_Down_shooter
             enemy.X = GameSettings.MapWidth / 2;
             enemy.Y = GameSettings.MapHeight / 2;
             enemy.Health = GameSettings.TankHealthMax;
+        }
+
+        public static void UpdateTargetFireman(Fireman fireman)
+        {
+            if (!fireman.IsCompleteMovingToTarget)
+                return;
+
+            var targets = new List<GameObject>();
+
+            if (Player.X - GameSettings.FiremanDistanceRotation > 0)
+                targets.Add(Map.GetTileIn(Player.X - GameSettings.FiremanDistanceRotation, Player.Y));
+
+            if (Player.X + GameSettings.FiremanDistanceRotation < GameSettings.MapWidth)
+                targets.Add(Map.GetTileIn(Player.X + GameSettings.FiremanDistanceRotation, Player.Y));
+
+            if (Player.Y - GameSettings.FiremanDistanceRotation > 0)
+                targets.Add(Map.GetTileIn(Player.X, Player.Y - GameSettings.FiremanDistanceRotation));
+
+            if (Player.Y + GameSettings.FiremanDistanceRotation < GameSettings.MapHeight)
+                targets.Add(Map.GetTileIn(Player.X, Player.Y + GameSettings.FiremanDistanceRotation));
+
+            targets = targets
+                .Where(t => t is Grass)
+                .ToList();
+
+            fireman.Agent.Target = targets[randGenerator.Next(0, targets.Count)].Transform;
+
         }
 
         public static Bullet ShootPlayer()
