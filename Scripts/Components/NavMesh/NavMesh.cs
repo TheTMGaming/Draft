@@ -42,7 +42,7 @@ namespace Top_Down_shooter.Scripts.Components
             foreach (var node in Map)
                 node.IsObstacle = false;
 
-            foreach (var collider in Physics.Colliders.Where(collider => !collider.IsIgnoreNavMesh))
+            foreach (var collider in Physics.Colliders.Where(collider => !collider.IsIgnoreNavMesh && !collider.IsTrigger))
             {
                 var rect = collider.Transform;
 

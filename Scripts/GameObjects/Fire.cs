@@ -29,7 +29,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             this.speed = speed;
 
-            Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isTrigger: true);
+            Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isTrigger: true, isIgnoreNavMesh: true);
             cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, 0, GameSettings.FireCooldown);
         }
 

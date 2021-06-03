@@ -12,7 +12,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             X = x;
             Y = y;
 
-            Collider = new Collider(this, 0, 0, 60, 60, isTrigger: true);
+            Collider = new Collider(this, 0, 0, 60, 60, isTrigger: true, isIgnoreNavMesh: true);
         }
     }
 

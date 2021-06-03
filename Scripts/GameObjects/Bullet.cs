@@ -12,7 +12,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public Bullet(int x, int y, int speed, float angle, int damage)
         {
-            Collider = new Collider(this, 0, 0, 10, 10);
+            Collider = new Collider(this, 0, 0, 10, 10, isIgnoreNavMesh: true);
             Damage = damage;
             Speed = speed;
             X = x;
