@@ -45,7 +45,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int FireCooldown = 1000;
         public const int FireMinSpeed = 20;
         public const int FireMaxSpeed = 30;
-        public const int FireSpawnEnemy = 8000;
+        public const int FireSpawnEnemy = 15000;
 
         // Enemy.Tank
         public const int TankHealthMax = 80;
@@ -64,16 +64,16 @@ namespace Top_Down_shooter.Scripts.Source
 
         // Enemy.Fireman
         public const int FiremanHealth = 60;
-        public const int FiremanSpeed = 4;
+        public const int FiremanSpeed = 6;
         public const int FiremanDamage = 30;
 
-        public const int FiremanCooldown = 600;
+        public const int FiremanCooldown = 3000;
 
         public const int FiremanSizeCollider = 60;
 
         public const int FiremanDistanceFire = 600;
         public const int FiremanDistanceRotation = 300;
-        public const int FiremanSpeedBullet = 10;
+        public const int FiremanSpeedBullet = 15;
 
         // Enemy.Waterman
         public const int WatermanHealth = 80;

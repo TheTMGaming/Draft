@@ -171,16 +171,16 @@ namespace Top_Down_shooter
 
             var targets = new List<GameObject>();
 
-            if (Player.X - GameSettings.FiremanDistanceRotation > 0)
+            if (Player.X - GameSettings.FiremanDistanceRotation > GameSettings.TileSize * 2)
                 targets.Add(Map.GetTileIn(Player.X - GameSettings.FiremanDistanceRotation, Player.Y));
 
-            if (Player.X + GameSettings.FiremanDistanceRotation < GameSettings.MapWidth)
+            if (Player.X + GameSettings.FiremanDistanceRotation < GameSettings.MapWidth - GameSettings.TileSize * 2)
                 targets.Add(Map.GetTileIn(Player.X + GameSettings.FiremanDistanceRotation, Player.Y));
 
-            if (Player.Y - GameSettings.FiremanDistanceRotation > 0)
+            if (Player.Y - GameSettings.FiremanDistanceRotation > GameSettings.TileSize * 2)
                 targets.Add(Map.GetTileIn(Player.X, Player.Y - GameSettings.FiremanDistanceRotation));
 
-            if (Player.Y + GameSettings.FiremanDistanceRotation < GameSettings.MapHeight)
+            if (Player.Y + GameSettings.FiremanDistanceRotation < GameSettings.MapHeight - GameSettings.TileSize * 2)
                 targets.Add(Map.GetTileIn(Player.X, Player.Y + GameSettings.FiremanDistanceRotation));
 
             targets = targets

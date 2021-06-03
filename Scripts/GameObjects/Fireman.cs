@@ -30,6 +30,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
             nextCheckpoint = GameModel.Player.Transform;
 
             fire = new Timer(new TimerCallback((e) => Fire()), null, delayCooldown, GameSettings.FiremanCooldown);
+
+            Agent.Target = GameModel.Player.Transform;
         }
 
         public override void Move(bool isReverse = false)
