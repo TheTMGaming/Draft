@@ -26,6 +26,8 @@ namespace Top_Down_shooter
 
         private static readonly Random randGenerator = new Random();
 
+        private static readonly object locker = new object();
+
         static GameRender()
         {
             for (var i = 0; i < 4; i++)
@@ -41,7 +43,8 @@ namespace Top_Down_shooter
         private static readonly Bitmap firemanImage = Resources.Fireman;
         private static readonly Bitmap bossImage = Resources.Boss;
         private static readonly Bitmap fireImage = Resources.Fire;
-        private static readonly Bitmap bulletImage = Resources.Bullet;
+        private static readonly Bitmap playerBulletImage = Resources.Bullet;
+        private static readonly Bitmap firemanBulletImage = Resources.Fireball;
         private static readonly Bitmap heartImage = Resources.Heart;
         private static readonly Bitmap bigLootImage = Resources.BigPowerup;
         private static readonly Bitmap smallLootImage = Resources.SmallLoot;
@@ -59,23 +62,26 @@ namespace Top_Down_shooter
 
             renders.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
             renders.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
-            renders.Add(new ImageRender(1100, 660, bulletImage, true));
+            renders.Add(new ImageRender(1100, 660, playerBulletImage, true));
         }
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            while (newRenders.Count > 0)
-                renders.Add(newRenders.Dequeue());
-
-            foreach (var render in renders
-                .Where(x => x is TileRender && IsInCameraFocus(x))
-                .Concat(renders.Where(x => x is ImageRender && IsInCameraFocus(x)))
-                .Concat(renders.Where(x => x is CharacterRender && IsInCameraFocus(x)))
-                .Concat(renders.Where(x => (x is BulletRender || x is FireRender || x is GunRender) && IsInCameraFocus(x)))
-                .Concat(renders.Where(x => x is HealthBarRender))
-                )
+            lock (locker)
             {
-                render.Draw(device);
+                while (newRenders.Count > 0)
+                    renders.Add(newRenders.Dequeue());
+
+                foreach (var render in renders
+                    .Where(x => x is TileRender && IsInCameraFocus(x))
+                    .Concat(renders.Where(x => x is ImageRender && IsInCameraFocus(x)))
+                    .Concat(renders.Where(x => x is CharacterRender && IsInCameraFocus(x)))
+                    .Concat(renders.Where(x => (x is BulletRender || x is FireRender || x is GunRender) && IsInCameraFocus(x)))
+                    .Concat(renders.Where(x => x is HealthBarRender))
+                    )
+                {
+                    render.Draw(device);
+                }
             }
         }
 
@@ -83,15 +89,17 @@ namespace Top_Down_shooter
         {
             while (true)
             {
-                foreach (var obj in renders)
+                lock (locker)
                 {
-                    if (obj is IAnimationRender render)
+                    foreach (var obj in renders)
                     {
-                        render.ChangeTypeAnimation();
-                        render.PlayAnimation();
+                        if (obj is IAnimationRender render)
+                        {
+                            render.ChangeTypeAnimation();
+                            render.PlayAnimation();
+                        }
                     }
                 }
-
                 Thread.Sleep(IntervalUpdateAnimations);
             }
         }
@@ -126,8 +134,10 @@ namespace Top_Down_shooter
 
         public static void AddDynamicRenderFor(Bullet bullet)
         {
-            var image = bulletImage;
-            // if (enemy is)
+            var image = playerBulletImage;
+
+            if (bullet.Parent is Fireman)
+                image = firemanBulletImage;
 
             var render = new BulletRender(bullet, image);
 
