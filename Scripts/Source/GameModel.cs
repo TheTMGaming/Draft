@@ -60,7 +60,7 @@ namespace Top_Down_shooter
                 Powerups.Add(powerup);
 
                 GameRender.AddDynamicRenderFor(powerup);
-                Physics.AddToTrackingCollisions(Powerups.Last().Collider);
+                Physics.AddToTrackingCollisions(powerup.Collider);
             }
 
             Bullets = new LinkedList<Bullet>();         
