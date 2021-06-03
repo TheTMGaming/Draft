@@ -36,6 +36,7 @@ namespace Top_Down_shooter
         private static readonly Bitmap playerImage = Resources.Player;
         private static readonly Bitmap gunImage = Resources.Gun;
         private static readonly Bitmap tankImage = Resources.Tank;
+        private static readonly Bitmap firemanImage = Resources.Fireman;
         private static readonly Bitmap bossImage = Resources.Boss;
         private static readonly Bitmap fireImage = Resources.Fire;
         private static readonly Bitmap bulletImage = Resources.Bullet;
@@ -108,7 +109,9 @@ namespace Top_Down_shooter
         public static void AddDynamicRenderFor(Enemy enemy)
         {
             var image = tankImage;
-            // if (enemy is)
+
+            if (enemy is Fireman)
+                image = firemanImage;
 
             var render = new CharacterRender(enemy, image, 4, 2);
 

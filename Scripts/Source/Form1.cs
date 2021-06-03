@@ -88,7 +88,18 @@ namespace Top_Down_shooter
                 fire.Value.Move();
 
                 if (fire.Value.IsCompleteMoving)
+                {
                     GameModel.MovingFires.Remove(fire);
+
+                    var fireman = new Fireman(fire.Value.X, fire.Value.Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);
+
+                    GameModel.Enemies.Add(fireman);
+
+                    Physics.AddToTrackingCollisions(fireman.Collider);
+                    Physics.AddToTrackingCollisions(fireman.HitBox);
+
+                    GameRender.AddDynamicRenderFor(fireman);
+                }
             }
 
             Invalidate();

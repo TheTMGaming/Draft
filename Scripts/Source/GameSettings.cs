@@ -63,9 +63,15 @@ namespace Top_Down_shooter.Scripts.Source
 
         // Enemy.Fireman
         public const int FiremanHealth = 60;
+        public const int FiremanSpeed = 10;
         public const int FiremanDamage = 30;
+
         public const int FiremanCooldown = 500;
+
         public const int FiremanSizeCollider = 60;
+
+        public const int FiremanDistanceFire = 100;
+        public const int FiremanSpeedBullet = 50;
 
         // Enemy.Waterman
         public const int WatermanHealth = 80;

@@ -74,6 +74,7 @@
     <Compile Include="Scripts\Controllers\Controller.cs" />
     <Compile Include="Scripts\GameObjects\Boss.cs" />
     <Compile Include="Scripts\GameObjects\Fire.cs" />
+    <Compile Include="Scripts\GameObjects\Fireman.cs" />
     <Compile Include="Scripts\GameObjects\Map.cs" />
     <Compile Include="Scripts\GameObjects\Enemy.cs" />
     <Compile Include="Scripts\GameObjects\Powerup.cs" />
@@ -163,6 +164,7 @@
     <None Include="Resources\Cross.png" />
     <None Include="Resources\Boss.png" />
     <None Include="Resources\Fire.png" />
+    <None Include="Resources\Fireman.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <ItemGroup>
