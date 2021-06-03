@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
@@ -17,7 +18,9 @@ namespace Top_Down_shooter
         private D2DGraphicsDevice device;
         private D2DMatrix3x2 defaultTransform;
 
-        private Label countBulletsLabel;
+        private D2DBitmap bulletIcon;
+        private readonly Point positionLableCountBullets = new Point(1000, 670);
+        private readonly Point positionBulletIcon = new Point(930, 660);
 
         public Form1()
         { 
@@ -38,13 +41,13 @@ namespace Top_Down_shooter
             RunFunctionAsync(NavMesh.Update);
             RunFunctionAsync(GameRender.PlayAnimations);
             RunFunctionAsync(Physics.Update);
-
-            AddControls();
         }
         protected override void OnLoad(EventArgs e)
         {
             device = new D2DGraphicsDevice(this);
             defaultTransform = device.Graphics.GetTransform();
+
+            bulletIcon = device.CreateBitmap(Resources.BulletIcon);
         }
 
         protected override void OnPaintBackground(PaintEventArgs e) { }
@@ -55,7 +58,18 @@ namespace Top_Down_shooter
 
             device.Graphics.SetTransform(defaultTransform);
             device.Graphics.TranslateTransform(-GameRender.Camera.X, -GameRender.Camera.Y);
+
             GameRender.DrawScene(device);
+          
+            device.Graphics.DrawText(
+                GameModel.Player.Gun.CountBullets.ToString(), 
+                D2DColor.Black, "Intro", 35,
+                GameRender.Camera.X + positionLableCountBullets.X, GameRender.Camera.Y + positionLableCountBullets.Y);
+
+            device.Graphics.DrawBitmap(bulletIcon, new D2DRect(
+                GameRender.Camera.X + positionBulletIcon.X, 
+                GameRender.Camera.Y + positionBulletIcon.Y, 
+                bulletIcon.Size.width, bulletIcon.Size.height));
             
             device.EndRender();
         }
@@ -183,8 +197,6 @@ namespace Top_Down_shooter
                 GameRender.AddDynamicRenderFor(bullet);
             }
 
-            countBulletsLabel.Text = GameModel.Player.Gun.CountBullets.ToString();
-
             for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
             {
                 bullet.Value.Move();
@@ -246,37 +258,6 @@ namespace Top_Down_shooter
             var worker = new BackgroundWorker();
             worker.DoWork += (sender, args) => func();
             worker.RunWorkerAsync();
-        }
-
-        private void AddControls()
-        {
-            var gameTimer = new System.Windows.Forms.Timer();
-            var time = GameSettings.TimeToEnd;
-            var timeLabel = new Label()
-            {
-                Size = new Size(200, 200),
-                Font = new Font("Arial Rounded MT Bold", 30),
-                BackColor = Color.Transparent,
-                Location = new Point(1100, 20)
-            };
-
-            gameTimer.Tick += (sender, obj) =>
-            {
-                time -= TimeSpan.FromSeconds(1);
-                timeLabel.Text = time.ToString(@"m\:ss");
-            };
-            gameTimer.Interval = 1000;
-            gameTimer.Start();
-            Controls.Add(timeLabel);
-
-            countBulletsLabel = new Label()
-            {
-                Size = new Size(200, 200),
-                Font = new Font("Arial Rounded MT Bold", 30),
-                BackColor = Color.Transparent,
-                Location = new Point(1160, 666)
-            };
-            Controls.Add(countBulletsLabel);
         }
     }
 }
