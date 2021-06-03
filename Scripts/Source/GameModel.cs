@@ -55,8 +55,11 @@ namespace Top_Down_shooter
             for (var i = 0; i < GameSettings.CountHPPowerups; i++)
             {
                 var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+                var powerup = new HP(new Powerup(tile.X, tile.Y));
 
-                Powerups.Add(new HP(new Powerup(tile.X, tile.Y)));
+                Powerups.Add(powerup);
+
+                GameRender.AddDynamicRenderFor(powerup);
                 Physics.AddToTrackingCollisions(Powerups.Last().Collider);
             }
 
