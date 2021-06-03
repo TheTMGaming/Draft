@@ -36,6 +36,7 @@ namespace Top_Down_shooter
 
             Boss = new Boss(GameSettings.MapWidth / 2 , GameSettings.MapHeight / 2, GameSettings.BossHealth);
             HealthBarBoss = new HealthBar(Boss);
+            Physics.AddToTrackingCollisions(Boss.Collider);
             Physics.AddToTrackingCollisions(Boss.HitBox);
 
             Map = new Map();

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
@@ -46,7 +42,7 @@ namespace Top_Down_shooter.Scripts.Components
             foreach (var node in Map)
                 node.IsObstacle = false;
 
-            foreach (var collider in Physics.Colliders.Where(collider => !collider.IsTrigger))
+            foreach (var collider in Physics.Colliders.Where(collider => !collider.IsIgnoreNavMesh))
             {
                 var rect = collider.Transform;
 

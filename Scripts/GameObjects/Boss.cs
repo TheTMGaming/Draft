@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using Top_Down_shooter.Scripts.Components;
-using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -18,7 +11,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Y = y;
             Health = health;
 
-            HitBox = new Collider(this, localX: 0, localY: 0, width: 110, height: 256, isTrigger: true);
+            Collider = new Collider(this, 10, 10, 150, 270, isIgnoreNavMesh: true);
+            HitBox = new Collider(this, localX: 0, localY: 0, width: 110, height: 256, isTrigger: true, isIgnoreNavMesh: true);
         }
 
         public void Update()
