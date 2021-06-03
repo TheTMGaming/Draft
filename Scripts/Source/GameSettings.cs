@@ -19,7 +19,7 @@ namespace Top_Down_shooter.Scripts.Source
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
         public const int SmallLoot = 5;
-        public const int BigLoot = 10;
+        public const int BigLoot = 15;
         public const float ProbabilityBigLoot = 0.4f;
         public const int CountSmallLoots = 10;
 
