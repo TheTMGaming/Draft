@@ -13,7 +13,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         public static HashSet<Collider> Colliders => new HashSet<Collider>(trackingColliders);
 
         private static readonly QuadTree colliders;
-        private static readonly HashSet<Collider> trackingColliders;
+        private static readonly LinkedList<Collider> trackingColliders;
 
         private static readonly int TimeUpdate = 300;
 
@@ -21,7 +21,7 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             colliders = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
 
-            trackingColliders = new HashSet<Collider>();
+            trackingColliders = new LinkedList<Collider>();
         }
 
         public static bool IsCollided(GameObject gameObject) => IsCollided(gameObject, out var other);
@@ -39,8 +39,8 @@ namespace Top_Down_shooter.Scripts.Controllers
             {
                 colliders.Clear();
 
-                foreach (var obj in trackingColliders)
-                    colliders.Insert(obj);
+                for (var collider = trackingColliders.First; !(collider is null); collider = collider.Next)
+                    colliders.Insert(collider.Value);
 
                 Thread.Sleep(TimeUpdate);
             }
@@ -48,7 +48,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static void AddToTrackingCollisions(Collider collider)
         {
-            trackingColliders.Add(collider);
+            trackingColliders.AddLast(collider);
         }
 
         public static void RemoveFromTrackingCollisions(Collider collider)
