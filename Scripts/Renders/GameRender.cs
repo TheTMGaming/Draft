@@ -24,8 +24,6 @@ namespace Top_Down_shooter
 
         private static readonly Random randGenerator = new Random();
 
-        private static bool flag;
-
         static GameRender()
         {
             for (var i = 0; i < 4; i++)
@@ -63,7 +61,6 @@ namespace Top_Down_shooter
 
         public static void DrawScene(D2DGraphicsDevice device)
         {
-            flag = false;
             foreach (var render in renders
                 .Where(x => x is TileRender && IsInCameraFocus(x))
                 .Concat(renders.Where(x => x is ImageRender && IsInCameraFocus(x)))

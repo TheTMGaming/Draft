@@ -43,8 +43,8 @@ namespace Top_Down_shooter.Scripts.Source
         // Boss.Fire
         public const int FireDamage = 50;
         public const int FireCooldown = 1000;
-        public const int FireMinSpeed = 40;
-        public const int FireMaxSpeed = 60;
+        public const int FireMinSpeed = 20;
+        public const int FireMaxSpeed = 30;
 
         // Enemy.Tank
         public const int TankHealthMax = 80;
