@@ -15,14 +15,17 @@ namespace Top_Down_shooter
         public static Boss Boss;
 
         public static List<Enemy> Enemies;
+        public static Queue<Enemy> NewEnemies = new Queue<Enemy>();
 
 
         public static List<Fire> Fires;
         public static LinkedList<Fire> MovingFires;
+        public static Queue<Fire> NewFires = new Queue<Fire>();
 
         public static HashSet<Powerup> Powerups;
 
         public static LinkedList<Bullet> Bullets;
+        public static Queue<Bullet> NewBullets = new Queue<Bullet>();
 
         public static Map Map;
         public static HealthBar HealthBarPlayer;
@@ -111,9 +114,7 @@ namespace Top_Down_shooter
             var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 
                 tile.X, tile.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
 
-            Fires.Add(fire);
-
-            MovingFires.AddLast(fire);
+            NewFires.Enqueue(fire);
 
             GameRender.AddDynamicRenderFor(fire);
 
@@ -187,17 +188,11 @@ namespace Top_Down_shooter
                 .Where(t => t is Grass)
                 .ToList();
 
+            if (targets.Count == 0)
+                return;
+
             fireman.Agent.Target = targets[randGenerator.Next(0, targets.Count)].Transform;
 
-        }
-
-        public static Bullet ShootPlayer()
-        {
-            var newSpawn = RotatePoint(Player.Gun.SpawnBullets, Player.Gun.Angle);
-
-            return new Bullet(Player,
-                Player.Gun.X + newSpawn.X, Player.Gun.Y + newSpawn.Y,
-                GameSettings.PlayerBulletSpeed, Player.Gun.Angle, GameSettings.PlayerDamage);
         }
 
         public static void ChangeBoxToGrass(Box box)
@@ -208,14 +203,6 @@ namespace Top_Down_shooter
                 (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = grass;
 
             GameRender.AddTIleRender(grass);
-        }
-
-        private static Point RotatePoint(Point point, float angleInRadian)
-        {
-            return new Point(
-                (int)(point.X * Math.Cos(angleInRadian) - point.Y * Math.Sin(angleInRadian)),
-                (int)(point.Y * Math.Cos(angleInRadian) + point.X * Math.Sin(angleInRadian))
-                );
         }
     }
 }

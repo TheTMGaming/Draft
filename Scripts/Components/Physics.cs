@@ -14,15 +14,20 @@ namespace Top_Down_shooter.Scripts.Controllers
         public static HashSet<Collider> Colliders => new HashSet<Collider>(trackingColliders);
 
         private static readonly QuadTree colliders;
-        private static readonly LinkedList<Collider> trackingColliders;
+        private static readonly HashSet<Collider> trackingColliders;
+
+        private static readonly Queue<Collider> newColliders = new Queue<Collider>();
+        private static readonly Queue<Collider> removedColliders = new Queue<Collider>();
 
         private static readonly int TimeUpdate = 20;
+
+        private static readonly object locker = new object();
 
         static Physics()
         {
             colliders = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
 
-            trackingColliders = new LinkedList<Collider>();
+            trackingColliders = new HashSet<Collider>();
         }
 
         public static bool IsCollided(GameObject gameObject) => IsCollided(gameObject, out var other);
@@ -38,10 +43,19 @@ namespace Top_Down_shooter.Scripts.Controllers
         {
             while (true)
             {
-                colliders.Clear();
+                lock (locker)
+                {
+                    while (newColliders.Count > 0)
+                        trackingColliders.Add(newColliders.Dequeue());
 
-                for (var collider = trackingColliders.First; !(collider is null); collider = collider.Next)
-                    colliders.Insert(collider.Value);
+                    while (removedColliders.Count > 0)
+                        trackingColliders.Remove(removedColliders.Dequeue());
+
+                    colliders.Clear();
+
+                    foreach (var collider in trackingColliders)
+                        colliders.Insert(collider);
+                }
 
                 Thread.Sleep(TimeUpdate);
             }
@@ -49,27 +63,30 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static void AddToTrackingCollisions(Collider collider)
         {
-            trackingColliders.AddLast(collider);
+            newColliders.Enqueue(collider);
         }
 
         public static void RemoveFromTrackingCollisions(Collider collider)
         {
-            trackingColliders.Remove(collider);
+            removedColliders.Enqueue(collider);
         }
 
         private static List<GameObject> GetCollisions(Collider collider)
         {
-            var collisions = new List<GameObject>();
-
-            foreach (var otherCollider in colliders.GetCandidateToCollision(collider))
+            lock (locker)
             {
-                if (collider.IntersectsWith(otherCollider))
-                {
-                    collisions.Add(otherCollider.GameObject);
-                }
-            }
+                var collisions = new List<GameObject>();
 
-            return collisions;
+                foreach (var otherCollider in colliders.GetCandidateToCollision(collider))
+                {
+                    if (collider.IntersectsWith(otherCollider))
+                    {
+                        collisions.Add(otherCollider.GameObject);
+                    }
+                }
+
+                return collisions;
+            }
         }
     }
 }

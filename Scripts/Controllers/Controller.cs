@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Top_Down_shooter.Scripts.GameObjects;
+using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {
     static class Controller
     {
-        public static readonly Queue<Bullet> SpawnedBullets = new Queue<Bullet>();
-
         [DllImport("user32.dll")]
         private static extern short GetKeyState(Keys key);
 
@@ -48,8 +47,13 @@ namespace Top_Down_shooter.Scripts.Controllers
                 else if (!wasShot && GameModel.Player.Gun.CountBullets > 0)
                 {
                     wasShot = true;
+   
+                    var newSpawn = RotatePoint(GameModel.Player.Gun.SpawnBullets, GameModel.Player.Gun.Angle);   
 
-                    SpawnedBullets.Enqueue(GameModel.ShootPlayer());
+                    GameModel.NewBullets.Enqueue(new Bullet(GameModel.Player,
+                            GameModel.Player.Gun.X + newSpawn.X, GameModel.Player.Gun.Y + newSpawn.Y,
+                            GameSettings.PlayerBulletSpeed, GameModel.Player.Gun.Angle, GameSettings.PlayerDamage));
+
                     Thread.Sleep(GameModel.Player.Gun.Cooldown);
                 }
             }
@@ -74,5 +78,12 @@ namespace Top_Down_shooter.Scripts.Controllers
             return isPressed;
         }
 
+        private static Point RotatePoint(Point point, float angleInRadian)
+        {
+            return new Point(
+                (int)(point.X * Math.Cos(angleInRadian) - point.Y * Math.Sin(angleInRadian)),
+                (int)(point.Y * Math.Cos(angleInRadian) + point.X * Math.Sin(angleInRadian))
+                );
+        }
     }
 }

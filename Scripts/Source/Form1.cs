@@ -83,15 +83,7 @@ namespace Top_Down_shooter
 
             UpdateBullets();
 
-            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
-            {
-                fire.Value.Move();
-
-                if (fire.Value.IsCompleteMoving)
-                {
-                    GameModel.MovingFires.Remove(fire);            
-                }
-            }
+            UpdateFires();
 
             Invalidate();
             
@@ -165,6 +157,10 @@ namespace Top_Down_shooter
         private void UpdateEnemies()
         {
             GameModel.Boss.LookAt(GameModel.Player.Transform);
+
+            while (GameModel.NewEnemies.Count > 0)
+                GameModel.Enemies.Add(GameModel.NewEnemies.Dequeue());
+
             foreach (var enemy in GameModel.Enemies)
             {
                 if (enemy is Fireman fireman)
@@ -196,10 +192,10 @@ namespace Top_Down_shooter
 
         private void UpdateBullets()
         {
-            GameModel.Player.Gun.CountBullets -= Controller.SpawnedBullets.Count;
-            while (Controller.SpawnedBullets.Count > 0)
+            GameModel.Player.Gun.CountBullets -= GameModel.NewBullets.Count;
+            while (GameModel.NewBullets.Count > 0)
             {
-                var bullet = Controller.SpawnedBullets.Dequeue();
+                var bullet = GameModel.NewBullets.Dequeue();
 
                 GameModel.Bullets.AddLast(bullet);
 
@@ -251,6 +247,27 @@ namespace Top_Down_shooter
                         GameRender.RemoveDynamicRenderFrom(bullet.Value);
                         Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
                     }
+                }
+            }
+        }
+
+        private void UpdateFires()
+        {
+            while (GameModel.NewFires.Count > 0)
+            {
+                var fire = GameModel.NewFires.Dequeue();
+
+                GameModel.Fires.Add(fire);
+                GameModel.MovingFires.AddLast(fire);
+            }
+
+            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
+            {
+                fire.Value.Move();
+
+                if (fire.Value.IsCompleteMoving)
+                {
+                    GameModel.MovingFires.Remove(fire);
                 }
             }
         }

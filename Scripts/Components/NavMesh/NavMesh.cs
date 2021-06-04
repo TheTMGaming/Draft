@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
@@ -11,7 +13,7 @@ namespace Top_Down_shooter.Scripts.Components
     static class NavMesh
     {
         public static readonly Node[,] Map;
-        public static readonly LinkedList<NavMeshAgent> Agents = new LinkedList<NavMeshAgent>();
+        public static readonly List<NavMeshAgent> Agents = new List<NavMeshAgent>();
         public static readonly Dictionary<GameObject, List<Node>> Obstacles = new Dictionary<GameObject, List<Node>>();
 
         public static readonly int Width;
@@ -21,6 +23,10 @@ namespace Top_Down_shooter.Scripts.Components
         public static readonly int TimeUpdate = 50;
 
         public static readonly int CostOrthogonalPoint = 10;
+
+        private static readonly Queue<NavMeshAgent> newAgents = new Queue<NavMeshAgent>();
+
+        private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         static NavMesh()
         {
@@ -77,18 +83,28 @@ namespace Top_Down_shooter.Scripts.Components
         {
             while (true)
             {
+                cancellationTokenSource = new CancellationTokenSource();
+                Console.WriteLine(cancellationTokenSource.IsCancellationRequested);
+
+                while (newAgents.Count > 0)
+                    Agents.Add(newAgents.Dequeue());
+
                 Bake();
 
-                for (var agent = Agents.First; !(agent is null); agent = agent.Next)
-                    agent.Value.ComputePath();
+                foreach (var agent in Agents)
+                {
+                    Task.Run(() => agent.ComputePath(), cancellationTokenSource.Token);                   
+                }
 
                 Thread.Sleep(TimeUpdate);
+
+                cancellationTokenSource.Cancel();
             }
         }
 
         public static void AddAgent(NavMeshAgent agent)
         {
-            Agents.AddLast(agent);
+            newAgents.Enqueue(agent);
         }
     }
 }
