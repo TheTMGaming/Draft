@@ -218,12 +218,19 @@ namespace Top_Down_shooter
                         if (other is Box box)
                         {
                             box.Health -= bullet.Value.Damage;
-                            if (box.Health == 0)
+                            if (box.Health < 1)
                             {
                                 GameModel.ChangeBoxToGrass(box);
                                 Physics.RemoveFromTrackingCollisions(box.Collider);
                                 GameRender.RemoveDynamicRenderFrom(box);
                             }
+
+                            willBeDestroyed = true;
+                        }
+
+                        if (other is Player && !(bullet.Value.Parent is Player))
+                        {
+                            GameModel.Player.Health -= bullet.Value.Damage;
 
                             willBeDestroyed = true;
                         }

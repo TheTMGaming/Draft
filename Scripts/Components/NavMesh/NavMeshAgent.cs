@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using Top_Down_shooter.Scripts.GameObjects;
 
 namespace Top_Down_shooter.Scripts.Components
