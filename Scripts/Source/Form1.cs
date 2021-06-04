@@ -64,7 +64,7 @@ namespace Top_Down_shooter
           
             device.Graphics.DrawText(
                 GameModel.Player.Gun.CountBullets.ToString(), 
-                D2DColor.Black, "Intro", 35,
+                D2DColor.Black, "Chinese Rocks", 35,
                 GameRender.Camera.X + positionLableCountBullets.X, GameRender.Camera.Y + positionLableCountBullets.Y);
 
             device.Graphics.DrawBitmap(bulletIcon, new D2DRect(
