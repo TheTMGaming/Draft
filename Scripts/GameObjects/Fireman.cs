@@ -10,7 +10,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public bool IsCompleteMovingToTarget { get; private set; }
 
-        public readonly NavMeshAgent Agent;
+        public NavMeshAgent Agent { get; private set; }
+
         private readonly Timer fire;
 
         private Point nextCheckpoint;
@@ -29,7 +30,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             nextCheckpoint = GameModel.Player.Transform;
 
-            fire = new Timer(new TimerCallback((e) => Fire()), null, delayCooldown, GameSettings.FiremanCooldown);
+            fire = new Timer(new TimerCallback((e) => GameModel.ShootFireman(this)), null, delayCooldown, GameSettings.FiremanCooldown);
 
             Agent.Target = GameModel.Player.Transform;
         }
@@ -60,18 +61,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             LookAt(GameModel.Player.Transform);
 
-        }
-
-        private void Fire()
-        {
-            if (Math.Sqrt((X - GameModel.Player.X) * (X - GameModel.Player.X) 
-                + (Y - GameModel.Player.Y) * (Y - GameModel.Player.Y)) <= GameSettings.FiremanDistanceFire)
-            {
-                var angle = (float)Math.Atan2(GameModel.Player.Y - Y, GameModel.Player.X - X);
-                var bullet = new Bullet(this, X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
-
-                GameModel.NewBullets.Enqueue(bullet);
-            }
         }
     }
 }

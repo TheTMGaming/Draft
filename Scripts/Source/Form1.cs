@@ -156,140 +156,172 @@ namespace Top_Down_shooter
 
         private void UpdateEnemies()
         {
-            GameModel.Boss.LookAt(GameModel.Player.Transform);
-
-            while (GameModel.NewEnemies.Count > 0)
-                GameModel.Enemies.Add(GameModel.NewEnemies.Dequeue());
-
-            foreach (var enemy in GameModel.Enemies)
+            lock (GameModel.LockerEnemies)
             {
-                if (enemy is Fireman fireman)
-                    GameModel.UpdateTargetFireman(fireman);
+                GameModel.Boss.LookAt(GameModel.Player.Transform);
 
-                enemy.Move();
-
-                if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))
+                while (GameModel.NewEnemies.Count > 0)
                 {
-                    foreach (var other in collisions)
-                    {
-                        if (other is Fire fire && fire.CanKick)
-                        {
-                            fire.CanKick = false;
-                            enemy.Health -= GameSettings.FireDamage;
-                            if (enemy.Health < 1)
-                                GameModel.RespawnEnemy(enemy);
-                        }
+                    var enemy = GameModel.NewEnemies.Dequeue();
 
-                        if (other is Player && tank.CanKick)
+                    if (enemy is null)
+                        continue;
+
+                    GameModel.Enemies.Add(enemy);
+                }
+
+
+                foreach (var enemy in GameModel.Enemies)
+                {
+                    if (enemy.Health < 1)
+                    {
+                        if (enemy is Tank)
+                            GameModel.RespawnEnemy(enemy);
+
+                        if (enemy is Fireman _fireman)
                         {
-                            GameModel.Player.Health -= GameSettings.TankDamage;
-                            tank.CanKick = false;
+                            GameModel.RemovedEnemies.Enqueue(enemy);
+                            NavMesh.RemoveAgent(_fireman.Agent);
                         }
                     }
+
+                    if (enemy is Fireman fireman)
+                        GameModel.UpdateTargetFireman(fireman);
+
+                    enemy.Move();
+
+                    if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))
+                    {
+                        foreach (var other in collisions)
+                        {
+                            if (other is Fire fire && fire.CanKick)
+                            {
+                                fire.CanKick = false;
+                                enemy.Health -= GameSettings.FireDamage;
+                            }
+
+                            if (other is Player && tank.CanKick)
+                            {
+                                GameModel.Player.Health -= GameSettings.TankDamage;
+                                tank.CanKick = false;
+                            }
+                        }
+                    }
+                }
+
+                while (GameModel.RemovedEnemies.Count > 0)
+                {
+                    var enemy = GameModel.RemovedEnemies.Dequeue();
+                    GameModel.Enemies.Remove(enemy);
+                    GameRender.RemoveRender(enemy);
                 }
             }
         }
 
         private void UpdateBullets()
         {
-            while (GameModel.NewBullets.Count > 0)
+            lock (GameModel.LockerBullets)
             {
-                var bullet = GameModel.NewBullets.Dequeue();
-
-                if (bullet is null)
-                    continue;
-
-                if (bullet.Parent is Player)
-                    GameModel.Player.Gun.CountBullets--;
-
-                GameModel.Bullets.Add(bullet);
-
-                GameRender.AddRenderFor(bullet);
-            }
-
-
-            foreach (var bullet in GameModel.Bullets)
-            {
-                bullet.Move();
-
-                if (Physics.IsCollided(bullet, out var collisions))
+                while (GameModel.NewBullets.Count > 0)
                 {
-                    var willBeDestroyed = false;
+                    var bullet = GameModel.NewBullets.Dequeue();
 
-                    foreach (var other in collisions)
-                    {
-                        if (other is Block)
-                            willBeDestroyed = true;
+                    if (bullet is null)
+                        continue;
 
-                        if (other is Box box)
-                        {
-                            box.Health -= bullet.Damage;
-                            if (box.Health < 1)
-                            {
-                                GameModel.ChangeBoxToGrass(box);
-                                Physics.RemoveFromTrackingCollisions(box.Collider);
-                                GameRender.RemoveRender(box);
-                            }
+                    if (bullet.Parent is Player)
+                        GameModel.Player.Gun.CountBullets--;
 
-                            willBeDestroyed = true;
-                        }
+                    GameModel.Bullets.Add(bullet);
 
-                        if (other is Player && !(bullet.Parent is Player))
-                        {
-                            GameModel.Player.Health -= bullet.Damage;
-
-                            willBeDestroyed = true;
-                        }
-
-                        if (other is Enemy enemy)
-                        {
-                            if (enemy is Fireman && bullet.Parent is Fireman)
-                                continue;
-
-                            enemy.Health -= bullet.Damage;
-                            if (!(enemy is Boss && enemy is Fireman) && enemy.Health < 1)
-                                GameModel.RespawnEnemy(enemy);
-
-                            willBeDestroyed = true;
-                        }
-                    }
-
-                    if (willBeDestroyed)
-                    {
-                        GameModel.DeletedBullets.Enqueue(bullet);
-                        GameRender.RemoveRender(bullet);
-                        Physics.RemoveFromTrackingCollisions(bullet.Collider);
-                    }
+                    GameRender.AddRenderFor(bullet);
                 }
 
-            }
 
-            while (GameModel.DeletedBullets.Count > 0)
-            {
-                var removedBullet = GameModel.DeletedBullets.Dequeue();
+                foreach (var bullet in GameModel.Bullets)
+                {
+                    bullet.Move();
 
-                GameModel.Bullets.Remove(removedBullet);
-                GameRender.RemoveRender(removedBullet);
+                    if (Physics.IsCollided(bullet, out var collisions))
+                    {
+                        var willBeDestroyed = false;
+
+                        foreach (var other in collisions)
+                        {
+                            if (other is Block)
+                                willBeDestroyed = true;
+
+                            if (other is Box box)
+                            {
+                                box.Health -= bullet.Damage;
+                                if (box.Health < 1)
+                                {
+                                    GameModel.ChangeBoxToGrass(box);
+                                    Physics.RemoveFromTrackingCollisions(box.Collider);
+                                    GameRender.RemoveRender(box);
+                                }
+
+                                willBeDestroyed = true;
+                            }
+
+                            if (other is Player && !(bullet.Parent is Player))
+                            {
+                                GameModel.Player.Health -= bullet.Damage;
+
+                                willBeDestroyed = true;
+                            }
+
+                            if (other is Enemy enemy)
+                            {
+                                if (enemy is Fireman && bullet.Parent is Fireman)
+                                    continue;
+
+                                enemy.Health -= bullet.Damage;
+
+                                willBeDestroyed = true;
+                            }
+                        }
+
+                        if (willBeDestroyed)
+                        {
+                            GameModel.DeletedBullets.Enqueue(bullet);
+                            GameRender.RemoveRender(bullet);
+                            Physics.RemoveFromTrackingCollisions(bullet.Collider);
+                        }
+                    }
+
+                }
+
+                while (GameModel.DeletedBullets.Count > 0)
+                {
+                    var removedBullet = GameModel.DeletedBullets.Dequeue();
+
+                    GameModel.Bullets.Remove(removedBullet);
+                    GameRender.RemoveRender(removedBullet);
+                }
             }
         }
 
         private void UpdateFires()
         {
-            while (GameModel.NewFires.Count > 0)
+            lock (GameModel.LockerFires)
             {
-                var fire = GameModel.NewFires.Dequeue();
-
-                GameModel.Fires.Add(fire);
-                GameModel.MovingFires.AddLast(fire);
-            }
-
-            for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
-            {
-                fire.Value.Move();
-
-                if (fire.Value.IsCompleteMoving)
+                while (GameModel.NewFires.Count > 0)
                 {
-                    GameModel.MovingFires.Remove(fire);
+                    var fire = GameModel.NewFires.Dequeue();
+
+                    GameModel.Fires.Add(fire);
+                    GameModel.MovingFires.AddLast(fire);
+                }
+
+                for (var fire = GameModel.MovingFires.First; !(fire is null); fire = fire.Next)
+                {
+                    fire.Value.Move();
+
+                    if (fire.Value.IsCompleteMoving)
+                    {
+                        GameModel.MovingFires.Remove(fire);
+                    }
                 }
             }
         }

@@ -46,14 +46,16 @@ namespace Top_Down_shooter.Scripts.Controllers
                     wasShot = false;
                 else if (!wasShot && GameModel.Player.Gun.CountBullets > 0)
                 {
-                    wasShot = true;
-   
-                    var newSpawn = RotatePoint(GameModel.Player.Gun.SpawnBullets, GameModel.Player.Gun.Angle);   
+                    lock (GameModel.LockerBullets)
+                    {
+                        wasShot = true;
 
-                    GameModel.NewBullets.Enqueue(new Bullet(GameModel.Player,
-                            GameModel.Player.Gun.X + newSpawn.X, GameModel.Player.Gun.Y + newSpawn.Y,
-                            GameSettings.PlayerBulletSpeed, GameModel.Player.Gun.Angle, GameSettings.PlayerDamage));
+                        var newSpawn = RotatePoint(GameModel.Player.Gun.SpawnBullets, GameModel.Player.Gun.Angle);
 
+                        GameModel.NewBullets.Enqueue(new Bullet(GameModel.Player,
+                                GameModel.Player.Gun.X + newSpawn.X, GameModel.Player.Gun.Y + newSpawn.Y,
+                                GameSettings.PlayerBulletSpeed, GameModel.Player.Gun.Angle, GameSettings.PlayerDamage));
+                    }
                     Thread.Sleep(GameModel.Player.Gun.Cooldown);
                 }
             }

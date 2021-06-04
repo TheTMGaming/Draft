@@ -63,12 +63,18 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static void AddToTrackingCollisions(Collider collider)
         {
-            newColliders.Enqueue(collider);
+            lock (locker)
+            {
+                newColliders.Enqueue(collider);
+            }
         }
 
         public static void RemoveFromTrackingCollisions(Collider collider)
         {
-            removedColliders.Enqueue(collider);
+            lock (locker)
+            {
+                removedColliders.Enqueue(collider);
+            }
         }
 
         private static List<GameObject> GetCollisions(Collider collider)

@@ -14,16 +14,19 @@ namespace Top_Down_shooter
         public static Player Player;
         public static Boss Boss;
 
+        public static readonly object LockerEnemies = new object();
         public static List<Enemy> Enemies;
         public static Queue<Enemy> NewEnemies = new Queue<Enemy>();
+        public static Queue<Enemy> RemovedEnemies = new Queue<Enemy>();
 
-
+        public static readonly object LockerFires = new object();
         public static List<Fire> Fires;
         public static LinkedList<Fire> MovingFires;
         public static Queue<Fire> NewFires = new Queue<Fire>();
 
         public static HashSet<Powerup> Powerups;
 
+        public static readonly object LockerBullets = new object();
         public static HashSet<Bullet> Bullets = new HashSet<Bullet>();
         public static Queue<Bullet> NewBullets = new Queue<Bullet>();
         public static Queue<Bullet> DeletedBullets = new Queue<Bullet>();
@@ -33,6 +36,7 @@ namespace Top_Down_shooter
         public static HealthBar HealthBarBoss;
 
         private static readonly Random randGenerator = new Random();
+
 
         public static void Initialize()
         {
@@ -108,16 +112,19 @@ namespace Top_Down_shooter
 
         public static void SpawnFire()
         {
-            var tile = Map.GetTileIn(Player.X, Player.Y);
+            lock (LockerFires)
+            {
+                var tile = Map.GetTileIn(Player.X, Player.Y);
 
-            var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, 
-                tile.X, tile.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
+                var fire = new Fire(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2,
+                    tile.X, tile.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
 
-            NewFires.Enqueue(fire);
+                NewFires.Enqueue(fire);
 
-            GameRender.AddRenderFor(fire);
+                GameRender.AddRenderFor(fire);
 
-            Physics.AddToTrackingCollisions(fire.Collider);
+                Physics.AddToTrackingCollisions(fire.Collider);
+            }
         }
 
         public static void RespawnStaticPowerup(Powerup powerup)
@@ -202,6 +209,21 @@ namespace Top_Down_shooter
                 (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = grass;
 
             GameRender.AddRenderFor(grass);
+        }
+
+        public static void ShootFireman(Fireman fireman)
+        {
+            lock (LockerBullets)
+            {
+                if (Math.Sqrt((fireman.X - Player.X) * (fireman.X - Player.X)
+                    + (fireman.Y - Player.Y) * (fireman.Y - Player.Y)) <= GameSettings.FiremanDistanceFire)
+                {
+                    var angle = (float)Math.Atan2(Player.Y - fireman.Y, Player.X - fireman.X);
+                    var bullet = new Bullet(fireman, fireman.X, fireman.Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
+
+                    NewBullets.Enqueue(bullet);
+                }
+            }
         }
     }
 }

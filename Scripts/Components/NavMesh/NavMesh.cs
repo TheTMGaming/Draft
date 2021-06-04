@@ -11,7 +11,8 @@ namespace Top_Down_shooter.Scripts.Components
     static class NavMesh
     {
         public static readonly Node[,] Map;
-        public static readonly List<NavMeshAgent> Agents = new List<NavMeshAgent>();
+        public static List<NavMeshAgent> Agents = new List<NavMeshAgent>();
+
         public static readonly Dictionary<GameObject, List<Node>> Obstacles = new Dictionary<GameObject, List<Node>>();
 
         public static readonly int Width;
@@ -23,6 +24,7 @@ namespace Top_Down_shooter.Scripts.Components
         public static readonly int CostOrthogonalPoint = 10;
 
         private static readonly Queue<NavMeshAgent> newAgents = new Queue<NavMeshAgent>();
+        private static readonly HashSet<NavMeshAgent> removedAgent = new HashSet<NavMeshAgent>();
 
         static NavMesh()
         {
@@ -82,6 +84,12 @@ namespace Top_Down_shooter.Scripts.Components
                 while (newAgents.Count > 0)
                     Agents.Add(newAgents.Dequeue());
 
+                Agents = Agents
+                    .Where(agent => !(agent is null) && !removedAgent.Contains(agent))
+                    .ToList();
+
+                removedAgent.Clear();
+
                 Bake();
 
                 foreach (var agent in Agents)
@@ -93,7 +101,12 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static void AddAgent(NavMeshAgent agent)
         {
-            newAgents.Enqueue(agent);
+             newAgents.Enqueue(agent);
+        }
+
+        public static void RemoveAgent(NavMeshAgent agent)
+        {
+            removedAgent.Add(agent);
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Threading;
-using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
 
@@ -14,7 +9,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public bool CanKick { get; set; }
 
-        public readonly NavMeshAgent Agent;
+        public NavMeshAgent Agent { get;private set; }
+
         private readonly Timer cooldown;
 
         private Point nextCheckpoint;

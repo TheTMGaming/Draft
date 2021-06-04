@@ -110,45 +110,48 @@ namespace Top_Down_shooter
 
         public static void AddRenderFor(GameObject gameObject)
         {
-            if (gameObject is Box box)
-                newRenders.Enqueue(new TileRender(box, boxImage));
-
-            if (gameObject is Grass grass)
-                newRenders.Enqueue(new TileRender(grass, grassImage[grass.ID]));
-
-            if (gameObject is Block block)
-                newRenders.Enqueue(new TileRender(block, blockImage));
-
-            if (gameObject is Tank tank)
-                newRenders.Enqueue(new CharacterRender(tank, tankImage, stateCount: 4, frameCount: 2));
-
-            if (gameObject is Fireman fireman)
-                newRenders.Enqueue(new CharacterRender(fireman, firemanImage, stateCount: 4, frameCount: 2));
-
-            if (gameObject is Bullet bullet)
+            lock (locker)
             {
-                var image = playerBulletImage;
+                if (gameObject is Box box)
+                    newRenders.Enqueue(new TileRender(box, boxImage));
 
-                if (bullet.Parent is Fireman)
-                    image = firemanBulletImage;
+                if (gameObject is Grass grass)
+                    newRenders.Enqueue(new TileRender(grass, grassImage[grass.ID]));
 
-                newRenders.Enqueue(new BulletRender(bullet, image));
+                if (gameObject is Block block)
+                    newRenders.Enqueue(new TileRender(block, blockImage));
+
+                if (gameObject is Tank tank)
+                    newRenders.Enqueue(new CharacterRender(tank, tankImage, stateCount: 4, frameCount: 2));
+
+                if (gameObject is Fireman fireman)
+                    newRenders.Enqueue(new CharacterRender(fireman, firemanImage, stateCount: 4, frameCount: 2));
+
+                if (gameObject is Bullet bullet)
+                {
+                    var image = playerBulletImage;
+
+                    if (bullet.Parent is Fireman)
+                        image = firemanBulletImage;
+
+                    newRenders.Enqueue(new BulletRender(bullet, image));
+                }
+
+                if (gameObject is Fire fire)
+                    newRenders.Enqueue(new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount)));
+
+                if (gameObject is Powerup powerup)
+                {
+                    var image = bigLootImage;
+
+                    if (powerup is SmallLoot)
+                        image = smallLootImage;
+                    if (powerup is HP)
+                        image = heartImage;
+
+                    newRenders.Enqueue(new ImageRender(0, 0, image, parent: powerup));
+                }
             }
-
-            if (gameObject is Fire fire)
-                newRenders.Enqueue(new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount)));
-
-            if (gameObject is Powerup powerup)
-            {
-                var image = bigLootImage;
-
-                if (powerup is SmallLoot)
-                    image = smallLootImage;
-                if (powerup is HP)
-                    image = heartImage;
-
-                newRenders.Enqueue(new ImageRender(0, 0, image, parent: powerup));
-            }           
         }
 
         public static void RemoveRender(GameObject parent)
