@@ -2,7 +2,7 @@
 
 namespace Top_Down_shooter.Scripts.UI
 {
-    class HealthBar
+    class HealthBar : GameObject
     {
         public int Percent
         {

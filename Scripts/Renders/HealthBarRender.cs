@@ -12,6 +12,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public int Y { get; set; }
         public Size Size { get; set; }
 
+        public GameObject Parent => healthBar;
+
         private readonly HealthBar healthBar;
 
         private readonly ImageRender background;

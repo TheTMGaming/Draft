@@ -65,7 +65,7 @@ namespace Top_Down_shooter
 
                 Powerups.Add(powerup);
 
-                GameRender.AddDynamicRenderFor(powerup);
+                GameRender.AddRenderFor(powerup);
                 Physics.AddToTrackingCollisions(powerup.Collider);
             }      
         }
@@ -87,7 +87,7 @@ namespace Top_Down_shooter
 
             Enemies.Add(enemy);
 
-            GameRender.AddDynamicRenderFor(enemy);
+            GameRender.AddRenderFor(enemy);
 
             Physics.AddToTrackingCollisions(enemy.Collider);
 
@@ -101,7 +101,7 @@ namespace Top_Down_shooter
 
             Powerups.Add(loot);
 
-            GameRender.AddDynamicRenderFor(loot);
+            GameRender.AddRenderFor(loot);
 
             Physics.AddToTrackingCollisions(loot.Collider);       
         }
@@ -115,7 +115,7 @@ namespace Top_Down_shooter
 
             NewFires.Enqueue(fire);
 
-            GameRender.AddDynamicRenderFor(fire);
+            GameRender.AddRenderFor(fire);
 
             Physics.AddToTrackingCollisions(fire.Collider);
         }
@@ -155,7 +155,7 @@ namespace Top_Down_shooter
                 var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
 
                 Powerups.Add(loot);
-                GameRender.AddDynamicRenderFor(loot);
+                GameRender.AddRenderFor(loot);
                 Physics.AddToTrackingCollisions(loot.Collider);
             }
 
@@ -201,7 +201,7 @@ namespace Top_Down_shooter
             Map.Tiles[(box.X - GameSettings.TileSize / 2) / GameSettings.TileSize,
                 (box.Y - GameSettings.TileSize / 2) / GameSettings.TileSize] = grass;
 
-            GameRender.AddTIleRender(grass);
+            GameRender.AddRenderFor(grass);
         }
     }
 }

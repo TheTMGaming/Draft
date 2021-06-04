@@ -13,6 +13,8 @@ namespace Top_Down_shooter.Scripts.Renders
 
         public Size Size => image.Size;
 
+        public GameObject Parent => tile;
+
         private readonly GameObject tile;
         private readonly Bitmap image;
 

@@ -13,6 +13,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public int Y => bullet.Y - image.Height / 2;
         public Size Size => image.Size;
 
+        public GameObject Parent => bullet;
+
         private readonly Bullet bullet;
         private readonly Bitmap image;
 

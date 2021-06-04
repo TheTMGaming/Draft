@@ -16,10 +16,9 @@ namespace Top_Down_shooter
     {
         public static readonly Camera Camera = new Camera();
 
-        private static readonly Dictionary<GameObject, IRender> dynamicRender = new Dictionary<GameObject, IRender>();
-
-        private static HashSet<IRender> renders;
+        private static List<IRender> renders;
         private static readonly Queue<IRender> newRenders = new Queue<IRender>();
+        private static readonly HashSet<GameObject> removedRender = new HashSet<GameObject>();
 
         private static readonly Random randGenerator = new Random();
 
@@ -53,7 +52,7 @@ namespace Top_Down_shooter
 
         public static void Initialize()
         {
-            renders = new HashSet<IRender>()
+            renders = new List<IRender>()
             {
                 new CharacterRender(GameModel.Player, playerImage, 4, 2),
                 new GunRender(GameModel.Player.Gun, gunImage),
@@ -70,6 +69,11 @@ namespace Top_Down_shooter
             {
                 while (newRenders.Count > 0)
                     renders.Add(newRenders.Dequeue());
+
+                renders = renders
+                    .Where(render => !removedRender.Contains(render.Parent))
+                    .ToList();
+                removedRender.Clear();
 
                 foreach (var render in renders
                     .Where(x => x is TileRender && IsInCameraFocus(x))
@@ -104,107 +108,52 @@ namespace Top_Down_shooter
             }
         }
 
-        public static void AddTIleRender(GameObject tile)
+        public static void AddRenderFor(GameObject gameObject)
         {
-            if (tile is null)
-                return;
+            if (gameObject is Box box)
+                newRenders.Enqueue(new TileRender(box, boxImage));
 
-            if (tile is Box box)
+            if (gameObject is Grass grass)
+                newRenders.Enqueue(new TileRender(grass, grassImage[grass.ID]));
+
+            if (gameObject is Block block)
+                newRenders.Enqueue(new TileRender(block, blockImage));
+
+            if (gameObject is Tank tank)
+                newRenders.Enqueue(new CharacterRender(tank, tankImage, stateCount: 4, frameCount: 2));
+
+            if (gameObject is Fireman fireman)
+                newRenders.Enqueue(new CharacterRender(fireman, firemanImage, stateCount: 4, frameCount: 2));
+
+            if (gameObject is Bullet bullet)
             {
-                AddDynamicRenderFor(box);
-                return;
+                var image = playerBulletImage;
+
+                if (bullet.Parent is Fireman)
+                    image = firemanBulletImage;
+
+                newRenders.Enqueue(new BulletRender(bullet, image));
             }
 
-            var image = blockImage;
-            if (tile is Grass grass)
-                image = grassImage[grass.ID];
+            if (gameObject is Fire fire)
+                newRenders.Enqueue(new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount)));
 
-            newRenders.Enqueue(new TileRender(tile, image));
-        }
-
-        public static void AddDynamicRenderFor(Enemy enemy)
-        {
-            if (enemy is null)
-                return;
-
-            var image = tankImage;
-
-            if (enemy is Fireman)
-                image = firemanImage;
-
-            var render = new CharacterRender(enemy, image, 4, 2);
-
-            dynamicRender.Add(enemy, render);
-            newRenders.Enqueue(render);
-        }
-
-        public static void AddDynamicRenderFor(Bullet bullet)
-        {
-            if (bullet is null)
-                return;
-
-            var image = playerBulletImage;
-
-            if (bullet.Parent is Fireman)
-                image = firemanBulletImage;
-
-            var render = new BulletRender(bullet, image);
-
-            dynamicRender[bullet] = render;
-            newRenders.Enqueue(render);
-        }
-
-        public static void AddDynamicRenderFor(Fire fire)
-        {
-            if (fire is null)
-                return;
-
-            var render = new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount));
-
-            dynamicRender[fire] = render;
-            newRenders.Enqueue(render);
-        }
-
-        public static void AddDynamicRenderFor(Powerup powerup)
-        {
-            if (powerup is null)
-                return;
-
-            var image = bigLootImage;
-
-            if (powerup is SmallLoot)
-                image = smallLootImage;
-
-            if (powerup is HP)
-                image = heartImage;
-
-            var render = new ImageRender(0, 0, image, parent: powerup);
-
-            dynamicRender[powerup] = render;
-            newRenders.Enqueue(render);
-        }
-
-        public static void AddDynamicRenderFor(Box box)
-        {
-            if (box is null)
-                return;
-
-            var render = new TileRender(box, boxImage);
-
-            dynamicRender[box] = render;
-            newRenders.Enqueue(render);
-        }
-
-        public static void RemoveDynamicRenderFrom(GameObject gameObject)
-        {
-            if (gameObject is null)
-                return;
-
-            if (dynamicRender.TryGetValue(gameObject, out var render))
+            if (gameObject is Powerup powerup)
             {
-                renders.Remove(render);
-                dynamicRender.Remove(gameObject);
-            }
+                var image = bigLootImage;
+
+                if (powerup is SmallLoot)
+                    image = smallLootImage;
+                if (powerup is HP)
+                    image = heartImage;
+
+                newRenders.Enqueue(new ImageRender(0, 0, image, parent: powerup));
+            }           
+        }
+
+        public static void RemoveRender(GameObject parent)
+        {
+            removedRender.Add(parent);
         }
 
         private static bool IsInCameraFocus(IRender render)

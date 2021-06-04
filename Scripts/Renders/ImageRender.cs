@@ -11,6 +11,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public int Y => (!(parent is null) ? parent.Y - Size.Height / 2 : 0) + startY + (followCamera ? GameRender.Camera.Y : 0);
         public Size Size => image.Size;
 
+        public GameObject Parent => parent;
+
         private readonly Bitmap image;
         private readonly bool followCamera;
 

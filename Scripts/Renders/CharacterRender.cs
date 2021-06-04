@@ -20,6 +20,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public int StateCount { get; set; }
         public int FrameCount { get; set; }
 
+        public GameObject Parent => character;
+
         private readonly Character character;
         private readonly Bitmap atlasAnimation;
 

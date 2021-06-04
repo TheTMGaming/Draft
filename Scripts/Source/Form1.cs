@@ -129,7 +129,7 @@ namespace Top_Down_shooter
                             {
                                 GameModel.Powerups.Remove(powerup);
                                 Physics.RemoveFromTrackingCollisions(powerup.Collider);
-                                GameRender.RemoveDynamicRenderFrom(powerup);
+                                GameRender.RemoveRender(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
                         }
@@ -199,11 +199,16 @@ namespace Top_Down_shooter
 
                 GameModel.Bullets.Add(bullet);
 
-                GameRender.AddDynamicRenderFor(bullet);
+                GameRender.AddRenderFor(bullet);
             }
 
             while (GameModel.DeletedBullets.Count > 0)
-                GameModel.Bullets.Remove(GameModel.DeletedBullets.Dequeue());
+            {
+                var bullet = GameModel.DeletedBullets.Dequeue();
+
+                GameModel.Bullets.Remove(bullet);
+                GameRender.RemoveRender(bullet);
+            }
 
             foreach (var bullet in GameModel.Bullets)
             {
@@ -225,7 +230,7 @@ namespace Top_Down_shooter
                             {
                                 GameModel.ChangeBoxToGrass(box);
                                 Physics.RemoveFromTrackingCollisions(box.Collider);
-                                GameRender.RemoveDynamicRenderFrom(box);
+                                GameRender.RemoveRender(box);
                             }
 
                             willBeDestroyed = true;
@@ -238,11 +243,8 @@ namespace Top_Down_shooter
                             willBeDestroyed = true;
                         }
 
-                        if (other is Enemy enemy)
+                        if (other is Enemy enemy && !(enemy is Fireman && bullet.Parent is Fireman))
                         {
-                            if (other is Fireman && bullet.Parent is Fireman)
-                                continue;
-
                             enemy.Health -= bullet.Damage;
                             if (!(enemy is Boss && enemy is Fireman) && enemy.Health < 1)
                                 GameModel.RespawnEnemy(enemy);
@@ -254,7 +256,7 @@ namespace Top_Down_shooter
                     if (willBeDestroyed)
                     {
                         GameModel.DeletedBullets.Enqueue(bullet);
-                        GameRender.RemoveDynamicRenderFrom(bullet);
+                        GameRender.RemoveRender(bullet);
                         Physics.RemoveFromTrackingCollisions(bullet.Collider);
                     }
                 }

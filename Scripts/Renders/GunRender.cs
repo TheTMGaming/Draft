@@ -12,6 +12,8 @@ namespace Top_Down_shooter.Scripts.Renders
         public int Y => gun.Y - Size.Height / 2;
         public Size Size => image.Size;
 
+        public GameObject Parent => gun;
+
         private readonly Gun gun;
         private readonly Bitmap image;
 

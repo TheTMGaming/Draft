@@ -60,7 +60,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Physics.AddToTrackingCollisions(fireman.Collider);
             Physics.AddToTrackingCollisions(fireman.HitBox);
 
-            GameRender.AddDynamicRenderFor(fireman);
+            GameRender.AddRenderFor(fireman);
         }
     }
 }
