@@ -192,7 +192,7 @@ namespace Top_Down_shooter
 
         private void UpdateBullets()
         {
-            GameModel.Player.Gun.CountBullets -= GameModel.NewBullets.Count;
+            GameModel.Player.Gun.CountBullets -= GameModel.NewBullets.Count(bullet => !(bullet is null) && bullet.Parent is Player);
             while (GameModel.NewBullets.Count > 0)
             {
                 var bullet = GameModel.NewBullets.Dequeue();
@@ -243,8 +243,11 @@ namespace Top_Down_shooter
                             willBeDestroyed = true;
                         }
 
-                        if (other is Enemy enemy && !(enemy is Fireman && bullet.Parent is Fireman))
+                        if (other is Enemy enemy)
                         {
+                            if (enemy is Fireman && bullet.Parent is Fireman)
+                                continue;
+
                             enemy.Health -= bullet.Damage;
                             if (!(enemy is Boss && enemy is Fireman) && enemy.Health < 1)
                                 GameModel.RespawnEnemy(enemy);
