@@ -16,17 +16,15 @@ namespace Top_Down_shooter
     {
         public static readonly Camera Camera = new Camera();
 
-        private static readonly int IntervalUpdateAnimations = 250;
-
         private static readonly Dictionary<GameObject, IRender> dynamicRender = new Dictionary<GameObject, IRender>();
 
+        private static HashSet<IRender> renders;
         private static readonly Queue<IRender> newRenders = new Queue<IRender>();
-
-        private static readonly HashSet<IRender> renders = new HashSet<IRender>();
 
         private static readonly Random randGenerator = new Random();
 
         private static readonly object locker = new object();
+        private static readonly int IntervalUpdateAnimations = 250;
 
         static GameRender()
         {
@@ -55,14 +53,15 @@ namespace Top_Down_shooter
 
         public static void Initialize()
         {
-            renders.Add(new CharacterRender(GameModel.Player, playerImage, 4, 2));
-            renders.Add(new GunRender(GameModel.Player.Gun, gunImage));
-            renders.Add(new CharacterRender(GameModel.Boss, bossImage, 2, 2));
-          
-
-            renders.Add(new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true));
-            renders.Add(new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82));
-            renders.Add(new ImageRender(1100, 660, playerBulletImage, true));
+            renders = new HashSet<IRender>()
+            {
+                new CharacterRender(GameModel.Player, playerImage, 4, 2),
+                new GunRender(GameModel.Player.Gun, gunImage),
+                new CharacterRender(GameModel.Boss, bossImage, 2, 2),
+                new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true),
+                new HealthBarRender(GameModel.HealthBarBoss, GameModel.Boss, new Point(0, -150), 82),
+                new ImageRender(1100, 660, playerBulletImage, true)
+            };
         }
 
         public static void DrawScene(D2DGraphicsDevice device)
@@ -99,6 +98,7 @@ namespace Top_Down_shooter
                             render.PlayAnimation();
                         }
                     }
+
                 }
                 Thread.Sleep(IntervalUpdateAnimations);
             }
@@ -106,6 +106,9 @@ namespace Top_Down_shooter
 
         public static void AddTIleRender(GameObject tile)
         {
+            if (tile is null)
+                return;
+
             if (tile is Box box)
             {
                 AddDynamicRenderFor(box);
@@ -121,6 +124,9 @@ namespace Top_Down_shooter
 
         public static void AddDynamicRenderFor(Enemy enemy)
         {
+            if (enemy is null)
+                return;
+
             var image = tankImage;
 
             if (enemy is Fireman)
@@ -134,6 +140,9 @@ namespace Top_Down_shooter
 
         public static void AddDynamicRenderFor(Bullet bullet)
         {
+            if (bullet is null)
+                return;
+
             var image = playerBulletImage;
 
             if (bullet.Parent is Fireman)
@@ -141,20 +150,26 @@ namespace Top_Down_shooter
 
             var render = new BulletRender(bullet, image);
 
-            dynamicRender.Add(bullet, render);
+            dynamicRender[bullet] = render;
             newRenders.Enqueue(render);
         }
 
         public static void AddDynamicRenderFor(Fire fire)
         {
+            if (fire is null)
+                return;
+
             var render = new FireRender(fire, fireImage, randGenerator.Next(0, FireRender.FrameCount));
 
-            dynamicRender.Add(fire, render);
+            dynamicRender[fire] = render;
             newRenders.Enqueue(render);
         }
 
         public static void AddDynamicRenderFor(Powerup powerup)
         {
+            if (powerup is null)
+                return;
+
             var image = bigLootImage;
 
             if (powerup is SmallLoot)
@@ -165,20 +180,26 @@ namespace Top_Down_shooter
 
             var render = new ImageRender(0, 0, image, parent: powerup);
 
-            dynamicRender.Add(powerup, render);
+            dynamicRender[powerup] = render;
             newRenders.Enqueue(render);
         }
 
         public static void AddDynamicRenderFor(Box box)
         {
+            if (box is null)
+                return;
+
             var render = new TileRender(box, boxImage);
 
-            dynamicRender.Add(box, render);
+            dynamicRender[box] = render;
             newRenders.Enqueue(render);
         }
 
         public static void RemoveDynamicRenderFrom(GameObject gameObject)
         {
+            if (gameObject is null)
+                return;
+
             if (dynamicRender.TryGetValue(gameObject, out var render))
             {
                 renders.Remove(render);

@@ -13,6 +13,12 @@ namespace Top_Down_shooter.Scripts.Components
 
         private readonly Enemy enemy;
 
+        private static readonly int maxCountOpenedPoint = 800;
+        private static readonly int distanceSearching = 6;
+        private static readonly int stepSearching = 3;
+
+        private static Random randGenerator = new Random();
+
         public NavMeshAgent(Enemy enemy)
         {
             this.enemy = enemy;
@@ -33,7 +39,7 @@ namespace Top_Down_shooter.Scripts.Components
             };
             NavMesh.Map[startInMesh.X, startInMesh.Y].SetPathParameters(0, GetDistance(startInMesh, targetInMesh.Value));
 
-            while (opened.Count > 0)
+            while (opened.Count > 0 && opened.Count < maxCountOpenedPoint)
             {
                 var currPoint = opened
                     .OrderBy(p => NavMesh.Map[p.Value.X, p.Value.Y].F)
@@ -101,16 +107,23 @@ namespace Top_Down_shooter.Scripts.Components
             var pointInMesh = new Point(point.X / NavMesh.StepAgent, point.Y / NavMesh.StepAgent);
             if (!NavMesh.Map[pointInMesh.X, pointInMesh.Y].IsObstacle)
                 return pointInMesh;
-      
-            return Enumerable
-                .Range(-1, NavMesh.DistanceFromObstacle)
+
+            var targets = Enumerable
+                .Range(0, (pointInMesh.X - distanceSearching + 2 * distanceSearching - pointInMesh.X + distanceSearching) / stepSearching + 1)
+                .Select(i => pointInMesh.X - distanceSearching + stepSearching * i)
                 .SelectMany(dx => Enumerable
-                                    .Range(-1, NavMesh.DistanceFromObstacle),
-                            (dx, dy) => new Point?(new Point(pointInMesh.X + dx, pointInMesh.Y + dy)))
+                                    .Range(0, (pointInMesh.Y - distanceSearching + 2 * distanceSearching - pointInMesh.Y + distanceSearching) / stepSearching + 1)
+                                    .Select(i => pointInMesh.Y - distanceSearching + stepSearching * i),
+                            (x, y) => new Point?(new Point(x, y)))
                 .Where(neighbor =>
                     neighbor.Value.X > -1 && neighbor.Value.X < NavMesh.Width && neighbor.Value.Y > -1 && neighbor.Value.Y < NavMesh.Height
                     && (!NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].IsObstacle || NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].Parent == enemy.Collider))
-                .FirstOrDefault();
+                .ToList();
+
+            if (targets.Count == 0)
+                return null;
+
+            return targets[randGenerator.Next(0, targets.Count)];
         }
     }
 }

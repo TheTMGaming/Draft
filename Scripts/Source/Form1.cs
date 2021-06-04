@@ -40,8 +40,8 @@ namespace Top_Down_shooter
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
             RunFunctionAsync(NavMesh.Update);
-            RunFunctionAsync(GameRender.PlayAnimations);
             RunFunctionAsync(Physics.Update);
+            RunFunctionAsync(GameRender.PlayAnimations);
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -197,16 +197,19 @@ namespace Top_Down_shooter
             {
                 var bullet = GameModel.NewBullets.Dequeue();
 
-                GameModel.Bullets.AddLast(bullet);
+                GameModel.Bullets.Add(bullet);
 
                 GameRender.AddDynamicRenderFor(bullet);
             }
 
-            for (var bullet = GameModel.Bullets.First; !(bullet is null); bullet = bullet.Next)
-            {
-                bullet.Value.Move();
+            while (GameModel.DeletedBullets.Count > 0)
+                GameModel.Bullets.Remove(GameModel.DeletedBullets.Dequeue());
 
-                if (Physics.IsCollided(bullet.Value, out var collisions))
+            foreach (var bullet in GameModel.Bullets)
+            {
+                bullet.Move();
+
+                if (Physics.IsCollided(bullet, out var collisions))
                 {
                     var willBeDestroyed = false;
 
@@ -217,7 +220,7 @@ namespace Top_Down_shooter
 
                         if (other is Box box)
                         {
-                            box.Health -= bullet.Value.Damage;
+                            box.Health -= bullet.Damage;
                             if (box.Health < 1)
                             {
                                 GameModel.ChangeBoxToGrass(box);
@@ -228,19 +231,19 @@ namespace Top_Down_shooter
                             willBeDestroyed = true;
                         }
 
-                        if (other is Player && !(bullet.Value.Parent is Player))
+                        if (other is Player && !(bullet.Parent is Player))
                         {
-                            GameModel.Player.Health -= bullet.Value.Damage;
+                            GameModel.Player.Health -= bullet.Damage;
 
                             willBeDestroyed = true;
                         }
 
                         if (other is Enemy enemy)
                         {
-                            if (other is Fireman && bullet.Value.Parent is Fireman)
+                            if (other is Fireman && bullet.Parent is Fireman)
                                 continue;
 
-                            enemy.Health -= bullet.Value.Damage;
+                            enemy.Health -= bullet.Damage;
                             if (!(enemy is Boss && enemy is Fireman) && enemy.Health < 1)
                                 GameModel.RespawnEnemy(enemy);
 
@@ -250,9 +253,9 @@ namespace Top_Down_shooter
 
                     if (willBeDestroyed)
                     {
-                        GameModel.Bullets.Remove(bullet);
-                        GameRender.RemoveDynamicRenderFrom(bullet.Value);
-                        Physics.RemoveFromTrackingCollisions(bullet.Value.Collider);
+                        GameModel.DeletedBullets.Enqueue(bullet);
+                        GameRender.RemoveDynamicRenderFrom(bullet);
+                        Physics.RemoveFromTrackingCollisions(bullet.Collider);
                     }
                 }
             }

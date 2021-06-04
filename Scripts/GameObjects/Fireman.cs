@@ -70,7 +70,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
                 var angle = (float)Math.Atan2(GameModel.Player.Y - Y, GameModel.Player.X - X);
                 var bullet = new Bullet(this, X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
 
-                GameModel.Bullets.AddLast(bullet);
+                GameModel.NewBullets.Enqueue(bullet);
                 GameRender.AddDynamicRenderFor(bullet);
             }
         }

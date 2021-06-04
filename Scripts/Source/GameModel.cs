@@ -24,8 +24,9 @@ namespace Top_Down_shooter
 
         public static HashSet<Powerup> Powerups;
 
-        public static LinkedList<Bullet> Bullets;
+        public static HashSet<Bullet> Bullets = new HashSet<Bullet>();
         public static Queue<Bullet> NewBullets = new Queue<Bullet>();
+        public static Queue<Bullet> DeletedBullets = new Queue<Bullet>();
 
         public static Map Map;
         public static HealthBar HealthBarPlayer;
@@ -66,9 +67,7 @@ namespace Top_Down_shooter
 
                 GameRender.AddDynamicRenderFor(powerup);
                 Physics.AddToTrackingCollisions(powerup.Collider);
-            }
-
-            Bullets = new LinkedList<Bullet>();         
+            }      
         }
 
         public static void SpawnEnemy()
