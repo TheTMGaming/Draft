@@ -192,23 +192,21 @@ namespace Top_Down_shooter
 
         private void UpdateBullets()
         {
-            GameModel.Player.Gun.CountBullets -= GameModel.NewBullets.Count(bullet => !(bullet is null) && bullet.Parent is Player);
             while (GameModel.NewBullets.Count > 0)
             {
                 var bullet = GameModel.NewBullets.Dequeue();
+
+                if (bullet is null)
+                    continue;
+
+                if (bullet.Parent is Player)
+                    GameModel.Player.Gun.CountBullets--;
 
                 GameModel.Bullets.Add(bullet);
 
                 GameRender.AddRenderFor(bullet);
             }
 
-            while (GameModel.DeletedBullets.Count > 0)
-            {
-                var bullet = GameModel.DeletedBullets.Dequeue();
-
-                GameModel.Bullets.Remove(bullet);
-                GameRender.RemoveRender(bullet);
-            }
 
             foreach (var bullet in GameModel.Bullets)
             {
@@ -263,6 +261,15 @@ namespace Top_Down_shooter
                         Physics.RemoveFromTrackingCollisions(bullet.Collider);
                     }
                 }
+
+            }
+
+            while (GameModel.DeletedBullets.Count > 0)
+            {
+                var removedBullet = GameModel.DeletedBullets.Dequeue();
+
+                GameModel.Bullets.Remove(removedBullet);
+                GameRender.RemoveRender(removedBullet);
             }
         }
 

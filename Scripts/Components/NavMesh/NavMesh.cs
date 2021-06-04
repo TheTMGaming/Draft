@@ -18,7 +18,7 @@ namespace Top_Down_shooter.Scripts.Components
         public static readonly int Height;
         public static readonly int DistanceFromObstacle = 30;
         public static readonly int StepAgent = 16;
-        public static readonly int TimeUpdate = 50;
+        public static readonly int TimeUpdate = 70;
 
         public static readonly int CostOrthogonalPoint = 10;
 

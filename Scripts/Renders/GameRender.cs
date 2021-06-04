@@ -71,7 +71,7 @@ namespace Top_Down_shooter
                     renders.Add(newRenders.Dequeue());
 
                 renders = renders
-                    .Where(render => !(render is null) && !removedRender.Contains(render.Parent))
+                    .Where(render => !removedRender.Contains(render.Parent))
                     .ToList();
                 removedRender.Clear();
 

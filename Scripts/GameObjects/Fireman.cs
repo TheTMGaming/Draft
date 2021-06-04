@@ -71,7 +71,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
                 var bullet = new Bullet(this, X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
 
                 GameModel.NewBullets.Enqueue(bullet);
-                GameRender.AddRenderFor(bullet);
             }
         }
     }
