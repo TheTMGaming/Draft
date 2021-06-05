@@ -17,13 +17,13 @@ namespace Top_Down_shooter.Scripts.Source
 
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
-        public const int SmallLootBoost = 10;
-        public const int BigLootBoost = 20;
-        public const float ProbabilitySpawnBigLoot = 0.4f;
+        public const int SmallLootBoost = 15;
+        public const int BigLootBoost = 50;
+        public const float ProbabilitySpawnBigLoot = 0.1f;
         public const int SmallLootsCount = 20;
 
         public const int HPUp = 150;
-        public const int CountHPPowerups = 5;
+        public const int CountHPPowerups = 10;
 
         public const int BoxHealth = 40;
 
@@ -37,14 +37,14 @@ namespace Top_Down_shooter.Scripts.Source
 
         // Boss
         public const int BossHealth = 2300;
-        public const int BosCooldown = 20000;
+        public const int BossCooldown = 20000;
 
         // Boss.Fire
         public const int FireDamage = 50;
-        public const int FireCooldown = 1000;
+        public const int FireCooldown = 1500;
         public const int FireMinSpeed = 20;
         public const int FireMaxSpeed = 30;
-        public const int FireSpawnEnemy = 6000;
+        public const int FireSpawnEnemy = 15000;
 
         // Enemy.Tank
         public const int TankHealthMax = 70;
@@ -64,17 +64,17 @@ namespace Top_Down_shooter.Scripts.Source
         public const float TankChanceRepawn = 0.5f;
 
         // Enemy.Fireman
-        public const int FiremanHealth = 60;
+        public const int FiremanHealth = 30;
         public const int FiremanSpeed = 6;
         public const int FiremanDamage = 90;
 
-        public const int FiremanCooldown = 2000;
+        public const int FiremanCooldown = 7000;
 
         public const int FiremanSizeCollider = 60;
 
         public const int FiremanDistanceFire = 600;
         public const int FiremanDistanceRotation = 300;
-        public const int FiremanSpeedBullet = 15;
+        public const int FiremanSpeedBullet = 20;
 
         // Enemy.Waterman
         public const int WatermanHealth = 80;

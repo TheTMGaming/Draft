@@ -39,7 +39,7 @@ namespace Top_Down_shooter
          
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnTank);
-            RunTimeInvoker(GameSettings.BosCooldown, GameModel.SpawnFire);
+            RunTimeInvoker(GameSettings.BossCooldown, GameModel.SpawnFire);
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
@@ -292,6 +292,7 @@ namespace Top_Down_shooter
                                 {
                                     GameModel.ChangeBoxToGrass(box);
                                     Physics.RemoveFromTrackingColliders(box.Collider);
+                                    Physics.RemoveFromTrackingHitBoxes(box.Collider);
                                     GameRender.RemoveRender(box);
                                 }
 
