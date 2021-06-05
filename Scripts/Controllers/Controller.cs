@@ -17,7 +17,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static void UpdateKeyboardHandler()
         {
-            while (true)
+            while (!GameModel.IsEnd)
             {
                 if (IsKeyPressed(Keys.Up) || IsKeyPressed(Keys.W))
                     GameModel.Player.ChangeDirection(DirectionY.Up);

@@ -35,6 +35,8 @@ namespace Top_Down_shooter
         public static HealthBar HealthBarPlayer;
         public static HealthBar HealthBarBoss;
 
+        public static bool IsEnd = false;
+
         private static readonly Random randGenerator = new Random();
 
 

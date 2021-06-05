@@ -173,6 +173,16 @@ namespace Top_Down_shooter.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap GameOver {
+            get {
+                object obj = ResourceManager.GetObject("GameOver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Grass {
             get {
                 object obj = ResourceManager.GetObject("Grass", resourceCulture);
@@ -236,6 +246,16 @@ namespace Top_Down_shooter.Properties {
         public static System.Drawing.Bitmap Tank {
             get {
                 object obj = ResourceManager.GetObject("Tank", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Victory {
+            get {
+                object obj = ResourceManager.GetObject("Victory", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

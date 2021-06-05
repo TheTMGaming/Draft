@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
@@ -20,6 +19,9 @@ namespace Top_Down_shooter
         private D2DMatrix3x2 defaultTransform;
 
         private D2DBitmap bulletIcon;
+        private D2DBitmap gameOverImage;
+        private D2DBitmap victoryImage;
+
         private readonly Point positionLableCountBullets = new Point(980, 670);
         private readonly Point positionBulletIcon = new Point(910, 660);
 
@@ -49,6 +51,8 @@ namespace Top_Down_shooter
             defaultTransform = device.Graphics.GetTransform();
 
             bulletIcon = device.CreateBitmap(Resources.BulletIcon);
+            gameOverImage = device.CreateBitmap(Resources.GameOver);
+            victoryImage = device.CreateBitmap(Resources.Victory);
         }
 
         protected override void OnPaintBackground(PaintEventArgs e) { }
@@ -71,19 +75,43 @@ namespace Top_Down_shooter
                 GameRender.Camera.X + positionBulletIcon.X, 
                 GameRender.Camera.Y + positionBulletIcon.Y, 
                 bulletIcon.Size.width, bulletIcon.Size.height));
+
+            if (GameModel.IsEnd)
+            {
+                if (GameModel.Player.Health < 1)
+                {
+                    device.Graphics.DrawBitmap(gameOverImage, new D2DRect(
+                         GameRender.Camera.X + GameSettings.ScreenWidth / 2 - gameOverImage.Width / 2,
+                         GameRender.Camera.Y + GameSettings.ScreenHeight / 2 - gameOverImage.Height / 2,
+                         gameOverImage.Width, gameOverImage.Height));
+                }
+                else
+                {
+                    device.Graphics.DrawBitmap(victoryImage, new D2DRect(
+                         GameRender.Camera.X + GameSettings.ScreenWidth / 2 - victoryImage.Width / 2,
+                         GameRender.Camera.Y + GameSettings.ScreenHeight / 2 - victoryImage.Height / 2,
+                         victoryImage.Width, victoryImage.Height));
+                }
+            }
             
             device.EndRender();
         }
 
         private void UpdateGameLoop()
-        {           
-            UpdatePlayer();
+        {
+            if (!GameModel.IsEnd)
+            {
+                UpdatePlayer();
 
-            UpdateEnemies();
+                UpdateEnemies();
 
-            UpdateBullets();
+                UpdateBullets();
 
-            UpdateFires();
+                UpdateFires();
+
+                if (GameModel.Player.Health < 0 || GameModel.Boss.Health < 0)
+                    GameModel.IsEnd = true;
+            }
 
             Invalidate();
             

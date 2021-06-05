@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Threading;
-using System.Threading.Tasks;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Controllers;
 using Top_Down_shooter.Scripts.Source;
@@ -50,7 +45,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         private void SpawnFireman()
         {
-            if (!IsCompleteMoving)
+            if (!IsCompleteMoving || GameModel.IsEnd)
                 return;
 
             var fireman = new Fireman(X, Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);

@@ -164,6 +164,7 @@
     <None Include="Resources\Block.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Victory.png" />
     <None Include="Resources\BulletIcon.png" />
     <None Include="Resources\BigPowerup.png" />
     <None Include="Resources\SmallLoot.png" />
@@ -175,6 +176,7 @@
     <Content Include="d2dlib64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\GameOver.png" />
     <Content Include="Resources\Tank.png" />
   </ItemGroup>
   <ItemGroup>
