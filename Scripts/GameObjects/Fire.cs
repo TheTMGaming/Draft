@@ -51,11 +51,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
             var fireman = new Fireman(X, Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);
 
             GameModel.NewEnemies.Enqueue(fireman);
-
-            Physics.AddToTrackingColliders(fireman.Collider);
-            Physics.AddToTrackingHitBoxes(fireman.HitBox);
-
-            GameRender.AddRenderFor(fireman);
         }
     }
 }

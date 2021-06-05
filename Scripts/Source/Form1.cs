@@ -25,6 +25,8 @@ namespace Top_Down_shooter
         private readonly Point positionLableCountBullets = new Point(980, 670);
         private readonly Point positionBulletIcon = new Point(910, 660);
 
+        private readonly Random randGenerator = new Random();
+
         public Form1()
         { 
             DoubleBuffered = false;
@@ -36,7 +38,7 @@ namespace Top_Down_shooter
             GameRender.Initialize();
          
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
-            RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnEnemy);
+            RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnTank);
             RunTimeInvoker(GameSettings.BosCooldown, GameModel.SpawnFire);
 
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
@@ -191,21 +193,19 @@ namespace Top_Down_shooter
                         continue;
 
                     GameModel.Enemies.Add(enemy);
+
+                    Physics.AddToTrackingColliders(enemy.Collider);
+                    Physics.AddToTrackingHitBoxes(enemy.HitBox);
+
+                    GameRender.AddRenderFor(enemy);
                 }
 
 
                 foreach (var enemy in GameModel.Enemies)
                 {
                     if (enemy.Health < 1)
-                    {
-                        if (enemy is Tank)
-                            GameModel.RespawnEnemy(enemy);
-
-                        if (enemy is Fireman _fireman)
-                        {
-                            GameModel.RemovedEnemies.Enqueue(enemy);
-                            NavMesh.RemoveAgent(_fireman.Agent);
-                        }
+                    {                     
+                        GameModel.RemovedEnemies.Enqueue(enemy);                       
                     }
 
                     if (enemy is Fireman fireman)
@@ -235,8 +235,19 @@ namespace Top_Down_shooter
                 while (GameModel.RemovedEnemies.Count > 0)
                 {
                     var enemy = GameModel.RemovedEnemies.Dequeue();
+
                     GameModel.Enemies.Remove(enemy);
+
                     GameRender.RemoveRender(enemy);
+
+                    NavMesh.RemoveAgent(enemy.Agent);
+
+                    Physics.RemoveFromTrackingColliders(enemy.Collider);
+                    Physics.RemoveFromTrackingHitBoxes(enemy.HitBox);
+
+                    enemy.Cooldown.Dispose();
+
+                    GameModel.SpawnBigLoot(enemy);
                 }
             }
         }

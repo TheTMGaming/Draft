@@ -18,6 +18,7 @@ namespace Top_Down_shooter
         public static List<Enemy> Enemies;
         public static Queue<Enemy> NewEnemies = new Queue<Enemy>();
         public static Queue<Enemy> RemovedEnemies = new Queue<Enemy>();
+        public static Queue<Enemy> RespawnEnemies = new Queue<Enemy>();
 
         public static readonly object LockerFires = new object();
         public static List<Fire> Fires;
@@ -58,7 +59,7 @@ namespace Top_Down_shooter
 
             Enemies = new List<Enemy>();
             for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
-                SpawnEnemy();
+                SpawnTank();
 
             Powerups = new HashSet<Powerup>();
             for (var i = 0; i < GameSettings.SmallLootsCount; i++)
@@ -76,7 +77,7 @@ namespace Top_Down_shooter
             }      
         }
 
-        public static void SpawnEnemy()
+        public static void SpawnTank()
         {
             var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
 
@@ -126,6 +127,18 @@ namespace Top_Down_shooter
             }
         }
 
+        public static void SpawnBigLoot(Enemy enemy)
+        {
+            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitySpawnBigLoot)
+            {
+                var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
+
+                Powerups.Add(loot);
+                GameRender.AddRenderFor(loot);
+                Physics.AddToTrackingHitBoxes(loot.Collider);
+            }
+        }
+
         public static void RespawnStaticPowerup(Powerup powerup)
         {
             var tiles = Map.FreeTiles
@@ -141,22 +154,6 @@ namespace Top_Down_shooter
             
             powerup.X = tile.X;
             powerup.Y = tile.Y;
-        }
-
-        public static void RespawnEnemy(Enemy enemy)
-        {
-            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitySpawnBigLoot)
-            {
-                var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
-
-                Powerups.Add(loot);
-                GameRender.AddRenderFor(loot);
-                Physics.AddToTrackingHitBoxes(loot.Collider);
-            }
-
-            enemy.X = GameSettings.MapWidth / 2;
-            enemy.Y = GameSettings.MapHeight / 2;
-            enemy.Health = GameSettings.TankHealthMax;
         }
 
         public static void UpdateTargetFireman(Fireman fireman)

@@ -10,10 +10,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public bool IsCompleteMovingToTarget { get; private set; }
 
-        public NavMeshAgent Agent { get; private set; }
-
-        private readonly Timer fire;
-
         private Point nextCheckpoint;
         private Point prevCheckpoint;
 
@@ -30,7 +26,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             nextCheckpoint = GameModel.Player.Transform;
 
-            fire = new Timer(new TimerCallback((e) => GameModel.ShootFireman(this)), null, delayCooldown, GameSettings.FiremanCooldown);
+            Cooldown = new Timer(new TimerCallback((e) => GameModel.ShootFireman(this)), null, delayCooldown, GameSettings.FiremanCooldown);
 
             Agent.Target = GameModel.Player.Transform;
         }

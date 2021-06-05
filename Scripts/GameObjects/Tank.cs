@@ -9,10 +9,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public bool CanKick { get; set; }
 
-        public NavMeshAgent Agent { get;private set; }
-
-        private readonly Timer cooldown;
-
         private Point nextCheckpoint;
         private Point prevCheckpoint;
         private readonly int resetPath;
@@ -32,7 +28,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             nextCheckpoint = GameModel.Player.Transform;
 
-            cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
+            Cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
         }
 
         public override void Move(bool isReverse = false)

@@ -1,10 +1,16 @@
 ﻿using System.Drawing;
+using System.Threading;
+using Top_Down_shooter.Scripts.Components;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
     class Enemy : Character
     {
         public int Damage { get; set; }
+
+        public NavMeshAgent Agent { get; protected set; }
+
+        public Timer Cooldown { get; protected set; }
 
         public virtual void LookAt(Point target)
         {
