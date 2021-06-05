@@ -48,9 +48,12 @@ namespace Top_Down_shooter.Scripts.GameObjects
             if (!IsCompleteMoving || GameModel.IsEnd)
                 return;
 
-            var fireman = new Fireman(X, Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);
+            lock (GameModel.LockerEnemies)
+            {
+                var fireman = new Fireman(X, Y, GameSettings.FiremanHealth, GameSettings.FiremanSpeed, 0);
 
-            GameModel.NewEnemies.Enqueue(fireman);
+                GameModel.NewEnemies.Enqueue(fireman);
+            }
         }
     }
 }
