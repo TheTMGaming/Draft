@@ -99,7 +99,18 @@ namespace Top_Down_shooter
                 mousePosition.Y + GameRender.Camera.Y - GameModel.Player.Gun.Y,
                 mousePosition.X + GameRender.Camera.X - GameModel.Player.Gun.X);
 
-            GameModel.Player.Move();
+            var prevPos = GameModel.Player.Transform;
+
+            GameModel.Player.MoveX();
+            if (Physics.IsCollided(GameModel.Player, typeof(Box), typeof(Block)))
+                GameModel.Player.SetX(prevPos.X);
+
+            GameModel.Player.MoveY();
+            if (Physics.IsCollided(GameModel.Player, typeof(Box), typeof(Block)))
+                GameModel.Player.SetY(prevPos.Y);
+
+
+
             if (Physics.IsCollided(GameModel.Player, out var collisions))
             {
                 foreach (var other in collisions)
@@ -133,22 +144,6 @@ namespace Top_Down_shooter
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
                         }
-
-                        continue;
-                    }
-
-                    if (other is Box || other is Block || other is Boss)
-                    {
-                        GameModel.Player.Move(isReverse: true);
-
-                        GameModel.Player.MoveX();
-                        if (GameModel.Player.Collider.IntersectsWith(other.Collider))
-                            GameModel.Player.MoveX(isReverse: true);
-
-                        GameModel.Player.MoveY();
-                        if (GameModel.Player.Collider.IntersectsWith(other.Collider))
-                            GameModel.Player.MoveY(isReverse: true);
-
                     }
                 }
             }

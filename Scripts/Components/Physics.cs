@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
-using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
@@ -32,9 +32,11 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static bool IsCollided(GameObject gameObject) => IsCollided(gameObject, out var other);
 
-        public static bool IsCollided(GameObject gameObject, out List<GameObject> others)
+        public static bool IsCollided(GameObject gameObject, params Type[] type) => IsCollided(gameObject, out var other, type);
+
+        public static bool IsCollided(GameObject gameObject, out List<GameObject> others, params Type[] type)
         {
-            others = GetCollisions(gameObject.Collider);
+            others = GetCollisions(gameObject.Collider, type);
 
             return others.Count > 0;
         }
@@ -77,13 +79,15 @@ namespace Top_Down_shooter.Scripts.Controllers
             }
         }
 
-        private static List<GameObject> GetCollisions(Collider collider)
+        private static List<GameObject> GetCollisions(Collider collider, Type[] type)
         {
             lock (locker)
             {
                 var collisions = new List<GameObject>();
 
-                foreach (var otherCollider in colliders.GetCandidateToCollision(collider))
+                foreach (var otherCollider in colliders
+                    .GetCandidateToCollision(collider)
+                    .Where(col => type.Length == 0 || type.Any(t => col.GameObject.GetType().IsAssignableFrom(t))))
                 {
                     if (collider.IntersectsWith(otherCollider))
                     {

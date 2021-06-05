@@ -39,5 +39,29 @@ namespace Top_Down_shooter.Scripts.GameObjects
             base.Move(isReverse);
             Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
         }
+
+        public override void MoveX(bool isReverse = false)
+        {
+            base.MoveX(isReverse);
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+        }
+
+        public override void MoveY(bool isReverse = false)
+        {
+            base.MoveY(isReverse);
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+        }
+
+        public void SetX(int x)
+        {
+            X = x;
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+        }
+
+        public void SetY(int y)
+        {
+            Y = y;
+            Gun.Move(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);
+        }
     }
 }
