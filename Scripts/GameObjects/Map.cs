@@ -80,6 +80,7 @@ namespace Top_Down_shooter.Scripts.Controllers
                     Tiles[tile.Point.X, tile.Point.Y] = box;
                     GameRender.AddRenderFor(box);
                     Physics.AddToTrackingColliders(box.Collider);
+                    Physics.AddToTrackingHitBoxes(box.Collider);
                 }
                 else
                 {                  
@@ -109,6 +110,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 Physics.AddToTrackingColliders(Tiles[x, 0].Collider);
                 Physics.AddToTrackingColliders(Tiles[x, Height - 1].Collider);
+                Physics.AddToTrackingHitBoxes(Tiles[x, 0].Collider);
+                Physics.AddToTrackingHitBoxes(Tiles[x, Height - 1].Collider);
 
                 GameRender.AddRenderFor(Tiles[x, 0]);
                 GameRender.AddRenderFor(Tiles[x, Height - 1]);
@@ -122,6 +125,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
                 Physics.AddToTrackingColliders(Tiles[0, y].Collider);
                 Physics.AddToTrackingColliders(Tiles[Width - 1, y].Collider);
+                Physics.AddToTrackingHitBoxes(Tiles[0, y].Collider);
+                Physics.AddToTrackingHitBoxes(Tiles[Width - 1, y].Collider);
 
                 GameRender.AddRenderFor(Tiles[0, y]);
                 GameRender.AddRenderFor(Tiles[Width - 1, y]);

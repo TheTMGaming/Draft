@@ -117,7 +117,7 @@ namespace Top_Down_shooter.Scripts.Components
                             (x, y) => new Point?(new Point(x, y)))
                 .Where(neighbor =>
                     neighbor.Value.X > -1 && neighbor.Value.X < NavMesh.Width && neighbor.Value.Y > -1 && neighbor.Value.Y < NavMesh.Height
-                    && (!NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].IsObstacle || NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].Parent == enemy.Collider))
+                    && (!NavMesh.Map[neighbor.Value.X, neighbor.Value.Y].IsObstacle ))
                 .ToList();
 
             if (targets.Count == 0)
