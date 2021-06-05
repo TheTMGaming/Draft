@@ -13,18 +13,17 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int DelaySpawnNewMonster = 50000;
         public const int StartEnemiesCount = 3;
-        public const int DistanceBossToSpawnerPowerup = 200;
-        public const int DistancePlayerToSpawnerMonster = 700;
+        public const int DistanceBossToSpawnPowerup = 80;
 
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
-        public const int SmallLoot = 5;
-        public const int BigLoot = 15;
-        public const float ProbabilityBigLoot = 0.4f;
-        public const int CountSmallLoots = 10;
+        public const int SmallLootBoost = 5;
+        public const int BigLootBoost = 15;
+        public const float ProbabilitySpawnBigLoot = 0.4f;
+        public const int SmallLootsCount = 10;
 
         public const int HPUp = 150;
-        public const int CountHPPowerups = 5;
+        public const int CountHPPowerups = 8;
 
         public const int BoxHealth = 40;
 

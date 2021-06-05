@@ -42,12 +42,12 @@ namespace Top_Down_shooter
         {
             Player = new Player(120, 120);
             HealthBarPlayer = new HealthBar(Player);
-            Physics.AddToTrackingCollisions(Player.HitBox);
+            Physics.AddToTrackingHitBoxes(Player.HitBox);
 
             Boss = new Boss(GameSettings.MapWidth / 2 , GameSettings.MapHeight / 2, GameSettings.BossHealth);
             HealthBarBoss = new HealthBar(Boss);
-            Physics.AddToTrackingCollisions(Boss.Collider);
-            Physics.AddToTrackingCollisions(Boss.HitBox);
+            Physics.AddToTrackingColliders(Boss.Collider);
+            Physics.AddToTrackingHitBoxes(Boss.HitBox);
 
             Map = new Map();
 
@@ -59,7 +59,7 @@ namespace Top_Down_shooter
                 SpawnEnemy();
 
             Powerups = new HashSet<Powerup>();
-            for (var i = 0; i < GameSettings.CountSmallLoots; i++)
+            for (var i = 0; i < GameSettings.SmallLootsCount; i++)
                 SpawnSmallLoot();
 
             for (var i = 0; i < GameSettings.CountHPPowerups; i++)
@@ -70,7 +70,7 @@ namespace Top_Down_shooter
                 Powerups.Add(powerup);
 
                 GameRender.AddRenderFor(powerup);
-                Physics.AddToTrackingCollisions(powerup.Collider);
+                Physics.AddToTrackingHitBoxes(powerup.Collider);
             }      
         }
 
@@ -78,7 +78,8 @@ namespace Top_Down_shooter
         {
             var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
 
-            var speed = randGenerator.Next(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1);
+            var speed = randGenerator.Next(
+                Math.Min(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1), Math.Max(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1));
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
             {
                 speed = randGenerator.Next(
@@ -90,24 +91,22 @@ namespace Top_Down_shooter
             var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
-
             GameRender.AddRenderFor(enemy);
-
-            Physics.AddToTrackingCollisions(enemy.Collider);
-
-            Physics.AddToTrackingCollisions(enemy.HitBox);
+            Physics.AddToTrackingColliders(enemy.Collider);
+            Physics.AddToTrackingHitBoxes(enemy.HitBox);
         }
 
         public static void SpawnSmallLoot()
         {
             var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+
             var loot = new SmallLoot(new Powerup(tile.X, tile.Y));
 
             Powerups.Add(loot);
 
             GameRender.AddRenderFor(loot);
 
-            Physics.AddToTrackingCollisions(loot.Collider);       
+            Physics.AddToTrackingHitBoxes(loot.Collider);       
         }
 
         public static void SpawnFire()
@@ -120,10 +119,8 @@ namespace Top_Down_shooter
                     tile.X, tile.Y, randGenerator.Next(GameSettings.FireMinSpeed, GameSettings.FireMaxSpeed));
 
                 NewFires.Enqueue(fire);
-
                 GameRender.AddRenderFor(fire);
-
-                Physics.AddToTrackingCollisions(fire.Collider);
+                Physics.AddToTrackingHitBoxes(fire.Collider);
             }
         }
 
@@ -131,14 +128,14 @@ namespace Top_Down_shooter
         {
             var tiles = Map.FreeTiles
                 .Where(t =>
-                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistanceBossToSpawnerPowerup)
+                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) 
+                    > GameSettings.DistanceBossToSpawnPowerup)
                 .ToList();
 
-            GameObject tile;
             if (tiles.Count == 0)
-                tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
-            else
-                tile = tiles[randGenerator.Next(0, tiles.Count)];
+                return;
+
+            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
             
             powerup.X = tile.X;
             powerup.Y = tile.Y;
@@ -146,24 +143,13 @@ namespace Top_Down_shooter
 
         public static void RespawnEnemy(Enemy enemy)
         {
-            var tiles = Map.FreeTiles
-                .Where(t =>
-                    Math.Sqrt((t.X - Player.X) * (t.X - Player.X) + (t.Y - Player.Y) * (t.Y - Player.Y)) > GameSettings.DistancePlayerToSpawnerMonster)
-                .ToList();
-
-            GameObject tile;
-            if (tiles.Count == 0)
-                tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
-            else
-                tile = tiles[randGenerator.Next(0, tiles.Count)];
-
-            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilityBigLoot)
+            if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitySpawnBigLoot)
             {
                 var loot = new BigLoot(new Powerup(enemy.X, enemy.Y));
 
                 Powerups.Add(loot);
                 GameRender.AddRenderFor(loot);
-                Physics.AddToTrackingCollisions(loot.Collider);
+                Physics.AddToTrackingHitBoxes(loot.Collider);
             }
 
             enemy.X = GameSettings.MapWidth / 2;

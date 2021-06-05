@@ -23,7 +23,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public BigLoot(Powerup powerup) : base(powerup.X, powerup.Y)
         {
             this.powerup = powerup;
-            Boost = GameSettings.BigLoot;
+            Boost = GameSettings.BigLootBoost;
         }
     }
 
@@ -34,7 +34,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public SmallLoot(Powerup powerup) : base(powerup.X, powerup.Y)
         {
             this.powerup = powerup;
-            Boost = GameSettings.SmallLoot;
+            Boost = GameSettings.SmallLootBoost;
         }
     }
 

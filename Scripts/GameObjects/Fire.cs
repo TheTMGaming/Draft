@@ -31,7 +31,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             this.speed = speed;
 
-            Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isTrigger: true, isIgnoreNavMesh: true);
+            Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isIgnoreNavMesh: true);
 
             cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, 0, GameSettings.FireCooldown);
             spawnFireman = new Timer(new TimerCallback(e => SpawnFireman()), null, 0, GameSettings.FireSpawnEnemy);
@@ -57,8 +57,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             GameModel.NewEnemies.Enqueue(fireman);
 
-            Physics.AddToTrackingCollisions(fireman.Collider);
-            Physics.AddToTrackingCollisions(fireman.HitBox);
+            Physics.AddToTrackingColliders(fireman.Collider);
+            Physics.AddToTrackingHitBoxes(fireman.HitBox);
 
             GameRender.AddRenderFor(fireman);
         }

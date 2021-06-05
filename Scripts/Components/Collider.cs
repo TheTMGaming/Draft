@@ -18,7 +18,10 @@ namespace Top_Down_shooter.Scripts.Components
         private readonly int localX;
         private readonly int localY;
 
-        public Collider(GameObject parent, int localX, int localY, int width, int height, bool isTrigger = false, bool isIgnoreNavMesh = false)
+        public Collider(GameObject parent, 
+            int localX, int localY, 
+            int width, int height, 
+            bool isTrigger = false, bool isIgnoreNavMesh = false)
         {
             this.parent = parent;
             this.localX = localX;

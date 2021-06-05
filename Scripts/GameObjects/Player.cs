@@ -24,7 +24,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public Player(int x, int y)
         {
             Collider = new Collider(this, localX: 0, localY: 35, width: 55, height: 55);
-            HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90, isTrigger: true);
+            HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90);
 
             X = x;
             Y = y;

@@ -64,7 +64,7 @@ namespace Top_Down_shooter
           
             device.Graphics.DrawText(
                 GameModel.Player.Gun.CountBullets.ToString(), 
-                D2DColor.Black, "Chinese Rocks", 35,
+                D2DColor.Black, "Intro", 35,
                 GameRender.Camera.X + positionLableCountBullets.X, GameRender.Camera.Y + positionLableCountBullets.Y);
 
             device.Graphics.DrawBitmap(bulletIcon, new D2DRect(
@@ -102,16 +102,16 @@ namespace Top_Down_shooter
             var prevPos = GameModel.Player.Transform;
 
             GameModel.Player.MoveX();
-            if (Physics.IsCollided(GameModel.Player, typeof(Box), typeof(Block)))
+            if (Physics.IsCollided(GameModel.Player.Collider, typeof(Box), typeof(Block), typeof(Boss)))
                 GameModel.Player.SetX(prevPos.X);
 
             GameModel.Player.MoveY();
-            if (Physics.IsCollided(GameModel.Player, typeof(Box), typeof(Block)))
+            if (Physics.IsCollided(GameModel.Player.Collider, typeof(Box), typeof(Block), typeof(Boss)))
                 GameModel.Player.SetY(prevPos.Y);
 
 
 
-            if (Physics.IsCollided(GameModel.Player, out var collisions))
+            if (Physics.IsHit(GameModel.Player.HitBox, out var collisions))
             {
                 foreach (var other in collisions)
                 {
@@ -139,7 +139,7 @@ namespace Top_Down_shooter
                             if (powerup is BigLoot)
                             {
                                 GameModel.Powerups.Remove(powerup);
-                                Physics.RemoveFromTrackingCollisions(powerup.Collider);
+                                Physics.RemoveFromTrackingHitBoxes(powerup.Collider);
                                 GameRender.RemoveRender(powerup);
                             }
                             else GameModel.RespawnStaticPowerup(powerup);
@@ -185,7 +185,7 @@ namespace Top_Down_shooter
 
                     enemy.Move();
 
-                    if (enemy is Tank tank && Physics.IsCollided(enemy, out var collisions))
+                    if (enemy is Tank tank && Physics.IsHit(enemy.HitBox, out var collisions))
                     {
                         foreach (var other in collisions)
                         {
@@ -237,7 +237,7 @@ namespace Top_Down_shooter
                 {
                     bullet.Move();
 
-                    if (Physics.IsCollided(bullet, out var collisions))
+                    if (Physics.IsHit(bullet.Collider, out var collisions))
                     {
                         var willBeDestroyed = false;
 
@@ -252,7 +252,7 @@ namespace Top_Down_shooter
                                 if (box.Health < 1)
                                 {
                                     GameModel.ChangeBoxToGrass(box);
-                                    Physics.RemoveFromTrackingCollisions(box.Collider);
+                                    Physics.RemoveFromTrackingColliders(box.Collider);
                                     GameRender.RemoveRender(box);
                                 }
 
@@ -281,7 +281,7 @@ namespace Top_Down_shooter
                         {
                             GameModel.DeletedBullets.Enqueue(bullet);
                             GameRender.RemoveRender(bullet);
-                            Physics.RemoveFromTrackingCollisions(bullet.Collider);
+                            Physics.RemoveFromTrackingHitBoxes(bullet.Collider);
                         }
                     }
 
