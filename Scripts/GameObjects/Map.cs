@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
-using Top_Down_shooter.Properties;
-using System.Collections.Generic;
-using System.Linq;
-using Top_Down_shooter.Scripts.Renders;
 
 namespace Top_Down_shooter.Scripts.Controllers
 {

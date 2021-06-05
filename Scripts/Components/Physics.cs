@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
 
-namespace Top_Down_shooter.Scripts.Controllers
+namespace Top_Down_shooter.Scripts.Components
 {
     static class Physics
     {
@@ -41,7 +40,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static bool IsCollided(Collider collider, params Type[] typeWith) => IsCollided(collider, out var other, typeWith);
 
-        public static bool IsCollided(Collider collider, out List<GameObject> others, params Type[] typeWith)
+        public static bool IsCollided(Collider collider, out List<Collider> others, params Type[] typeWith)
         {
             others = GetCollisions(collider, typeWith, colliders);
 
@@ -52,7 +51,7 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         public static bool IsHit(Collider hitBox, params Type[] typeWith) => IsHit(hitBox, out var other, typeWith);
 
-        public static bool IsHit(Collider hitBox, out List<GameObject> others, params Type[] typeWith)
+        public static bool IsHit(Collider hitBox, out List<Collider> others, params Type[] typeWith)
         {
             others = GetCollisions(hitBox, typeWith, hitBoxes);
 
@@ -106,19 +105,19 @@ namespace Top_Down_shooter.Scripts.Controllers
             }
         }
 
-        private static List<GameObject> GetCollisions(Collider collider, Type[] type, QuadTree tree)
+        private static List<Collider> GetCollisions(Collider collider, Type[] type, QuadTree tree)
         {
             lock (locker)
             {
-                var collisions = new List<GameObject>();
+                var collisions = new List<Collider>();
 
                 foreach (var otherCollider in tree
                     .GetCandidateToCollision(collider)
-                    .Where(col => type.Length == 0 || type.Any(t => col.GameObject.GetType().IsAssignableFrom(t))))
+                    .Where(col => type.Length == 0 || type.Contains(col.GameObject.GetType())))
                 {
-                    if (collider.IntersectsWith(otherCollider))
+                    if (collider.IntersectsWith(otherCollider) && collider != otherCollider)
                     {
-                        collisions.Add(otherCollider.GameObject);
+                        collisions.Add(otherCollider);
                     }
                 }
 

@@ -1,43 +1,68 @@
-﻿//using NUnit.Framework;
-//using System.Drawing;
-//using Top_Down_shooter.Scripts.Components;
-//using Top_Down_shooter.Scripts.Controllers;
-//using Top_Down_shooter.Scripts.Source;
-//using System.Reflection;
+﻿using NUnit.Framework;
+using System.Drawing;
+using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.Source;
+using System.Reflection;
+using Top_Down_shooter.Scripts.GameObjects;
+using System;
+using System.Linq;
 
-//namespace Top_Down_shooter.Scripts.Tests
-//{
-//    [TestFixture]
-//    class NavMeshTests
-//    {
-//        private Map map;
-//        private NavMeshAgent mesh;
-//        private readonly int tileSize = GameSettings.TileSize;
+namespace Top_Down_shooter.Scripts.Tests
+{
+    [TestFixture]
+    public class NavMeshTests
+    {
+        private Map map;
+        private NavMeshAgent agent;
 
-//        public NavMeshTests()
-//        {
-//            map = new Map();
-//            mesh = new NavMeshAgent(map);
-//        }
+        private readonly Random randGenerator = new Random();
+        private readonly int tileSize = GameSettings.TileSize;
 
-//        [TestCase(0, 0)]
-//        [TestCase(12, 63)]
-//        [TestCase(63, 12)]
-//        [TestCase(12, 64)]
-//        [TestCase(63, 63)]
-//        [TestCase(64, 64)]
-//        [TestCase(0, 64)]
-//        [TestCase(0, 65)]
-//        [TestCase(125, 19)]
-//        public void GetPositionInNavMesh_ReturnsCorrectTile(int xPoint, int yPoint)
-//        {
-//            var actual = (Point?)mesh
-//                .GetType()
-//                .GetMethod("GetPositionInNavMesh", BindingFlags.NonPublic | BindingFlags.Instance)
-//                .Invoke(mesh, new object[] { new Point(xPoint, yPoint) });
+        [SetUp]
+        public void Init()
+        {
+            GameModel.Initialize();
 
-//            Assert.IsNotNull(actual);
-//            Assert.IsTrue(map.Tiles[actual.Value.X, actual.Value.Y].Collider.Transform.Contains(xPoint, yPoint));
-//        }
-//    }
-//}
+            map = new Map();
+            NavMesh.Bake();
+
+            agent = new NavMeshAgent(new Enemy());
+        }
+
+        [Test]
+        [Repeat(100)]
+        public void GetPath_EndPointIsNotObstacleWhereTargetIsGlass()
+        {
+            var freeTile = map.FreeTiles[randGenerator.Next(0, map.FreeTiles.Count)];
+
+            agent.Target = new Point(freeTile.X, freeTile.Y);
+
+            agent.ComputePath();
+
+            var actual = agent.Path.Last();
+
+            Assert.IsTrue(actual == agent.Target);
+        }
+
+        [Test]
+        [Repeat(100)]
+        public void GetPath_EndPointIsNotObstacleWhereTargetIsObstacle()
+        {
+            var obstacles = map.Tiles
+                .Cast<GameObject>()
+                .Where(t => !map.FreeTiles.Contains(t))
+                .ToList();
+
+            var tile = obstacles[randGenerator.Next(0, obstacles.Count)];
+
+            agent.Target = new Point(tile.X, tile.Y);
+
+            agent.ComputePath();
+
+            var actual = agent.Path.Last();
+
+            Assert.IsNull(obstacles.Where(t => t.Collider.Transform.Contains(actual)).FirstOrDefault());
+        }
+    }
+}

@@ -11,7 +11,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int ScreenHeight = 768;
         public const int TileSize = 64;
 
-        public const int DelaySpawnNewMonster = 1700;
+        public const int DelaySpawnNewMonster = 1850;
         public const int StartEnemiesCount = 5;
         public const int DistanceBossToSpawnPowerup = 80;
 
@@ -19,7 +19,7 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int SmallLootBoost = 15;
         public const int BigLootBoost = 30;
-        public const float ProbabilitySpawnBigLoot = 0.1f;
+        public const float ProbabilitySpawnBigLoot = 0.2f;
         public const int SmallLootsCount = 10;
 
         public const int HPUp = 150;
@@ -40,7 +40,7 @@ namespace Top_Down_shooter.Scripts.Source
         public const int BossCooldown = 20000;
 
         // Boss.Fire
-        public const int FireDamage = 50;
+        public const int FireDamage = 150;
         public const int FireCooldown = 1500;
         public const int FireMinSpeed = 20;
         public const int FireMaxSpeed = 30;
@@ -61,8 +61,6 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TankCooldown = 300;
         public const int TankSizeCollider = 60;
 
-        public const float TankChanceRepawn = 0.5f;
-
         // Enemy.Fireman
         public const int FiremanHealth = 30;
         public const int FiremanSpeed = 6;
@@ -72,7 +70,7 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int FiremanSizeCollider = 60;
 
-        public const int FiremanDistanceFire = 600;
+        public const int FiremanDistanceFire = 800;
         public const int FiremanDistanceRotation = 300;
         public const int FiremanSpeedBullet = 20;
 

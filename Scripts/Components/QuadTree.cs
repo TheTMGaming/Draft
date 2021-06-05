@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using Top_Down_shooter.Scripts.Components;
 
-namespace Top_Down_shooter.Scripts.Controllers
+namespace Top_Down_shooter.Scripts.Components
 {
     class QuadTree
     {

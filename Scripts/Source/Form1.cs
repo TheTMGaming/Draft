@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
@@ -144,7 +145,7 @@ namespace Top_Down_shooter
 
             if (Physics.IsHit(GameModel.Player.HitBox, out var collisions))
             {
-                foreach (var other in collisions)
+                foreach (var other in collisions.Select(collider => collider.GameObject))
                 {
                     if (other is Fire fire && fire.CanKick)
                     {
@@ -216,7 +217,7 @@ namespace Top_Down_shooter
 
                     if (enemy is Tank tank && Physics.IsHit(enemy.HitBox, out var collisions))
                     {
-                        foreach (var other in collisions)
+                        foreach (var other in collisions.Select(hitBox => hitBox.GameObject))
                         {
                             if (other is Fire fire && fire.CanKick)
                             {
@@ -281,7 +282,7 @@ namespace Top_Down_shooter
                     {
                         var willBeDestroyed = false;
 
-                        foreach (var other in collisions)
+                        foreach (var other in collisions.Select(hitBox => hitBox.GameObject))
                         {
                             if (other is Block)
                                 willBeDestroyed = true;
@@ -309,7 +310,7 @@ namespace Top_Down_shooter
 
                             if (other is Enemy enemy)
                             {
-                                if (enemy is Fireman && bullet.Parent is Fireman)
+                                if ((enemy is Fireman || enemy is Boss) && bullet.Parent is Fireman)
                                     continue;
 
                                 enemy.Health -= bullet.Damage;

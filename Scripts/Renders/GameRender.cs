@@ -4,11 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Top_Down_shooter.Properties;
-using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Renders;
 using Top_Down_shooter.Scripts.Source;
-using unvell.D2DLib;
 
 namespace Top_Down_shooter
 {

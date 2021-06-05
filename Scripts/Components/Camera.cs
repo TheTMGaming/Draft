@@ -2,7 +2,7 @@
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
 
-namespace Top_Down_shooter.Scripts.Controllers
+namespace Top_Down_shooter.Scripts.Components
 {
     class Camera
     {
