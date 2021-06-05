@@ -173,6 +173,9 @@
     <None Include="Resources\Fire.png" />
     <None Include="Resources\Fireman.png" />
     <None Include="Resources\Fireball.png" />
+    <Content Include="Cursor.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="d2dlib64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

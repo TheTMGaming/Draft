@@ -18,9 +18,9 @@ namespace Top_Down_shooter.Scripts.Source
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
 
         public const int SmallLootBoost = 15;
-        public const int BigLootBoost = 50;
+        public const int BigLootBoost = 30;
         public const float ProbabilitySpawnBigLoot = 0.1f;
-        public const int SmallLootsCount = 20;
+        public const int SmallLootsCount = 10;
 
         public const int HPUp = 150;
         public const int CountHPPowerups = 10;
