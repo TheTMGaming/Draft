@@ -19,8 +19,7 @@ namespace Top_Down_shooter.Scripts.Tests
         private readonly Random randGenerator = new Random();
         private readonly int tileSize = GameSettings.TileSize;
 
-        [SetUp]
-        public void Init()
+        public NavMeshTests()
         {
             GameModel.Initialize();
 
@@ -43,26 +42,6 @@ namespace Top_Down_shooter.Scripts.Tests
             var actual = agent.Path.Last();
 
             Assert.IsTrue(actual == agent.Target);
-        }
-
-        [Test]
-        [Repeat(100)]
-        public void GetPath_EndPointIsNotObstacleWhereTargetIsObstacle()
-        {
-            var obstacles = map.Tiles
-                .Cast<GameObject>()
-                .Where(t => !map.FreeTiles.Contains(t))
-                .ToList();
-
-            var tile = obstacles[randGenerator.Next(0, obstacles.Count)];
-
-            agent.Target = new Point(tile.X, tile.Y);
-
-            agent.ComputePath();
-
-            var actual = agent.Path.Last();
-
-            Assert.IsNull(obstacles.Where(t => t.Collider.Transform.Contains(actual)).FirstOrDefault());
         }
     }
 }
