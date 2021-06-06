@@ -42,7 +42,7 @@ namespace Top_Down_shooter
             RunTimeInvoker(IntervalUpdateGameLoop, UpdateGameLoop);
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnTank);
             RunTimeInvoker(GameSettings.BossCooldown, GameModel.SpawnFire);
-
+         
             RunFunctionAsync(Controller.UpdateKeyboardHandler);
             RunFunctionAsync(Controller.UpdateMouseHandler);
             RunFunctionAsync(NavMesh.Update);
@@ -57,6 +57,12 @@ namespace Top_Down_shooter
             bulletIcon = device.CreateBitmap(Resources.BulletIcon);
             gameOverImage = device.CreateBitmap(Resources.GameOver);
             victoryImage = device.CreateBitmap(Resources.Victory);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F && GameModel.IsEnd)
+                Application.Restart();
         }
 
         protected override void OnPaintBackground(PaintEventArgs e) { }

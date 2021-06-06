@@ -17,7 +17,6 @@ namespace Top_Down_shooter.Scripts.Tests
         private NavMeshAgent agent;
 
         private readonly Random randGenerator = new Random();
-        private readonly int tileSize = GameSettings.TileSize;
 
         public NavMeshTests()
         {
