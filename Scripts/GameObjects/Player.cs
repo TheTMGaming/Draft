@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
+using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -30,6 +31,8 @@ namespace Top_Down_shooter.Scripts.GameObjects
             Y = y;
             Speed = GameSettings.PlayerSpeed;
             Health = GameSettings.PlayerHealth;
+
+            HealthBar = new HealthBar(this);
 
             Gun = new Gun(X + OffsetPositionGun.X, Y + OffsetPositionGun.Y);           
         }

@@ -24,10 +24,14 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private readonly Character character;
         private readonly Bitmap atlasAnimation;
+        private readonly CharacterHealthBarRender characterHealthBarRender;
 
         private int frame;
         private int state;
         private static Random randGenerator = new Random();
+
+        private static Point offsetHealthBar = new Point(0, -75);
+        private static Point offsetBar = new Point(3, 3);
 
         public CharacterRender(Character character, Bitmap atlasAnimation, int stateCount, int frameCount)
         {
@@ -38,18 +42,20 @@ namespace Top_Down_shooter.Scripts.Renders
 
             Size = new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
             frame = randGenerator.Next(0, FrameCount);
+
+            characterHealthBarRender = new CharacterHealthBarRender(character, offsetHealthBar);
         }
 
         public void Draw(D2DGraphicsDevice device)
         {
             Draw(device, new Point(Size.Width * frame, Size.Height * state), Size);
+
+            characterHealthBarRender.Draw(device);
         }
 
         public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
         {
-            var g = device.Graphics;
-
-            g.DrawBitmap(device.CreateBitmap(atlasAnimation),
+            device.Graphics.DrawBitmap(device.CreateBitmap(atlasAnimation),
                 new D2DRect(X, Y, sizeSlice.Width, sizeSlice.Height),
                 new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
 

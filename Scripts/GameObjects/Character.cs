@@ -1,5 +1,6 @@
 ﻿using System;
 using Top_Down_shooter.Scripts.Components;
+using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -28,6 +29,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
         public DirectionX DirectionX { get; set; }
         public DirectionY DirectionY { get; set; }
         public Sight Sight { get; set; }
+        public HealthBar HealthBar { get; set; }
 
         public virtual void Move(bool isReverse = false)
         {

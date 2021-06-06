@@ -2,6 +2,7 @@
 using System.Threading;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
+using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -29,6 +30,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             nextCheckpoint = GameModel.Player.Transform;
 
             Cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, delayCooldown, GameSettings.TankCooldown);
+            HealthBar = new HealthBar(this);
         }
 
         public override void Move(bool isReverse = false)

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading;
 using Top_Down_shooter.Scripts.Components;
 using Top_Down_shooter.Scripts.Source;
+using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
@@ -27,6 +28,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
             nextCheckpoint = GameModel.Player.Transform;
 
             Cooldown = new Timer(new TimerCallback((e) => GameModel.ShootFireman(this)), null, delayCooldown, GameSettings.FiremanCooldown);
+            HealthBar = new HealthBar(this);
 
             Agent.Target = GameModel.Player.Transform;
         }

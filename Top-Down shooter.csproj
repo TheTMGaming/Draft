@@ -86,6 +86,7 @@
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
     <Compile Include="Scripts\Renders\BulletRender.cs" />
+    <Compile Include="Scripts\Renders\CharacterHealthBarRender.cs" />
     <Compile Include="Scripts\Renders\FireRender.cs" />
     <Compile Include="Scripts\Renders\D2DGraphicsDevice.cs" />
     <Compile Include="Scripts\Renders\TileRender.cs" />
@@ -94,6 +95,7 @@
     </Compile>
     <Compile Include="Scripts\Components\Physics.cs" />
     <Compile Include="Scripts\Source\ExtensionsBitmap.cs" />
+    <Compile Include="Scripts\Renders\GameImages.cs" />
     <Compile Include="Scripts\Source\GameModel.cs" />
     <Compile Include="Scripts\GameObjects\Bullet.cs" />
     <Compile Include="Scripts\GameObjects\Character.cs" />
