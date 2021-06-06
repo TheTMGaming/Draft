@@ -23,30 +23,29 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly Point offsetBackground = new Point(45, 50);
         private readonly Point offsetBar = new Point(48, 53);
 
-        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop, bool followCamera = false)
+        public HealthBarRender(HealthBar healthBar, int xLeft, int yTop)
         {
             this.healthBar = healthBar;
             X = xLeft;
             Y = yTop;
 
-            cross = new ImageRender(X, Y, GameImages.HealthBarCross, followCamera);
+            cross = new ImageRender(X, Y, GameImages.HealthBarCross, followCamera: true);
 
             background = new ImageRender(
-                X + offsetBackground.X, Y + offsetBackground.Y, GameImages.HealthBarBackgroundPlayer, followCamera);
+                X + offsetBackground.X, Y + offsetBackground.Y, GameImages.HealthBarBackgroundPlayer, followCamera: true);
 
-            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, GameImages.HealthBarPlayer, followCamera);
+            bar = new ImageRender(X + offsetBar.X, Y + offsetBar.Y, GameImages.HealthBarPlayer, followCamera: true);
             
             Size = new Size(X + offsetBackground.X + background.Size.Width, cross.Size.Height);
         }
 
-
         public void Draw(D2DGraphicsDevice device)
         {
-            background?.Draw(device);
+            background.Draw(device);
 
             bar.Draw(device, new Point(0, 0), new Size(bar.Size.Width * healthBar.Percent / 100, bar.Size.Height));
 
-            cross?.Draw(device);
+            cross.Draw(device);
         }
     }
 }

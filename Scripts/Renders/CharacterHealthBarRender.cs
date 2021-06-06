@@ -20,10 +20,11 @@ namespace Top_Down_shooter.Scripts.Renders
         private readonly ImageRender background;
         private readonly ImageRender bar;
 
-        private static Point offsetBar = new Point(1, 1);
+        private static Point offsetBar = new Point(1, 0);
 
         public CharacterHealthBarRender(Boss boss, Point offset) : this((Character)boss, offset)
         {
+            offsetBar = new Point(0, 0);
             background = new ImageRender(offset.X, offset.Y, GameImages.HealthBarBackgroundBoss, parent: boss);
             bar = new ImageRender(offset.X + offsetBar.X, offset.Y + offsetBar.Y, GameImages.HealthBarBoss, parent: boss);
         }

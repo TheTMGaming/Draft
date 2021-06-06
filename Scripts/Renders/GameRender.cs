@@ -39,7 +39,7 @@ namespace Top_Down_shooter
                 new CharacterRender(GameModel.Player, GameImages.Player, 4, 2),
                 new GunRender(GameModel.Player.Gun, GameImages.Gun),
                 new CharacterRender(GameModel.Boss, GameImages.Boss, 2, 2),
-                new HealthBarRender(GameModel.HealthBarPlayer, 60, 625, followCamera: true),
+                new HealthBarRender(GameModel.HealthBarPlayer, 60, 625),
                 new ImageRender(1100, 660, GameImages.PlayerBullet, true)
             };
         }
