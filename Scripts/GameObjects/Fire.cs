@@ -26,7 +26,7 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
             this.speed = speed;
 
-            Collider = new Collider(this, localX: 0, localY: 0, width: 40, height: 128, isIgnoreNavMesh: true);
+            Collider = new Collider(this, localX: 0, localY: 20, width: 30, height: 80, isIgnoreNavMesh: true);
 
             cooldown = new Timer(new TimerCallback((e) => CanKick = true), null, 0, GameSettings.FireCooldown);
             spawnFireman = new Timer(new TimerCallback(e => SpawnFireman()), null, 0, GameSettings.FireSpawnEnemy);
