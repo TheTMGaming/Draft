@@ -9,8 +9,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
     {
         public int Health { get; set; }
 
-        public static readonly int MaxHealth = 10;
-
         public Box(int x, int y)
         {
             Health = GameSettings.BoxHealth;
