@@ -22,13 +22,22 @@ namespace Top_Down_shooter.Scripts.Renders
 
         private static Point offsetBar = new Point(1, 1);
 
+        public CharacterHealthBarRender(Boss boss, Point offset) : this((Character)boss, offset)
+        {
+            background = new ImageRender(offset.X, offset.Y, GameImages.HealthBarBackgroundBoss, parent: boss);
+            bar = new ImageRender(offset.X + offsetBar.X, offset.Y + offsetBar.Y, GameImages.HealthBarBoss, parent: boss);
+        }
+
+        public CharacterHealthBarRender(Enemy enemy, Point offset) : this((Character)enemy, offset)
+        {
+            background = new ImageRender(offset.X, offset.Y, GameImages.HealthBarBackgroundEnemy, parent: enemy);
+            bar = new ImageRender(offset.X + offsetBar.X, offset.Y + offsetBar.Y, GameImages.HealthBarEnemy, parent: enemy);
+        }
+
         public CharacterHealthBarRender(Character character, Point offset)
         {
             this.character = character;
             this.offset = offset;
-
-            background = new ImageRender(offset.X, offset.Y, GameImages.HealthBarBackgroundEnemy, parent: character);
-            bar = new ImageRender(offset.X + offsetBar.X, offset.Y + offsetBar.Y, GameImages.HealthBarEnemy, parent: character);
         }
 
         public void Draw(D2DGraphicsDevice device)

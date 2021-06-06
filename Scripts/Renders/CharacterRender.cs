@@ -30,8 +30,20 @@ namespace Top_Down_shooter.Scripts.Renders
         private int state;
         private static Random randGenerator = new Random();
 
-        private static Point offsetHealthBar = new Point(0, -75);
-        private static Point offsetBar = new Point(3, 3);
+        private static Point offsetHealthBaEnemy = new Point(0, -75);
+        private static Point offsetHealthBarBoss = new Point(0, -100);
+
+        public CharacterRender(Boss boss, Bitmap atlasAnimation, int stateCount, int frameCount) : 
+            this((Character)boss, atlasAnimation, stateCount, frameCount)
+        {
+            characterHealthBarRender = new CharacterHealthBarRender(boss, offsetHealthBarBoss);
+        }
+
+        public CharacterRender(Enemy enemy, Bitmap atlasAnimation, int stateCount, int frameCount) :
+            this((Character)enemy, atlasAnimation, stateCount, frameCount)
+        {
+            characterHealthBarRender = new CharacterHealthBarRender(enemy, offsetHealthBaEnemy);
+        }
 
         public CharacterRender(Character character, Bitmap atlasAnimation, int stateCount, int frameCount)
         {
@@ -42,15 +54,13 @@ namespace Top_Down_shooter.Scripts.Renders
 
             Size = new Size(atlasAnimation.Width / FrameCount, atlasAnimation.Height / StateCount);
             frame = randGenerator.Next(0, FrameCount);
-
-            characterHealthBarRender = new CharacterHealthBarRender(character, offsetHealthBar);
         }
 
         public void Draw(D2DGraphicsDevice device)
         {
             Draw(device, new Point(Size.Width * frame, Size.Height * state), Size);
 
-            characterHealthBarRender.Draw(device);
+            characterHealthBarRender?.Draw(device);
         }
 
         public void Draw(D2DGraphicsDevice device, Point startSlice, Size sizeSlice)
