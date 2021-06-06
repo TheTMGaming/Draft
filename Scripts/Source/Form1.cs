@@ -33,7 +33,7 @@ namespace Top_Down_shooter
             Cursor = new Cursor("Cursor.cur");
             DoubleBuffered = false;
             Size = new Size(GameSettings.ScreenWidth, GameSettings.ScreenHeight);
-            //FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             CenterToScreen();
 
             GameModel.Initialize();
