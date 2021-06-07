@@ -31,7 +31,7 @@ namespace Top_Down_shooter.Scripts.Renders
         private static Random randGenerator = new Random();
 
         private static Point offsetHealthBaEnemy = new Point(0, -75);
-        private static Point offsetHealthBarBoss = new Point(0, -100);
+        private static Point offsetHealthBarBoss = new Point(-5, -140);
 
         public CharacterRender(Boss boss, Bitmap atlasAnimation, int stateCount, int frameCount) : 
             this((Character)boss, atlasAnimation, stateCount, frameCount)
