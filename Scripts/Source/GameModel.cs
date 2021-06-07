@@ -165,35 +165,6 @@ namespace Top_Down_shooter
             powerup.Y = tile.Y;
         }
 
-        public static void UpdateTargetFireman(Fireman fireman)
-        {
-            if (!fireman.IsCompleteMovingToTarget)
-                return;
-
-            var targets = new List<GameObject>();
-
-            if (Player.X - GameSettings.FiremanDistanceRotation > GameSettings.TileSize * 2)
-                targets.Add(Map.GetTileIn(Player.X - GameSettings.FiremanDistanceRotation, Player.Y));
-
-            if (Player.X + GameSettings.FiremanDistanceRotation < GameSettings.MapWidth - GameSettings.TileSize * 2)
-                targets.Add(Map.GetTileIn(Player.X + GameSettings.FiremanDistanceRotation, Player.Y));
-
-            if (Player.Y - GameSettings.FiremanDistanceRotation > GameSettings.TileSize * 2)
-                targets.Add(Map.GetTileIn(Player.X, Player.Y - GameSettings.FiremanDistanceRotation));
-
-            if (Player.Y + GameSettings.FiremanDistanceRotation < GameSettings.MapHeight - GameSettings.TileSize * 2)
-                targets.Add(Map.GetTileIn(Player.X, Player.Y + GameSettings.FiremanDistanceRotation));
-
-            targets = targets
-                .Where(t => t is Grass)
-                .ToList();
-
-            if (targets.Count == 0)
-                return;
-
-            fireman.Agent.Target = targets[randGenerator.Next(0, targets.Count)].Transform;
-
-        }
 
         public static void ChangeBoxToGrass(Box box)
         {
@@ -205,20 +176,7 @@ namespace Top_Down_shooter
             GameRender.AddRenderFor(grass);
         }
 
-        public static void ShootFireman(Fireman fireman)
-        {
-            lock (LockerBullets)
-            {
-                if (Math.Sqrt((fireman.X - Player.X) * (fireman.X - Player.X)
-                    + (fireman.Y - Player.Y) * (fireman.Y - Player.Y)) <= GameSettings.FiremanDistanceFire)
-                {
-                    var angle = (float)Math.Atan2(Player.Y - fireman.Y, Player.X - fireman.X);
-                    var bullet = new Bullet(fireman, fireman.X, fireman.Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
-
-                    NewBullets.Enqueue(bullet);
-                }
-            }
-        }
+        
 
         public static void ShootWaterman(Waterman waterman)
         {

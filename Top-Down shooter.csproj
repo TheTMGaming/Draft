@@ -81,6 +81,7 @@
     <Compile Include="Scripts\GameObjects\Map.cs" />
     <Compile Include="Scripts\GameObjects\Enemy.cs" />
     <Compile Include="Scripts\GameObjects\Powerup.cs" />
+    <Compile Include="Scripts\GameObjects\Sniper.cs" />
     <Compile Include="Scripts\GameObjects\Tank.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />

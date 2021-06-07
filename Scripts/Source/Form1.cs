@@ -216,9 +216,6 @@ namespace Top_Down_shooter
                         GameModel.RemovedEnemies.Enqueue(enemy);                       
                     }
 
-                    if (enemy is Fireman fireman)
-                        GameModel.UpdateTargetFireman(fireman);
-
                     enemy.Move();
 
                     if (enemy is Tank tank && Physics.IsHit(enemy.HitBox, out var collisions))

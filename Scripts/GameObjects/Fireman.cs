@@ -7,13 +7,8 @@ using Top_Down_shooter.Scripts.UI;
 
 namespace Top_Down_shooter.Scripts.GameObjects
 {
-    class Fireman : Enemy
+    class Fireman : Sniper
     {
-        public bool IsCompleteMovingToTarget { get; private set; }
-
-        private Point nextCheckpoint;
-        private Point prevCheckpoint;
-
         public Fireman(int x, int y, int health, int speed, int delayCooldown)
         {
             X = x;
@@ -25,40 +20,26 @@ namespace Top_Down_shooter.Scripts.GameObjects
             HitBox = new Collider(this, localX: 0, localY: 0, width: 60, height: 90, isIgnoreNavMesh: true);
             Agent = new NavMeshAgent(this);
 
-            nextCheckpoint = GameModel.Player.Transform;
-
-            Cooldown = new Timer(new TimerCallback((e) => GameModel.ShootFireman(this)), null, delayCooldown, GameSettings.FiremanCooldown);
+            Cooldown = new Timer(new TimerCallback((e) => Shoot()), null, delayCooldown, GameSettings.FiremanCooldown);
             HealthBar = new HealthBar(this);
 
+            Agent = new NavMeshAgent(this);
             Agent.Target = GameModel.Player.Transform;
         }
 
-        public override void Move(bool isReverse = false)
+        public void Shoot()
         {
-            if (isReverse)
+            lock (GameModel.LockerBullets)
             {
-                X = prevCheckpoint.X;
-                Y = prevCheckpoint.Y;
+                if (Math.Sqrt((X - GameModel.Player.X) * (X - GameModel.Player.X)
+                    + (Y - GameModel.Player.Y) * (Y - GameModel.Player.Y)) <= GameSettings.FiremanDistanceFire)
+                {
+                    var angle = (float)Math.Atan2(GameModel.Player.Y - Y, GameModel.Player.X - X);
+                    var bullet = new Bullet(this, X, Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
+
+                    GameModel.NewBullets.Enqueue(bullet);
+                }
             }
-
-            prevCheckpoint = nextCheckpoint;
-
-
-            if (Agent.Path.Count > 0)
-            {
-                IsCompleteMovingToTarget = false;
-
-                nextCheckpoint = Agent.Path.Pop();
-
-                var direction = MoveTowards(Transform, nextCheckpoint, Speed);
-                X = direction.X;
-                Y = direction.Y;
-            }
-            else
-                IsCompleteMovingToTarget = true;
-
-            LookAt(GameModel.Player.Transform);
-
         }
     }
 }

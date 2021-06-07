@@ -18,7 +18,7 @@ namespace Top_Down_shooter.Scripts.Tests
 
             collider1 = new Collider(new Tank(50, 50, 0, 0, 0, 0), 0, 0, 100, 100);
             collider2 = new Collider(new Enemy() { X = 60, Y = 60 }, 10, 10, 100, 100);
-            collider3 = new Collider(new Fireman(50, 50, 0, 0, 0), 5, 5, 100, 100);
+            //collider3 = new Collider(new Fireman(50, 50, 0, 0, 0), 5, 5, 100, 100);
             collider4 = new Collider(new Tank(250, 250, 0, 0, 0, 0), 200, 200, 100, 100);
 
             Physics.AddToTrackingColliders(collider1);
