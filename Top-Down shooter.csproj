@@ -85,6 +85,7 @@
     <Compile Include="Scripts\GameObjects\Tiles\Block.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Box.cs" />
     <Compile Include="Scripts\GameObjects\Tiles\Grass.cs" />
+    <Compile Include="Scripts\GameObjects\Waterman.cs" />
     <Compile Include="Scripts\Renders\BulletRender.cs" />
     <Compile Include="Scripts\Renders\CharacterHealthBarRender.cs" />
     <Compile Include="Scripts\Renders\FireRender.cs" />
@@ -95,7 +96,7 @@
     </Compile>
     <Compile Include="Scripts\Components\Physics.cs" />
     <Compile Include="Scripts\Source\ExtensionsBitmap.cs" />
-    <Compile Include="Scripts\Renders\GameImages.cs" />
+    <Compile Include="Scripts\Source\GameImages.cs" />
     <Compile Include="Scripts\Source\GameModel.cs" />
     <Compile Include="Scripts\GameObjects\Bullet.cs" />
     <Compile Include="Scripts\GameObjects\Character.cs" />
@@ -167,6 +168,8 @@
     <None Include="Resources\Block.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Waterball.png" />
+    <None Include="Resources\Waterman.png" />
     <None Include="Resources\Victory.png" />
     <None Include="Resources\BulletIcon.png" />
     <None Include="Resources\BigPowerup.png" />

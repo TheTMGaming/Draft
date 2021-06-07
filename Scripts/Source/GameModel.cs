@@ -58,8 +58,10 @@ namespace Top_Down_shooter
             MovingFires = new LinkedList<Fire>();
 
             Enemies = new List<Enemy>();
-            for (var i = 0; i < GameSettings.StartEnemiesCount; i++)
+            for (var i = 0; i < GameSettings.StartTanksCount; i++)
                 SpawnTank();
+            for (var i = 0; i < GameSettings.StarWatermansCount; i++)
+                SpawnWaterman();
 
             Powerups = new HashSet<Powerup>();
             for (var i = 0; i < GameSettings.SmallLootsCount; i++)
@@ -97,6 +99,13 @@ namespace Top_Down_shooter
             GameRender.AddRenderFor(enemy);
             Physics.AddToTrackingColliders(enemy.Collider);
             Physics.AddToTrackingHitBoxes(enemy.HitBox);
+        }
+
+        public static void SpawnWaterman()
+        {
+            var tile = Map.FreeTiles[randGenerator.Next(0, Map.FreeTiles.Count)];
+
+            NewEnemies.Enqueue(new Waterman(tile.X, tile.Y, GameSettings.WatermanHealth, GameSettings.WatermanSpeed));
         }
 
         public static void SpawnSmallLoot()
@@ -208,6 +217,20 @@ namespace Top_Down_shooter
 
                     NewBullets.Enqueue(bullet);
                 }
+            }
+        }
+
+        public static void ShootWaterman(Waterman waterman)
+        {
+            if (waterman.IsInvisible)
+                return;
+
+            lock (LockerBullets)
+            {             
+                var angle = (float)Math.Atan2(Player.Y - waterman.Y, Player.X - waterman.X);
+                var bullet = new Bullet(waterman, waterman.X, waterman.Y, GameSettings.WatermanSpeedBullet, angle, GameSettings.WatermanDamage);
+
+                NewBullets.Enqueue(bullet);               
             }
         }
     }

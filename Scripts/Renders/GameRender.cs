@@ -108,6 +108,9 @@ namespace Top_Down_shooter
                 if (gameObject is Fireman fireman)
                     newRenders.Enqueue(new CharacterRender(fireman, GameImages.Fireman, stateCount: 4, frameCount: 2));
 
+                if (gameObject is Waterman waterman)
+                    newRenders.Enqueue(new CharacterRender(waterman, GameImages.Waterman, 4, 2));
+
                 if (gameObject is Bullet bullet)
                 {
                     var image = GameImages.PlayerBullet;

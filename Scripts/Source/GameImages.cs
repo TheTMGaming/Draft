@@ -7,15 +7,17 @@ namespace Top_Down_shooter.Scripts.Source
     static class GameImages
     {
         public static readonly Bitmap Player = Resources.Player;
-        public static readonly Bitmap Gun = Resources.Gun;
         public static readonly Bitmap Tank = Resources.Tank;
         public static readonly Bitmap Fireman = Resources.Fireman;
         public static readonly Bitmap Boss = Resources.Boss;
+        public static readonly Bitmap Waterman = Resources.Waterman;
 
         public static readonly Bitmap Fire = Resources.Fire;
+        public static readonly Bitmap Gun = Resources.Gun;
 
         public static readonly Bitmap PlayerBullet = Resources.Bullet;
         public static readonly Bitmap FiremanBullet = Resources.Fireball;
+        public static readonly Bitmap WatermanBullet = Resources.Waterball;
 
         public static readonly Bitmap Heart = Resources.Heart;
         public static readonly Bitmap BigLoot = Resources.BigPowerup;

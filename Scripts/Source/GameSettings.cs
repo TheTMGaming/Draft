@@ -12,7 +12,8 @@ namespace Top_Down_shooter.Scripts.Source
         public const int TileSize = 64;
 
         public const int DelaySpawnNewMonster = 1850;
-        public const int StartEnemiesCount = 5;
+        public const int StartTanksCount = 5;
+        public const int StarWatermansCount = 3;
         public const int DistanceBossToSpawnPowerup = 80;
 
         public static TimeSpan TimeToEnd = new TimeSpan(0, 5, 0);
@@ -59,7 +60,6 @@ namespace Top_Down_shooter.Scripts.Source
 
         public const int TankDamage = 15;
         public const int TankCooldown = 300;
-        public const int TankSizeCollider = 60;
 
         // Enemy.Fireman
         public const int FiremanHealth = 30;
@@ -76,8 +76,13 @@ namespace Top_Down_shooter.Scripts.Source
 
         // Enemy.Waterman
         public const int WatermanHealth = 80;
+        public const int WatermanSpeed = 9;
+
         public const int WatermanDamage = 10;
-        public const float WatermanCooldown = 200;
-        public const int WatermanSizeCollider = 60;
+        public const int WatermanCooldown = 200;
+        public const int WatermanDistanceFire = 200;
+        public const int WatermanSpeedBullet = 30;
+
+        public const int WatermanTimeInVisibility = 300;
     }
 }
