@@ -32,11 +32,13 @@ namespace Top_Down_shooter.Scripts.Source
         public static readonly Bitmap HealthBarEnemy = new Bitmap(
             Resources.HealthBar, new Size(Resources.HealthBar.Width / 2, Resources.HealthBar.Height / 2 - 1));
         public static readonly Bitmap HealthBarBackgroundEnemy = new Bitmap(
-            Resources.BackgroundHealthBar, new Size(Resources.BackgroundHealthBar.Width / 2 - 1, Resources.BackgroundHealthBar.Height / 2));
+            Resources.BackgroundHealthBar, 
+            new Size(Resources.BackgroundHealthBar.Width / 2 - 1, Resources.BackgroundHealthBar.Height / 2));
 
         public static readonly Bitmap HealthBarBoss = new Bitmap(
             Resources.HealthBar, new Size(Resources.HealthBar.Width, Resources.HealthBar.Height));
         public static readonly Bitmap HealthBarBackgroundBoss = new Bitmap(
-            Resources.BackgroundHealthBar, new Size(Resources.BackgroundHealthBar.Width, Resources.BackgroundHealthBar.Height));
+            Resources.BackgroundHealthBar, n
+            new Size(Resources.BackgroundHealthBar.Width, Resources.BackgroundHealthBar.Height));
     }
 }

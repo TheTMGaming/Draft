@@ -58,7 +58,6 @@ namespace Top_Down_shooter.Scripts.GameObjects
                 IsCompleteMovingToTarget = true;
 
             LookAt(GameModel.Player.Transform);
-
         }
     }
 }

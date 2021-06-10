@@ -7,8 +7,10 @@ namespace Top_Down_shooter.Scripts.Renders
 {
     class ImageRender : IRender
     {
-        public int X => (!(parent is null) ? parent.X - Size.Width / 2 : 0) + startX + (followCamera ? GameRender.Camera.X : 0);
-        public int Y => (!(parent is null) ? parent.Y - Size.Height / 2 : 0) + startY + (followCamera ? GameRender.Camera.Y : 0);
+        public int X => (!(parent is null) ? parent.X - Size.Width / 2 : 0) 
+            + startX + (followCamera ? GameRender.Camera.X : 0);
+        public int Y => (!(parent is null) ? parent.Y - Size.Height / 2 : 0) 
+            + startY + (followCamera ? GameRender.Camera.Y : 0);
         public Size Size => image.Size;
 
         public GameObject Parent => parent;
@@ -42,5 +44,4 @@ namespace Top_Down_shooter.Scripts.Renders
                 new D2DRect(startSlice.X, startSlice.Y, sizeSlice.Width, sizeSlice.Height));
         }
     }
-
 }

@@ -37,5 +37,4 @@ namespace Top_Down_shooter.Scripts.Renders
             g.SetTransform(t);
         }
     }
-
 }

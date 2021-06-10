@@ -57,10 +57,12 @@ namespace Top_Down_shooter.Scripts.Components
                 foreach (var neighbourPosition in GetUnclosedNeighbours(currPoint.Value, closed))
                 {
                     var tempG = NavMesh.Map[currPoint.Value.X, currPoint.Value.Y].G + GetDistance(currPoint.Value, neighbourPosition);
-                    if (!opened.Contains(neighbourPosition) || tempG < NavMesh.Map[neighbourPosition.X, neighbourPosition.Y].G)
+                    if (!opened.Contains(neighbourPosition) 
+                        || tempG < NavMesh.Map[neighbourPosition.X, neighbourPosition.Y].G)
                     {
                         track[neighbourPosition] = currPoint;
-                        NavMesh.Map[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(tempG, GetH(neighbourPosition, targetInMesh.Value));
+                        NavMesh.Map[neighbourPosition.X, neighbourPosition.Y].SetPathParameters(
+                            tempG, GetH(neighbourPosition, targetInMesh.Value));
                         opened.Add(neighbourPosition);
                     }
                 }
@@ -112,7 +114,8 @@ namespace Top_Down_shooter.Scripts.Components
                 .Range(0, (pointInMesh.X - distanceSearching + 2 * distanceSearching - pointInMesh.X + distanceSearching) / stepSearching + 1)
                 .Select(i => pointInMesh.X - distanceSearching + stepSearching * i)
                 .SelectMany(dx => Enumerable
-                                    .Range(0, (pointInMesh.Y - distanceSearching + 2 * distanceSearching - pointInMesh.Y + distanceSearching) / stepSearching + 1)
+                                    .Range(0, (pointInMesh.Y - distanceSearching + 2 * distanceSearching 
+                                        - pointInMesh.Y + distanceSearching) / stepSearching + 1)
                                     .Select(i => pointInMesh.Y - distanceSearching + stepSearching * i),
                             (x, y) => new Point?(new Point(x, y)))
                 .Where(neighbor =>

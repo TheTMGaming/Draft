@@ -59,8 +59,10 @@ namespace Top_Down_shooter.Scripts.GameObjects
 
         public virtual void ChangeDirection(DirectionY directionY) => DirectionY = directionY;
 
-        public int GetRoundSpeedX() => (int)Math.Round(Speed * (int)DirectionX * (DirectionY != DirectionY.Idle ? Math.Sqrt(2) / 2 : 1));
+        public int GetRoundSpeedX() => 
+            (int)Math.Round(Speed * (int)DirectionX * (DirectionY != DirectionY.Idle ? Math.Sqrt(2) / 2 : 1));
 
-        public int GetRoundSpeedY() => (int)Math.Round(Speed * (int)DirectionY * (DirectionX != DirectionX.Idle ? Math.Sqrt(2) / 2 : 1));
+        public int GetRoundSpeedY() => 
+            (int)Math.Round(Speed * (int)DirectionY * (DirectionX != DirectionX.Idle ? Math.Sqrt(2) / 2 : 1));
     }
 }

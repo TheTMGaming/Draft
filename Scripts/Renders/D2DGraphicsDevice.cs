@@ -43,11 +43,5 @@ namespace Top_Down_shooter.Scripts.Source
         {
             Graphics.EndRender();
         }
-
-        public void DrawBitmap(D2DBitmap bitmap, Point location, Size scale)
-        {
-            var rect = new D2DRect(location, scale);
-            Graphics.DrawBitmap(bitmap, rect);
-        }
     }
 }

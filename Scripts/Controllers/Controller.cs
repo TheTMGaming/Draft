@@ -15,6 +15,8 @@ namespace Top_Down_shooter.Scripts.Controllers
 
         private static bool wasShot;
 
+        private static readonly int TimeUpdate = 30;
+
         public static void UpdateKeyboardHandler()
         {
             while (!GameModel.IsEnd)
@@ -34,13 +36,13 @@ namespace Top_Down_shooter.Scripts.Controllers
                     GameModel.Player.ChangeDirection(DirectionX.Idle);
 
 
-                Thread.Sleep(30);
+                Thread.Sleep(TimeUpdate);
             }
         }
 
         public static void UpdateMouseHandler()
         {
-            while (true)
+            while (!GameModel.IsEnd)
             {
                 if (!IsKeyPressed(Keys.LButton))
                     wasShot = false;

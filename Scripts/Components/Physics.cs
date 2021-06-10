@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Components
@@ -38,7 +37,8 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static bool IsCollided(Collider collider) => IsCollided(collider, out var other);
 
-        public static bool IsCollided(Collider collider, params Type[] typeWith) => IsCollided(collider, out var other, typeWith);
+        public static bool IsCollided(Collider collider, params Type[] typeWith) => 
+            IsCollided(collider, out var other, typeWith);
 
         public static bool IsCollided(Collider collider, out List<Collider> others, params Type[] typeWith)
         {
@@ -125,7 +125,9 @@ namespace Top_Down_shooter.Scripts.Components
             }
         }
 
-        private static void UpdateTree(QuadTree tree, HashSet<Collider> tracking, Queue<Collider> newElements, Queue<Collider> removedElements)
+        private static void UpdateTree(
+            QuadTree tree, HashSet<Collider> tracking, 
+            Queue<Collider> newElements, Queue<Collider> removedElements)
         {
             while (newElements.Count > 0)
                 tracking.Add(newElements.Dequeue());

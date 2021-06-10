@@ -13,7 +13,8 @@ namespace Top_Down_shooter.Scripts.Components
         public static readonly Node[,] Map;
         public static List<NavMeshAgent> Agents = new List<NavMeshAgent>();
 
-        public static readonly Dictionary<GameObject, List<Node>> Obstacles = new Dictionary<GameObject, List<Node>>();
+        public static readonly Dictionary<GameObject, List<Node>> Obstacles = 
+            new Dictionary<GameObject, List<Node>>();
 
         public static readonly int Width;
         public static readonly int Height;

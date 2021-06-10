@@ -74,10 +74,10 @@ namespace Top_Down_shooter.Scripts.Source
         public const int FiremanDistanceRotation = 300;
         public const int FiremanSpeedBullet = 17;
 
-        // Enemy.Waterman
-        public const int WatermanHealth = 80;
-        public const int WatermanDamage = 10;
-        public const float WatermanCooldown = 200;
-        public const int WatermanSizeCollider = 60;
+        //// Enemy.Waterman
+        //public const int WatermanHealth = 80;
+        //public const int WatermanDamage = 10;
+        //public const float WatermanCooldown = 200;
+        //public const int WatermanSizeCollider = 60;
     }
 }

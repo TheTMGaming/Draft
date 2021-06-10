@@ -18,13 +18,15 @@ namespace Top_Down_shooter.Scripts.Components
 
         public void Move(Player player)
         {
-            if (player.X > GameSettings.ScreenWidth / 2 && player.X < GameSettings.MapWidth - GameSettings.ScreenWidth / 2)
+            if (player.X > GameSettings.ScreenWidth / 2 
+                && player.X < GameSettings.MapWidth - GameSettings.ScreenWidth / 2)
             {
                 X = player.X - GameSettings.ScreenWidth / 2;
 
             }
 
-            if (player.Y > GameSettings.ScreenHeight / 2 && player.Y < GameSettings.MapHeight - GameSettings.ScreenHeight / 2)
+            if (player.Y > GameSettings.ScreenHeight / 2 
+                && player.Y < GameSettings.MapHeight - GameSettings.ScreenHeight / 2)
             {
                 Y = player.Y - GameSettings.ScreenHeight / 2;
             }

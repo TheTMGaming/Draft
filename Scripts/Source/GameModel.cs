@@ -82,16 +82,20 @@ namespace Top_Down_shooter
             var resetPath = randGenerator.Next(GameSettings.TankResetPathMin, GameSettings.TankResetPathMax);
 
             var speed = randGenerator.Next(
-                Math.Min(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1), Math.Max(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1));
+                Math.Min(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1), 
+                Math.Max(GameSettings.TankSpeedMin, GameSettings.PlayerSpeed - 1));
+
             if (randGenerator.NextDouble() > 1 - GameSettings.ProbabilitiSpeedMax)
             {
                 speed = randGenerator.Next(
-                    Math.Min(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax), Math.Max(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax));
+                    Math.Min(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax), 
+                    Math.Max(GameSettings.PlayerSpeed, GameSettings.TankSpeedMax));
             }
 
             var health = randGenerator.Next(GameSettings.TankHealthMin, GameSettings.TankHealthMax);
 
-            var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2, health, speed, resetPath, randGenerator.Next(0, 5));
+            var enemy = new Tank(GameSettings.MapWidth / 2, GameSettings.MapHeight / 2,
+                health, speed, resetPath, randGenerator.Next(0, 5));
 
             Enemies.Add(enemy);
             GameRender.AddRenderFor(enemy);
@@ -204,7 +208,8 @@ namespace Top_Down_shooter
                     + (fireman.Y - Player.Y) * (fireman.Y - Player.Y)) <= GameSettings.FiremanDistanceFire)
                 {
                     var angle = (float)Math.Atan2(Player.Y - fireman.Y, Player.X - fireman.X);
-                    var bullet = new Bullet(fireman, fireman.X, fireman.Y, GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
+                    var bullet = new Bullet(fireman, fireman.X, fireman.Y, 
+                        GameSettings.FiremanSpeedBullet, angle, GameSettings.FiremanDamage);
 
                     NewBullets.Enqueue(bullet);
                 }
