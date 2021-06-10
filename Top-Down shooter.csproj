@@ -113,6 +113,7 @@
     <Compile Include="Scripts\Renders\IAnimationRender.cs" />
     <Compile Include="Scripts\Renders\ImageRender.cs" />
     <Compile Include="Scripts\Renders\IRender.cs" />
+    <Compile Include="Scripts\Tests\CameraTest.cs" />
     <Compile Include="Scripts\Tests\NavMeshTests.cs" />
     <Compile Include="Scripts\Tests\PhysicsTests.cs" />
     <Compile Include="Scripts\UI\HealthBar.cs" />

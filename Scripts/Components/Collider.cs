@@ -5,9 +5,11 @@ namespace Top_Down_shooter.Scripts.Components
 {
     class Collider
     {
-        public int X => parent.X + localX;
-        public int Y => parent.Y + localY;
-        public Rectangle Transform => new Rectangle(X - Width / 2, Y - Height / 2, Width, Height);
+        public int X => (parent?.X ?? 0) + localX;
+        public int Y => (parent?.Y ?? 0) + localY;
+        public Rectangle Transform => new Rectangle(
+            parent is null ? localX : (X - Width / 2), 
+            parent is null ? localY : (Y - Height / 2), Width, Height);
         public GameObject GameObject => parent;
         public int Width { get; set; }
         public int Height { get; set; }

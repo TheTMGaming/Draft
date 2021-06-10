@@ -21,7 +21,6 @@ namespace Top_Down_shooter.Scripts.Tests
         public NavMeshTests()
         {
             GameModel.Initialize();
-
             map = new Map();
             NavMesh.Bake();
 

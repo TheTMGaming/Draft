@@ -60,7 +60,7 @@ namespace Top_Down_shooter.Scripts.Components
 
         public static void Update()
         {
-            while (true)
+            while (!GameModel.IsEnd)
             {
                 lock (locker)
                 {
