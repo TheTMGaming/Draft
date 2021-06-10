@@ -38,7 +38,7 @@ namespace Top_Down_shooter.Scripts.Source
         public static readonly Bitmap HealthBarBoss = new Bitmap(
             Resources.HealthBar, new Size(Resources.HealthBar.Width, Resources.HealthBar.Height));
         public static readonly Bitmap HealthBarBackgroundBoss = new Bitmap(
-            Resources.BackgroundHealthBar, n
+            Resources.BackgroundHealthBar,
             new Size(Resources.BackgroundHealthBar.Width, Resources.BackgroundHealthBar.Height));
     }
 }

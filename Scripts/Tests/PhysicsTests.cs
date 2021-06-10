@@ -19,7 +19,6 @@ namespace Top_Down_shooter.Scripts.Tests
         private Collider collider4;
         private QuadTree tree;
         private readonly Collider map = new Collider(null, 0, 0, GameSettings.MapWidth, GameSettings.MapHeight);
-        private readonly object locker;
 
         private static readonly Random randGenerator = new Random();
 
@@ -43,7 +42,6 @@ namespace Top_Down_shooter.Scripts.Tests
 
             var task = Task.Run(() => Physics.Update());
 
-            locker = typeof(Physics).GetField("locker", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
             Thread.Sleep(3000);
         }
 
@@ -51,32 +49,26 @@ namespace Top_Down_shooter.Scripts.Tests
         [Test]
         public void IsCollided_ValidCollisions()
         {
-            lock (locker)
-            {
-                Assert.IsTrue(Physics.IsCollided(collider1));
-                Assert.IsTrue(Physics.IsCollided(collider2));
-                Assert.IsTrue(Physics.IsCollided(collider3));
-                Assert.IsFalse(Physics.IsCollided(collider4));
-            }
+            Assert.IsTrue(Physics.IsCollided(collider1));
+            Assert.IsTrue(Physics.IsCollided(collider2));
+            Assert.IsTrue(Physics.IsCollided(collider3));
+            Assert.IsFalse(Physics.IsCollided(collider4));           
         }
 
         [Test]
         public void IsCollided_ReturnsValidCollisions()
         {
-            lock (locker)
-            {
-                Physics.IsCollided(collider1, out var others);
-                Assert.IsTrue(others.Contains(collider2) && others.Contains(collider3) && !others.Contains(collider4));
+            Physics.IsCollided(collider1, out var others);
+            Assert.IsTrue(others.Contains(collider2) && others.Contains(collider3) && !others.Contains(collider4));
 
-                Physics.IsCollided(collider2, out others);
-                Assert.IsTrue(others.Contains(collider1) && others.Contains(collider3) && !others.Contains(collider4));
+            Physics.IsCollided(collider2, out others);
+            Assert.IsTrue(others.Contains(collider1) && others.Contains(collider3) && !others.Contains(collider4));
 
-                Physics.IsCollided(collider3, out others);
-                Assert.IsTrue(others.Contains(collider1) && others.Contains(collider2) && !others.Contains(collider4));
+            Physics.IsCollided(collider3, out others);
+            Assert.IsTrue(others.Contains(collider1) && others.Contains(collider2) && !others.Contains(collider4));
 
-                Physics.IsCollided(collider4, out others);
-                Assert.IsTrue(!others.Contains(collider1) && !others.Contains(collider2) && !others.Contains(collider3));
-            }
+            Physics.IsCollided(collider4, out others);
+            Assert.IsTrue(!others.Contains(collider1) && !others.Contains(collider2) && !others.Contains(collider3));           
         }
 
         [Test]
