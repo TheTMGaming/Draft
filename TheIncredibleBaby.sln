@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Top-Down shooter", "Top-Down shooter.csproj", "{08B8FCA1-1D23-4E1F-9521-5C04A9F9213A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheIncredibleBaby", "TheIncredibleBaby.csproj", "{08B8FCA1-1D23-4E1F-9521-5C04A9F9213A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

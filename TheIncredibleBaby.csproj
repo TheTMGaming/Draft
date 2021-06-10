@@ -9,7 +9,7 @@
     <ProjectGuid>{08B8FCA1-1D23-4E1F-9521-5C04A9F9213A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Top_Down_shooter</RootNamespace>
-    <AssemblyName>Top-Down shooter</AssemblyName>
+    <AssemblyName>TheIncredibleBaby</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
