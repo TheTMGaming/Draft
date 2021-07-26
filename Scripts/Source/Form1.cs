@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Top_Down_shooter.Properties;
 using Top_Down_shooter.Scripts.Components;
-using Top_Down_shooter.Scripts.Controllers;
+using Top_Down_shooter.Scripts.Controller;
 using Top_Down_shooter.Scripts.GameObjects;
 using Top_Down_shooter.Scripts.Source;
 using unvell.D2DLib;
@@ -26,7 +26,7 @@ namespace Top_Down_shooter
         private readonly Point positionLableCountBullets = new Point(980, 670);
         private readonly Point positionBulletIcon = new Point(910, 660);
 
-        private readonly Random randGenerator = new Random();
+        private readonly Controller controller = new Controller();
 
         public Form1()
         {
@@ -43,8 +43,7 @@ namespace Top_Down_shooter
             RunTimeInvoker(GameSettings.DelaySpawnNewMonster, GameModel.SpawnTank);
             RunTimeInvoker(GameSettings.BossCooldown, GameModel.SpawnFire);
          
-            RunFunctionAsync(Controller.UpdateKeyboardHandler);
-            RunFunctionAsync(Controller.UpdateMouseHandler);
+            RunFunctionAsync(controller.Update);
             RunFunctionAsync(NavMesh.Update);
             RunFunctionAsync(Physics.Update);
             RunFunctionAsync(GameRender.PlayAnimations);

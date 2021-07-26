@@ -1,10 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Drawing;
 
 namespace Top_Down_shooter
 {
-    static class ExtensionsBitmap
+    static class BitmapExtensions
     {
         public static Bitmap Extract(this Bitmap source, Rectangle section)
         {
