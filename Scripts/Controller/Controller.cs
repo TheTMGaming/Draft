@@ -7,7 +7,7 @@ namespace Top_Down_shooter.Scripts.Controller
 {
     class Controller
     {
-        public List<PlayerState> States => new List<PlayerState>(states);
+        public List<PlayerState> States => states.ToList();
 
         private List<PlayerState> states;
 

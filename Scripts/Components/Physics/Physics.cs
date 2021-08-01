@@ -7,32 +7,15 @@ using Top_Down_shooter.Scripts.Source;
 
 namespace Top_Down_shooter.Scripts.Components
 {
-    static class Physics
+    class Physics
     {
-        public static HashSet<Collider> Colliders => new HashSet<Collider>(trackingColliders);
+        private readonly CollisionsInfo _colliders;
+        private readonly CollisionsInfo _hitBoxes;
 
-        private static readonly QuadTree colliders;
-        private static readonly HashSet<Collider> trackingColliders;
-        private static readonly Queue<Collider> newColliders = new Queue<Collider>();
-        private static readonly Queue<Collider> removedColliders = new Queue<Collider>();
-
-        private static readonly QuadTree hitBoxes;
-        private static readonly HashSet<Collider> trackingHitBoxes;
-        private static readonly Queue<Collider> newHitBoxes = new Queue<Collider>();
-        private static readonly Queue<Collider> removedHitBoxes = new Queue<Collider>();
-
-
-        private static readonly int TimeUpdate = 20;
-
-        private static readonly object locker = new object();
-
-        static Physics()
+        public Physics()
         {
-            colliders = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
-            trackingColliders = new HashSet<Collider>();
-
-            hitBoxes = new QuadTree(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
-            trackingHitBoxes = new HashSet<Collider>();
+            _colliders = new CollisionsInfo(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
+            _hitBoxes = new CollisionsInfo(new Rectangle(0, 0, GameSettings.MapWidth, GameSettings.MapHeight));
         }
 
         public static bool IsCollided(Collider collider) => IsCollided(collider, out var other);
