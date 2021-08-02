@@ -16,5 +16,18 @@ namespace Top_Down_shooter.Scripts.Source
                 (int)(point.Y * Math.Cos(angleInRadian) + point.X * Math.Sin(angleInRadian))
                 );
         }
+
+        public static Point MoveTowards(this Point point, Point target, float maxDistanceDelta)
+        {
+            var direction = new Point(target.X - point.X, target.Y - point.Y);
+            var magnitude = (float)Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+
+            if (magnitude <= maxDistanceDelta || magnitude == 0f)
+                return target;
+
+            return new Point(
+                (int)(point.X + direction.X / magnitude * maxDistanceDelta),
+                (int)(point.Y + direction.Y / magnitude * maxDistanceDelta));
+        }
     }
 }

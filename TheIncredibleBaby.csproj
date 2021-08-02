@@ -70,10 +70,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Scripts\Components\Camera.cs" />
-    <Compile Include="Scripts\Components\Collider.cs" />
+    <Compile Include="Scripts\Components\Physics\Collider.cs" />
     <Compile Include="Scripts\Components\NavMesh\NavMesh.cs" />
     <Compile Include="Scripts\Components\NavMesh\NavMeshAgent.cs" />
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
+    <Compile Include="Scripts\Components\Physics\CollisionsInfo.cs" />
+    <Compile Include="Scripts\Components\Physics\QuadTree.cs" />
     <Compile Include="Scripts\Controller\Controller.cs" />
     <Compile Include="Scripts\Controller\PlayerState.cs" />
     <Compile Include="Scripts\GameObjects\Boss.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="Scripts\Source\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Scripts\Components\Physics.cs" />
+    <Compile Include="Scripts\Components\Physics\Physics.cs" />
     <Compile Include="Scripts\Source\BitmapExtensions.cs" />
     <Compile Include="Scripts\Renders\GameImages.cs" />
     <Compile Include="Scripts\Source\GameModel.cs" />
@@ -108,7 +110,6 @@
     <Compile Include="Scripts\Source\PointExtensions.cs" />
     <Compile Include="Scripts\Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\Components\QuadTree.cs" />
     <Compile Include="Scripts\Renders\CharacterRender.cs" />
     <Compile Include="Scripts\Renders\GunRender.cs" />
     <Compile Include="Scripts\Renders\HealthBarRender.cs" />
