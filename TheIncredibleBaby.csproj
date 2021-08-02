@@ -75,6 +75,7 @@
     <Compile Include="Scripts\Components\NavMesh\NavMeshAgent.cs" />
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Components\Physics\CollisionsInfo.cs" />
+    <Compile Include="Scripts\Components\Physics\Quadrant.cs" />
     <Compile Include="Scripts\Components\Physics\QuadTree.cs" />
     <Compile Include="Scripts\Controller\Controller.cs" />
     <Compile Include="Scripts\Controller\PlayerState.cs" />
