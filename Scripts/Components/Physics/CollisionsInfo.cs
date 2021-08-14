@@ -6,11 +6,13 @@ namespace Top_Down_shooter.Scripts.Components
 {
     class CollisionsInfo
     {
-        private readonly QuadTree _colliders;
+        private readonly HashSet<Collider> _colliders;
+        private readonly QuadTree _tree;
 
         public CollisionsInfo(Rectangle trackedZone, int maxObjectsCountInNode = 10, int maxDepthTree = 4)
         {
-            _colliders = new QuadTree(trackedZone, maxObjectsCountInNode, maxDepthTree);
+            _colliders = new HashSet<Collider>();
+            _tree = new QuadTree(trackedZone, maxObjectsCountInNode, maxDepthTree);
         }
 
         public List<Collider> GetCollisionsWith(Collider collider)
@@ -21,17 +23,22 @@ namespace Top_Down_shooter.Scripts.Components
                 .ToList();
         }
 
+        public void Add(Collider collider)
+        {
+            _colliders.Add(collider);
+        }
+
         public void Remove(Collider collider)
         {
             _colliders.Remove(collider);
         }
  
-        public void Update(IEnumerable<Collider> colliders)
+        public void Update()
         {
-            _colliders.Clear();
+            _tree.Clear();
 
-            foreach (var collider in colliders)
-                _colliders.Insert(collider);
+            foreach (var collider in _colliders)
+                _tree.Insert(collider);
         }
     }
 }

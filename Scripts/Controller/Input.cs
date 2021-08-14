@@ -3,15 +3,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Top_Down_shooter.Scripts.Controller
+namespace Top_Down_shooter.Scripts.Components
 {
-    class Controller
+    class Input
     {
-        public List<PlayerState> States => states.ToList();
+        public List<PlayerState> States => _states.ToList();
 
-        private List<PlayerState> states;
+        private List<PlayerState> _states;
 
-        private static readonly Dictionary<Keys, PlayerState> bindings = new Dictionary<Keys, PlayerState>()
+        private static readonly Dictionary<Keys, PlayerState> _bindings = new Dictionary<Keys, PlayerState>()
         {
             [Keys.W] = PlayerState.Up,
             [Keys.S] = PlayerState.Down,
@@ -25,7 +25,7 @@ namespace Top_Down_shooter.Scripts.Controller
 
         public void Update()
         {
-            states = bindings
+            _states = _bindings
                 .Where(pair => IsKeyPressed(pair.Key))
                 .Select(pair => pair.Value)
                 .ToList();

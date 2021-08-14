@@ -26,7 +26,7 @@ namespace Top_Down_shooter
         private readonly Point positionLableCountBullets = new Point(980, 670);
         private readonly Point positionBulletIcon = new Point(910, 660);
 
-        private readonly Controller controller = new Controller();
+        private readonly Input controller = new Input();
 
         public Form1()
         {

@@ -1,4 +1,4 @@
-﻿namespace Top_Down_shooter.Scripts.Controller
+﻿namespace Top_Down_shooter.Scripts.Components
 {
    public enum PlayerState
    {

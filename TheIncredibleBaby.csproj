@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,14 +71,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Scripts\Components\Camera.cs" />
+    <Compile Include="Scripts\Components\GameInfo.cs" />
+    <Compile Include="Scripts\Components\IComponent.cs" />
     <Compile Include="Scripts\Components\Physics\Collider.cs" />
     <Compile Include="Scripts\Components\NavMesh\NavMesh.cs" />
     <Compile Include="Scripts\Components\NavMesh\NavMeshAgent.cs" />
     <Compile Include="Scripts\Components\NavMesh\Node.cs" />
     <Compile Include="Scripts\Components\Physics\CollisionsInfo.cs" />
-    <Compile Include="Scripts\Components\Physics\Quadrant.cs" />
-    <Compile Include="Scripts\Components\Physics\QuadTree.cs" />
-    <Compile Include="Scripts\Controller\Controller.cs" />
+    <Compile Include="Scripts\Components\Physics\PhysicsBody.cs" />
+    <Compile Include="Scripts\Components\Physics\QuadTree\Quadrant.cs" />
+    <Compile Include="Scripts\Components\Physics\QuadTree\QuadTree.cs" />
+    <Compile Include="Scripts\Components\Physics\Time.cs" />
+    <Compile Include="Scripts\Tests\QuadTreeTests.cs" />
+    <Compile Include="Scripts\Controller\Input.cs" />
     <Compile Include="Scripts\Controller\PlayerState.cs" />
     <Compile Include="Scripts\GameObjects\Boss.cs" />
     <Compile Include="Scripts\GameObjects\Fire.cs" />
